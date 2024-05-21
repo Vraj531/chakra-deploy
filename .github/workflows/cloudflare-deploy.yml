@@ -1,0 +1,39 @@
+name: Deploy Pages
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    name: Deploy
+
+    env:
+      DEV_GOOGLE_REDIRECT_URI: ${{ secrets.DEV_GOOGLE_REDIRECT_URI }}
+      GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
+      GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
+      GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
+      MONGO_URL: ${{ secrets.MONGO_URL }}
+      NEON_DB: ${{ secrets.NEON_DB }}
+      ROACH_DB: ${{ secrets.ROACH_DB }}
+      TURSO_DB: ${{ secrets.TURSO_DB }}
+      TURSO_TOKEN: ${{ secrets.TURSO_TOKEN }}
+
+    steps:
+      - name: Setup Nodejs
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - uses: actions/checkout@v4
+      - name: Deploy app
+        uses: cloudflare/wrangler-action@v3
+        if: ${{ github.ref == 'refs/heads/main' && github.event_name == 'push' }}
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          command: pages deploy .svelte-kit/cloudflare --project-name=cflare-deploy
