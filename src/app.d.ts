@@ -13,6 +13,7 @@ declare global {
     }
     interface Platform {
       env: { COUNTER: DurableObjectNamespace };
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
       context: { waitUntil(promise: Promise<any>): void };
       caches: CacheStorage & { default: Cache };
     }
