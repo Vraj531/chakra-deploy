@@ -36,3 +36,11 @@ npm run build
 You can preview the production build with `npm run preview`.
 
 > To deploy your app, you may need to install an [adapter](https://kit.svelte.dev/docs/adapters) for your target environment.
+
+## Adding new tables
+This repo uses drizzle-kit and turso sqlite db. To add a new table, update the schema and use
+```bash
+npx drizzle-kit push
+```
+The drizzle.config.ts is used here to push the new updates.
+Use drizzle kit studio to view it - `npx drizzle-kit studio`
