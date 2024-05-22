@@ -12,12 +12,11 @@
     "cf-typegen": "wrangler types && mv worker-configuration.d.ts src/"
   },
   "devDependencies": {
+    "@aws-sdk/client-s3": "^3.582.0",
+    "@aws-sdk/s3-request-presigner": "^3.582.0",
+    "@aws-sdk/util-create-request": "^3.582.0",
+    "@aws-sdk/util-format-url": "^3.577.0",
     "@cloudflare/workers-types": "^4.20240512.0",
-    "@iconify-json/icon-park": "^1.1.13",
-    "@iconify-json/logos": "^1.1.42",
-    "@iconify-json/mdi": "^1.1.66",
-    "@iconify/svelte": "^4.0.2",
-    "@iconify/tools": "^4.0.4",
     "@sveltejs/adapter-auto": "^3.0.0",
     "@sveltejs/adapter-cloudflare": "^4.4.0",
     "@sveltejs/kit": "^2.0.0",
@@ -41,7 +40,6 @@
     "tailwindcss": "^3.4.3",
     "tslib": "^2.4.1",
     "typescript": "^5.0.0",
-    "unplugin-icons": "^0.19.0",
     "vite": "^5.0.3",
     "wrangler": "^3.57.0"
   },
@@ -50,8 +48,8 @@
     "@libsql/client": "^0.6.0",
     "@lucia-auth/adapter-drizzle": "^1.0.7",
     "@tabler/icons-svelte": "^3.4.0",
-    "@tanstack/svelte-table": "^8.17.3",
     "arctic": "^1.8.1",
+    "axios": "^1.7.2",
     "drizzle-orm": "^0.30.10",
     "embla-carousel-svelte": "^8.1.3",
     "lucia": "^3.2.0"

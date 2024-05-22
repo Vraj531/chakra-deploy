@@ -34,15 +34,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			.select()
 			.from(userTable)
 			.where(eq(userTable.email, googleUser.email));
-		if (existingUser) {
-			// console.log('existing user', existingUser);
-			const session = await lucia.createSession(existingUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			});
-		} else {
+		if (!existingUser) {
 			const userId = generateIdFromEntropySize(16);
 			await db.insert(userTable).values({
 				id: userId,
@@ -54,6 +46,14 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				updatedAt: new Date().toISOString()
 			});
 			const session = await lucia.createSession(userId, {});
+			const sessionCookie = lucia.createSessionCookie(session.id);
+			event.cookies.set(sessionCookie.name, sessionCookie.value, {
+				path: '.',
+				...sessionCookie.attributes
+			});
+			// console.log('existing user', existingUser);
+		} else {
+			const session = await lucia.createSession(existingUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			event.cookies.set(sessionCookie.name, sessionCookie.value, {
 				path: '.',

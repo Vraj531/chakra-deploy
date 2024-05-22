@@ -19,6 +19,8 @@ jobs:
       ROACH_DB: ${{ secrets.ROACH_DB }}
       TURSO_DB: ${{ secrets.TURSO_DB }}
       TURSO_TOKEN: ${{ secrets.TURSO_TOKEN }}
+      ACCESS_ID: ${{ secrets.ACCESS_ID }}
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
 
     steps:
       - uses: actions/checkout@v4

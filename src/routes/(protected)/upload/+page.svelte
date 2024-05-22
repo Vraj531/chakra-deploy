@@ -1,178 +1,99 @@
 <script lang="ts">
-	import emblaCarouselSvelte from 'embla-carousel-svelte';
-	import type { EmblaCarouselType } from 'embla-carousel';
-	import { options } from '../../../tableData/defaultColumns';
-	import { createSvelteTable, flexRender } from '@tanstack/svelte-table';
-	import { defaultData } from '../../../tableData/persons';
-	// import { enhance } from '$app/forms';
+	import Axios, { type AxiosProgressEvent } from 'axios';
+	import Carousel from '../../../components/Carousel.svelte';
+	import FileUpload from '../../../components/FileUpload.svelte';
+	import { bytesToSize } from '../../../utils/bytesToSize';
+	import { generatePresignedLink } from '../../../utils/generatePresignedUrl';
+	import { generateIdFromEntropySize } from 'lucia';
 
-	const rerender = () => {
-		options.update((options) => ({
-			...options,
-			data: defaultData
-		}));
-	};
+	const arr = [1, 2, 3];
+	let progress = 0;
 
-	const table = createSvelteTable(options);
-
-	let emblaApi;
-	let carouselOptions = { loop: false };
-
-	function onInit(event: CustomEvent<EmblaCarouselType>) {
-		emblaApi = event.detail;
-		console.log(emblaApi.slideNodes()); // Access API
+	interface FileProps {
+		file: File;
+		presignedUrl: string;
+		viewSize: string;
+		id: string;
+		loadingProgress: number;
 	}
+
+	let userFiles: FileProps[];
+
+	const handleFileInput = async (e: Event | DragEvent) => {
+		e.preventDefault();
+
+		const files =
+			'dataTransfer' in e
+				? (e as DragEvent).dataTransfer?.files
+				: (e.target as HTMLInputElement)?.files;
+
+		if (!files || !files.length) return;
+
+		const selectedFiles = Array.from(files) as File[];
+		console.log('selected files:', selectedFiles);
+		const viewSize = bytesToSize(selectedFiles[0].size);
+		const presignedUrl = await generatePresignedLink(selectedFiles[0]);
+		let userObj = {
+			file: selectedFiles[0],
+			presignedUrl,
+			viewSize,
+			id: crypto.randomUUID(),
+			loadingProgress: 0
+		};
+		const s3Urls: string[] = [];
+
+		const res = await Axios.put(userObj.presignedUrl, userObj.file, {
+			signal: AbortSignal.timeout(10000)
+			// onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+			// 	const { loaded, total } = progressEvent;
+			// 	const loadingProgress = Math.floor((loaded * 100) / (total || 10));
+			// 	userFiles[0] = { ...userObj, loadingProgress };
+			// }
+		});
+		console.log('file uploaded', res?.config?.url && res.config.url.split('?')[0]);
+		res?.config?.url && s3Urls.push(res.config.url.split('?')[0]);
+		// const promises = selectedFiles.map(async (file) => {
+		// });
+		const fileProps = userFiles.map(({ file, viewSize }, i) => ({
+			s3Url: s3Urls[i],
+			ContentType: file.type,
+			filename: file.name,
+			size: viewSize
+		}));
+		//creates a download url based on the session id and saves to dynamo db
+		const res = await fetch('api/download-url', {
+			method: 'POST',
+			body: JSON.stringify({
+				fileProps,
+				sessionId: generateIdFromEntropySize(5),
+				expiresIn: 200000
+			})
+		});
+
+		try {
+			// const uploadedFilesData = await Promise.all(promises);
+
+			// uploadedFilesData.forEach((newFileObject) => {
+			// 	//TODO: repeated file name logic can be moved up
+			// 	const fileIndex = userFiles.findIndex((item) => item.file.name === newFileObject.file.name);
+
+			// 	if (fileIndex !== -1) {
+			// 		userFiles[fileIndex] = newFileObject;
+			// 	} else {
+			// 		userFiles.push(newFileObject);
+			// 	}
+			// });
+
+			console.log('user files', userFiles);
+		} catch (error) {
+			console.log('Error uploading files', error);
+			// Handle error if necessary
+		}
+	};
 </script>
 
-<div
-	class="embla"
-	use:emblaCarouselSvelte={{ options: { loop: false }, plugins: [] }}
-	on:emblaInit={onInit}
->
-	<div class="embla__container">
-		<div class="embla__slide">Slide 1</div>
-		<div class="embla__slide">Slide 2</div>
-		<div class="embla__slide">Slide 3</div>
-	</div>
+<div class="relative bg-gradient-to-b from-gray-50 to-amber-200">
+	<FileUpload {handleFileInput} />
+
+	<Carousel {arr} />
 </div>
-<!-- <div class="carousel w-2/3 mx-auto">
-	<div id="slide1" class="carousel-item relative w-full">
-		<div class="card lg:card-side bg-base-100 shadow-xl max-w-screen-lg m-auto my-6 z-0">
-			<figure>
-				<img
-					src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-					alt="Album"
-				/>
-			</figure>
-			<div class="card-body">
-				<h2 class="card-title">New album is released!</h2>
-				<p>Click the button to listen on Spotiwhy app.</p>
-				<div class="card-actions justify-end">
-					<button class="btn btn-primary">Listen</button>
-				</div>
-			</div>
-		</div>
-		<div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-			<a href="#slide4" class="btn btn-circle">❮</a>
-			<a href="#slide2" class="btn btn-circle">❯</a>
-		</div>
-	</div>
-	<div id="slide2" class="carousel-item relative w-full">
-		<div class="card lg:card-side bg-base-100 shadow-xl max-w-screen-lg m-auto my-6 z-0">
-			<figure>
-				<img
-					src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-					alt="Album"
-				/>
-			</figure>
-			<div class="card-body">
-				<h2 class="card-title">New album is released!</h2>
-				<p>Click the button to listen on Spotiwhy app.</p>
-				<div class="card-actions justify-end">
-					<button class="btn btn-primary">Listen</button>
-				</div>
-			</div>
-		</div>
-		<div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-			<a href="#slide1" class="btn btn-circle">❮</a>
-			<a href="#slide3" class="btn btn-circle">❯</a>
-		</div>
-	</div>
-	<div id="slide3" class="carousel-item relative w-full">
-		<div class="card lg:card-side bg-base-100 shadow-xl max-w-screen-lg m-auto my-6 z-0">
-			<figure>
-				<img
-					src="https://img.daisyui.com/images/stock/photo-1494232410401-ad00d5433cfa.jpg"
-					alt="Album"
-				/>
-			</figure>
-			<div class="card-body">
-				<h2 class="card-title">New album is released!</h2>
-				<p>Click the button to listen on Spotiwhy app.</p>
-				<div class="card-actions justify-end">
-					<button class="btn btn-primary">Listen</button>
-				</div>
-			</div>
-		</div>
-		<div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-			<a href="#slide2" class="btn btn-circle">❮</a>
-			<a href="#slide4" class="btn btn-circle">❯</a>
-		</div>
-	</div>
-	<div id="slide4" class="carousel-item relative w-full">
-		<img
-			src="https://img.daisyui.com/images/stock/photo-1665553365602-b2fb8e5d1707.jpg"
-			class="w-full"
-		/>
-		<div class="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-			<a href="#slide3" class="btn btn-circle">❮</a>
-			<a href="#slide1" class="btn btn-circle">❯</a>
-		</div>
-	</div>
-</div> -->
-<div class="p-2 my-6 max-w-screen-xl m-auto">
-	<table class="table">
-		<thead>
-			{#each $table.getHeaderGroups() as headerGroup}
-				<tr>
-					{#each headerGroup.headers as header}
-						<th>
-							{#if !header.isPlaceholder}
-								<svelte:component
-									this={flexRender(header.column.columnDef.header, header.getContext())}
-								/>
-							{/if}
-						</th>
-					{/each}
-				</tr>
-			{/each}
-		</thead>
-		<tbody>
-			{#each $table.getRowModel().rows as row}
-				<tr class="hover">
-					{#each row.getVisibleCells() as cell}
-						<td>
-							<svelte:component this={flexRender(cell.column.columnDef.cell, cell.getContext())} />
-						</td>
-					{/each}
-				</tr>
-			{/each}
-		</tbody>
-		<!-- <tfoot>
-			{#each $table.getFooterGroups() as footerGroup}
-				<tr>
-					{#each footerGroup.headers as header}
-						<th>
-							{#if !header.isPlaceholder}
-								<svelte:component
-									this={flexRender(header.column.columnDef.footer, header.getContext())}
-								/>
-							{/if}
-						</th>
-					{/each}
-				</tr>
-			{/each}
-		</tfoot> -->
-	</table>
-	<div class="h-4" />
-	<!-- <button on:click={() => rerender()} class="border p-2"> Rerender </button> -->
-</div>
-
-<!-- <p>This is the protected page!</p>
-
-<form method="post" use:enhance>
-  <button>Sign out</button>
-</form> -->
-
-<style>
-	.embla {
-		overflow: hidden;
-	}
-	.embla__container {
-		display: flex;
-	}
-	.embla__slide {
-		flex: 0 0 100%;
-		min-width: 0;
-	}
-</style>

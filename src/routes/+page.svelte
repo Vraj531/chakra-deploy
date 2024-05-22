@@ -16,7 +16,7 @@
 				href="/google"
 				class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
 			>
-				Sign Up!
+				Try Now!
 				<svg
 					class="w-5 h-5 ml-2 -mr-1"
 					fill="currentColor"
@@ -93,13 +93,13 @@
 			</p>
 			<div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
 				<a
-					href="#"
+					href="/"
 					class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
 				>
 					Get started
 				</a>
 				<a
-					href="#"
+					href="/"
 					class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
 				>
 					<svg
@@ -135,7 +135,7 @@
 				ease.
 			</p>
 			<a
-				href="#"
+				href="/"
 				class="inline-flex items-center font-medium text-primary-600 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-700"
 			>
 				Learn more
@@ -154,7 +154,7 @@
 		</div>
 	</div>
 </section>
-<section class="bg-white dark:bg-gray-900">
+<section class="bg-gradient-to-b from-gray-50 to-amber-200">
 	<div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
 		<div class="mx-auto max-w-screen-md text-center mb-8 lg:mb-12">
 			<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
@@ -257,7 +257,7 @@
 					</li>
 				</ul>
 				<a
-					href="#"
+					href="/"
 					class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900"
 					>Get started</a
 				>
@@ -353,7 +353,7 @@
 					</li>
 				</ul>
 				<a
-					href="#"
+					href="/"
 					class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900"
 					>Get started</a
 				>
@@ -449,7 +449,7 @@
 					</li>
 				</ul>
 				<a
-					href="#"
+					href="/"
 					class="text-white bg-primary-600 hover:bg-primary-700 focus:ring-4 focus:ring-primary-200 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:text-white dark:focus:ring-primary-900"
 					>Get started</a
 				>

@@ -44,3 +44,6 @@ npx drizzle-kit push
 ```
 The drizzle.config.ts is used here to push the new updates.
 Use drizzle kit studio to view it - `npx drizzle-kit studio`
+
+
+pending : update the download feature
