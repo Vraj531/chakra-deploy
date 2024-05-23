@@ -1,6 +1,6 @@
 <script lang="ts">
 	export let userData;
-	console.log('user data', userData);
+	// console.log('user data', userData);
 </script>
 
 <header

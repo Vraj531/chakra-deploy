@@ -1,15 +1,16 @@
 <script lang="ts">
-    export let handleFileInput: (e: any) => void;
-    const handleDragOver = (event: DragEvent) => {
+	export let handleFileInput: (e: any) => void;
+	const handleDragOver = (event: DragEvent) => {
 		event.preventDefault();
 	};
 </script>
 
-<div class="flex items-center justify-center md:w-2/3 p-4 mx-auto"
+<div
+	class="flex flex-1 items-center justify-center md:w-2/3 p-4 mx-auto"
 	role="button"
 	aria-label="File Drop Area. Press Enter to activate"
 	tabindex="0"
-on:drop={handleFileInput}
+	on:drop={handleFileInput}
 	on:dragover={handleDragOver}
 	on:dragleave={handleDragOver}
 >
@@ -38,6 +39,6 @@ on:drop={handleFileInput}
 			</p>
 			<p class="text-xs text-gray-500 dark:text-gray-400">PDF</p>
 		</div>
-		<input id="dropzone-file" type="file" class="hidden"  on:change={handleFileInput}/>
+		<input id="dropzone-file" type="file" class="hidden" on:change={handleFileInput} />
 	</label>
 </div>

@@ -20,7 +20,7 @@
 	function onInit(event: CustomEvent<EmblaCarouselType>) {
 		emblaApi = event.detail;
 		scrollSnapList = emblaApi.scrollSnapList();
-		console.log('list', scrollSnapList); // Access API
+		// console.log('list', scrollSnapList); // Access API
 	}
 	// $: selected = emblaApi?.selectedScrollSnap() ?? 0;
 
@@ -28,7 +28,7 @@
 		emblaApi.scrollNext();
 		selected = emblaApi?.selectedScrollSnap();
 		// console.log('log', emblaApi.slideNodes());
-		console.log('rest', selected, arr.length - 1);
+		// console.log('rest', selected, arr.length - 1);
 	}
 	function previousCard() {
 		emblaApi.scrollPrev();
@@ -43,16 +43,16 @@
 <div class="relative py-16">
 	<div class={`hidden md:block`}>
 		<button
-			class={`left-10 px-4 btn btn-primary absolute top-1/2 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+			class={`left-10 btn btn-primary btn-circle absolute top-1/2 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
 			on:click={previousCard}
 		>
-			<ChevronLeft />
+			<ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} />
 		</button>
 		<button
-			class={` btn btn-primary absolute right-10 top-1/2 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+			class={`btn btn-primary btn-circle absolute right-10 top-1/2 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
 			on:click={nextCard}
 		>
-			<ChevronRight />
+			<ChevronRight class="h-9 w-9 pl-3" />
 		</button>
 	</div>
 	<div class="embla">
