@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { fly } from 'svelte/transition';
+	import { cubicIn, cubicOut } from 'svelte/easing';
 	import '../app.css';
 	import Footer from '../components/Footer.svelte';
 	import Header from '../components/Header.svelte';
@@ -7,6 +9,13 @@
 	export let data: LayoutData;
 
 	// console.log('logs', data);
+
+	const duration = 300;
+	const delay = duration + 100;
+	const y = 10;
+
+	const transitionIn = { easing: cubicOut, y, duration, delay };
+	const transitionOut = { easing: cubicIn, y: -y, duration };
 </script>
 
 <svelte:head>
@@ -40,8 +49,15 @@
 	<div class="sticky top-0 z-50">
 		<Header userData={data.user} />
 	</div>
-	<div class="flex-1 bg-gradient-to-b from-gray-50 to-amber-200">
-		<slot />
-	</div>
+
+	{#key data.pathname}
+		<div
+			class="flex-1 bg-gradient-to-b from-gray-50 to-amber-200"
+			in:fly={transitionIn}
+			out:fly={transitionOut}
+		>
+			<slot isUserLoggedIn={!!data.user} />
+		</div>
+	{/key}
 	<Footer />
 </div>

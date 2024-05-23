@@ -68,7 +68,10 @@
 	{#if state === ''}
 		<FileUpload {handleFileInput} />
 	{:else if state === 'uploading' || state === 'analysing'}
-		<progress class="progress progress-warning w-2/3 mx-auto flex" value={progress} max="100" />
+		<div class="flex flex-col">
+			<progress class="progress progress-warning w-2/3 mx-auto flex" value={progress} max="100" />
+			<p class="mx-auto">Uploading</p>
+		</div>
 	{:else if state === 'success'}
 		<Carousel {arr} />
 	{/if}
