@@ -5,10 +5,10 @@
 	import Footer from '../components/Footer.svelte';
 	import Header from '../components/Header.svelte';
 	import type { LayoutData } from './$types';
+	import { navigating } from '$app/stores';
+	import PageLoaderProgress from '../components/PageLoaderProgress.svelte';
 
 	export let data: LayoutData;
-
-	// console.log('logs', data);
 
 	const duration = 300;
 	const delay = duration + 100;
@@ -45,6 +45,7 @@
 	<meta name="twitter:image" content="/path/to/your/image.jpg" />
 </svelte:head>
 
+<PageLoaderProgress />
 <div class="flex flex-col min-h-screen">
 	<div class="sticky top-0 z-50">
 		<Header userData={data.user} />

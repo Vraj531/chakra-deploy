@@ -4,8 +4,9 @@
 	import ChevronLeft from '@tabler/icons-svelte/IconChevronLeft.svelte';
 	import ChevronRight from '@tabler/icons-svelte/IconChevronRight.svelte';
 	import JobCard from './JobCard.svelte';
+	import type { DummyData } from '../lib/dummyData';
 
-	export let arr: number[];
+	export let arr: DummyData[];
 
 	let emblaApi: EmblaCarouselType;
 	let scrollSnapList: number[];
@@ -43,13 +44,13 @@
 <div class="relative py-16">
 	<div class={`hidden md:block`}>
 		<button
-			class={`left-10 btn btn-primary btn-circle absolute top-1/2 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+			class={`left-10 btn btn-primary btn-circle absolute top-20 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
 			on:click={previousCard}
 		>
 			<ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} />
 		</button>
 		<button
-			class={`btn btn-primary btn-circle absolute right-10 top-1/2 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+			class={`btn btn-primary btn-circle absolute right-10 top-20 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
 			on:click={nextCard}
 		>
 			<ChevronRight class="h-9 w-9 pl-3" />

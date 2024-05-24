@@ -4,8 +4,11 @@
 	import FileUpload from '../../../components/FileUpload.svelte';
 	import { generatePresignedLink } from '../../../utils/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
+	import { dummyData } from '../../../lib/dummyData';
 
-	const arr = [1, 2, 3]; //will be replaced by data from ai-model api
+	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
+
+	const arr = dummyData;
 
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' = '';
@@ -64,7 +67,7 @@
 	};
 </script>
 
-<div class="relative">
+<div class="relative flex flex-col">
 	{#if state === ''}
 		<FileUpload {handleFileInput} />
 	{:else if state === 'uploading' || state === 'analysing'}

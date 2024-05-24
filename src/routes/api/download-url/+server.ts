@@ -20,27 +20,33 @@ interface RequestFileProp {
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-	const { sessionId, expiresIn, filename } = (await request.json()) as RequestFileProp;
+	const { expiresIn, filename } = (await request.json()) as RequestFileProp;
 	// console.log('body', s3Url, sessionId, expiresIn, filename);
 
+	if (!locals.user) {
+		return error(404, { message: 'Not found' });
+	}
+
+	const userEmail = locals.user.email.split('@')[0];
+	const userid = locals.user.id;
 	const command = new GetObjectCommand({
 		Bucket: 'stream-bin',
-		Key: `${sessionId}/${filename}`,
+		Key: `${userEmail}/${filename}`,
 		ResponseContentDisposition: `attachment; filename="${filename}"`
 	});
 	const downloadUrl = await getSignedUrl(client, command, {
 		expiresIn: Number(expiresIn) * 60
 	});
 
-	if (downloadUrl && locals.user !== null) {
+	if (downloadUrl) {
 		const id = generateIdFromEntropySize(6);
 		try {
 			await db.insert(userResumeTable).values({
 				id,
 				pdfUrl: downloadUrl,
-				userId: locals.user.id
+				userId: userid
 			});
-			// console.log('res', res);
+			// console.log('res', downloadUrl);
 
 			//TODO will make calls to ai service from here? send url to ai service?
 			return json('success');
