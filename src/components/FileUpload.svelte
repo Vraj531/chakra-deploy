@@ -1,10 +1,36 @@
 <script lang="ts">
+	import UploadIcon from './Icons/UploadIcon.svelte';
 	export let handleFileInput: (e: any) => void;
+	export let inputText: string;
+
+	let minRows = 1;
+	let maxRows = 20;
+
+	// $: minHeight = `${1 + minRows * 1.2}em`;
+	$: minHeight = inputText.length > 100 ? `${1 + minRows * 1.2}em` : 'auto';
+	// $: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
+	$: maxHeight = inputText.length ? `${1 + maxRows * 1.2}em` : `auto`;
+
+	$: {
+		console.log('input text', maxHeight);
+	}
+
 	const handleDragOver = (event: DragEvent) => {
 		event.preventDefault();
 	};
 </script>
 
+<div class="container">
+	<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
+			'\n'}</pre>
+
+	<textarea placeholder="Add additional details here" bind:value={inputText}></textarea>
+	<label class="btn btn-sm btn-primary absolute top-0 right-0 m-2.5" for="fileUpload">
+		<input type="file" class="hidden" id="fileUpload" />
+		<UploadIcon />
+		Upload File
+	</label>
+</div>
 
 <div
 	class="flex flex-1 items-center justify-center md:w-2/3 p-4 mx-auto"
@@ -43,3 +69,31 @@
 		<input id="dropzone-file" type="file" class="hidden" on:change={handleFileInput} />
 	</label>
 </div>
+
+<style>
+	.container {
+		position: relative;
+		width: 100%;
+		display: flex;
+		margin: auto;
+		margin-top: 6em;
+	}
+
+	pre,
+	textarea {
+		font-family: inherit;
+		padding: 1em;
+		box-sizing: border-box;
+		border: 1px solid #eee;
+		line-height: 1.2;
+		overflow-y: scroll;
+	}
+
+	textarea {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		top: 0;
+		resize: none;
+	}
+</style>

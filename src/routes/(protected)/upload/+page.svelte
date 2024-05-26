@@ -12,6 +12,7 @@
 
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' = '';
+	let inputText = '';
 	const sessionId = generateIdFromEntropySize(6);
 
 	const handleFileInput = async (e: Event | DragEvent) => {
@@ -83,14 +84,8 @@
 </script>
 
 <div class="relative flex flex-col">
-	<div class="relative w-80">
-		<button class="absolute right-1 top-1 bottom-1 px-4 btn btn-sm btn-secondary">
-			<!-- <IconUpload /> -->
-			Upload
-		</button>
-	</div>
 	{#if state === ''}
-		<FileUpload {handleFileInput} />
+		<FileUpload {handleFileInput} {inputText} />
 	{:else if state === 'uploading' || state === 'analysing'}
 		<div class="flex flex-col">
 			<progress class="progress progress-warning w-2/3 mx-auto flex" value={progress} max="100" />

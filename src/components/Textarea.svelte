@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let value = '';
+	export let inputText = '';
 	export let minRows = 1;
 	export let maxRows: number;
 
@@ -8,10 +8,10 @@
 </script>
 
 <div class="container">
-	<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight};">{value +
+	<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight};">{inputText +
 			'\n'}</pre>
 
-	<textarea bind:value></textarea>
+	<textarea bind:value={inputText}></textarea>
 </div>
 
 <style>
