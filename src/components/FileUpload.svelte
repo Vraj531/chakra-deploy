@@ -5,6 +5,7 @@
 	};
 </script>
 
+
 <div
 	class="flex flex-1 items-center justify-center md:w-2/3 p-4 mx-auto"
 	role="button"

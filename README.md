@@ -45,5 +45,7 @@ npx drizzle-kit push
 The drizzle.config.ts is used here to push the new updates.
 Use drizzle kit studio to view it - `npx drizzle-kit studio`
 
+`npx drizzle-kit generate` and `npx drizzle-kit migrate` to push schema changes directly
 
-pending : update the download feature
+Run local db command: `turso dev --db-file='local-dev'`
+

@@ -4,7 +4,7 @@
 	import FileUpload from '../../../components/FileUpload.svelte';
 	import { generatePresignedLink } from '../../../utils/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
-	import { dummyData } from '../../../lib/dummyData';
+	import { dummyData } from '$lib/dummyData';
 
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
@@ -29,10 +29,13 @@
 			//* file upload phase *//
 			state = 'uploading';
 			const presignedUrl = await generatePresignedLink(selectedFiles[0], sessionId);
-
-			if (!presignedUrl || !presignedUrl.length) return;
+			// console.log('url', presignedUrl)
+			if (!presignedUrl || !presignedUrl.length) {
+				state = '';
+				return;
+			}
 			const uploadResponse = await Axios.put(presignedUrl, selectedFiles[0], {
-				signal: AbortSignal.timeout(10000),
+				signal: AbortSignal.timeout(20000),
 				onUploadProgress: (progressEvent: AxiosProgressEvent) => {
 					const { loaded, total } = progressEvent;
 					const loadingProgress = Math.floor((loaded * 100) / (total || 10));
@@ -40,10 +43,10 @@
 				}
 			});
 
-			// console.log(
-			// 	'file uploaded',
-			// 	uploadResponse?.config?.url && uploadResponse.config.url.split('?')[0]
-			// );
+			console.log(
+				'file uploaded',
+				uploadResponse?.config?.url && uploadResponse.config.url.split('?')[0]
+			);
 
 			if (!uploadResponse?.config?.url) return;
 			//* fetch download url and make ai call?*//
@@ -62,12 +65,30 @@
 			state = 'success';
 			console.log('user files', await res.json());
 		} catch (error) {
+			state = '';
 			console.log('error', error);
 		}
 	};
+
+	// let textareaValue = '';
+	// let textareaHeight = '1.5rem'; // Initial height
+
+	// $: {
+	// 	const textarea = document.querySelector('textarea');
+	// 	if (textarea) {
+	// 		textarea.style.height = 'auto';
+	// 		textarea.style.height = `${textarea.scrollHeight}px`;
+	// 	}
+	// }
 </script>
 
 <div class="relative flex flex-col">
+	<div class="relative w-80">
+		<button class="absolute right-1 top-1 bottom-1 px-4 btn btn-sm btn-secondary">
+			<!-- <IconUpload /> -->
+			Upload
+		</button>
+	</div>
 	{#if state === ''}
 		<FileUpload {handleFileInput} />
 	{:else if state === 'uploading' || state === 'analysing'}
@@ -78,4 +99,5 @@
 	{:else if state === 'success'}
 		<Carousel {arr} />
 	{/if}
+	<Carousel {arr} />
 </div>

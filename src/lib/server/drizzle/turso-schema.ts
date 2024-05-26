@@ -24,5 +24,7 @@ export const userResumeTable = sqliteTable('resumes', {
 	userId: text('user_id')
 		.notNull()
 		.references(() => userTable.id),
+	email: text('email').notNull(),
+	fileLocation: text('file_location').notNull(),
 	pdfUrl: text('pdf_url').notNull()
 });

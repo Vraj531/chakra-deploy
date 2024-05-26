@@ -1,4 +1,8 @@
 <script lang="ts">
+	interface IUser {
+		name: string;
+		picture: string;
+	}
 	export let userData;
 	// console.log('user data', userData);
 </script>

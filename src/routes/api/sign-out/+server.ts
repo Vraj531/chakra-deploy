@@ -1,5 +1,5 @@
 import { fail, json, redirect } from '@sveltejs/kit';
-import { lucia } from '../../../lib/server/auth.js';
+import { lucia } from '$lib/server/auth.js';
 
 export const GET = async (event) => {
 	if (!event.locals.session) {

@@ -12,3 +12,6 @@ vite.config.ts.timestamp-*
 # wrangler files
 .wrangler
 .dev.vars
+
+#db files
+local-dev*

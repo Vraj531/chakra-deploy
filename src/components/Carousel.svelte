@@ -1,10 +1,10 @@
 <script lang="ts">
 	import emblaCarouselSvelte from 'embla-carousel-svelte';
 	import type { EmblaCarouselType } from 'embla-carousel';
-	import ChevronLeft from '@tabler/icons-svelte/IconChevronLeft.svelte';
-	import ChevronRight from '@tabler/icons-svelte/IconChevronRight.svelte';
+	// import ChevronLeft from '@tabler/icons-svelte/IconChevronLeft.svelte';
+	// import ChevronRight from '@tabler/icons-svelte/IconChevronRight.svelte';
 	import JobCard from './JobCard.svelte';
-	import type { DummyData } from '../lib/dummyData';
+	import type { DummyData } from '$lib/dummyData';
 
 	export let arr: DummyData[];
 
@@ -47,13 +47,14 @@
 			class={`left-10 btn btn-primary btn-circle absolute top-20 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
 			on:click={previousCard}
 		>
-			<ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} />
+			<!-- <ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} /> -->
+			left
 		</button>
 		<button
 			class={`btn btn-primary btn-circle absolute right-10 top-20 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
 			on:click={nextCard}
-		>
-			<ChevronRight class="h-9 w-9 pl-3" />
+		>right
+			<!-- <ChevronRight class="h-9 w-9 pl-3" /> -->
 		</button>
 	</div>
 	<div class="embla">

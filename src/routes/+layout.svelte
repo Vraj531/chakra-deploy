@@ -5,7 +5,7 @@
 	import Footer from '../components/Footer.svelte';
 	import Header from '../components/Header.svelte';
 	import type { LayoutData } from './$types';
-	import { navigating } from '$app/stores';
+	import Analytics from '$lib/Analytics.svelte';
 	import PageLoaderProgress from '../components/PageLoaderProgress.svelte';
 
 	export let data: LayoutData;
@@ -44,6 +44,7 @@
 	/>
 	<meta name="twitter:image" content="/path/to/your/image.jpg" />
 </svelte:head>
+<Analytics />
 
 <PageLoaderProgress />
 <div class="flex flex-col min-h-screen">
@@ -57,7 +58,7 @@
 			in:fly={transitionIn}
 			out:fly={transitionOut}
 		>
-			<slot isUserLoggedIn={!!data.user} />
+			<slot  />
 		</div>
 	{/key}
 	<Footer />

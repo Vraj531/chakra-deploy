@@ -1,32 +1,62 @@
 <script lang="ts">
-	import type { DummyData } from '../lib/dummyData';
+	import type { DummyData } from '$lib/dummyData';
 	import sanitizeHtml from 'sanitize-html';
 
 	export let slide: DummyData;
 
 	$: job_description = sanitizeHtml(slide.job_description);
-	console.log('data', slide);
+	// console.log('data', slide);
+
+	// const date = new Date(slide.published_date);
+
+	// Step 2: Format the Date object into a human-readable string
+	// Using toLocaleString() for better formatting
+	$: humanReadable = new Date(slide.published_date).toLocaleString('en-US', {
+		year: 'numeric',
+		month: 'long',
+		day: 'numeric',
+		hour: '2-digit',
+		minute: '2-digit',
+		second: '2-digit',
+		hour12: true
+	});
+	$: () => console.log('first', humanReadable);
 </script>
 
 <div class="embla__slide">
 	<div class="bg-white shadow-md rounded-lg max-w-4xl w-full mx-auto p-6 md:flex prose">
 		<div class="flex-1 p-4">
-			<h2 class="text-2xl font-semibold text-gray-800">Software Engineer {slide.title}</h2>
+			<h2 class="text-2xl font-semibold text-gray-800">{slide.title}</h2>
 			<p class="text-gray-600 mb-4">{slide.company_name}</p>
-			{@html job_description}
-			<!-- <p class="text-gray-700 mb-4">
-				We are looking for a skilled software engineer to join our team. You will be responsible for
-				designing, developing, and maintaining software applications.
-			</p>
-			<div class="text-gray-700 mb-4">
-				<strong>Responsibilities:</strong>
-				<ul class="list-disc list-inside ml-4">
-					<li>Develop and maintain web applications</li>
-					<li>Collaborate with cross-functional teams</li>
-					<li>Write clean, scalable code</li>
-					<li>Troubleshoot and debug applications</li>
-				</ul>
-			</div> -->
+			{#if slide?.max_salary}
+				<p class="">Salary: {slide.min_salary} - {slide.max_salary}</p>
+			{:else}
+				<p class="">Salary: Not specified</p>
+			{/if}
+			<p>Location: {slide.location}</p>
+			{#if slide?.company_website_url}
+				<p>Company link: {slide.company_website_url}</p>
+			{/if}
+			{#if slide?.company_logo}
+				<img alt="company logo" src={slide.company_logo} />
+			{/if}
+			{#if slide?.clearance_required}
+				<p>Clearance: {slide.clearance_required}</p>
+			{/if}
+			{#if slide?.experience_level}
+				<p>Experience: {slide.experience_level}</p>
+			{:else}
+				<p>Experience: Not specified</p>
+			{/if}
+			{#if humanReadable}
+				<p>Date published: {humanReadable}</p>
+			{/if}
+			{#if slide?.company_linkedin_url}
+				<div>LinkedIn: <a href={slide.company_linkedin_url}>{slide.company_linkedin_url}</a></div>
+			{/if}
+			{#if slide?.job_posting_url}
+				<a class="btn btn-primary" href={slide.job_posting_url}> Apply now </a>
+			{/if}
 		</div>
 		<!-- <div class="flex-1 p-4">
 			<div class="text-gray-700 mb-4">
@@ -43,6 +73,11 @@
 				>
 			</div>
 		</div> -->
+	</div>
+	<div class=" shadow-md rounded-lg max-w-4xl w-full mx-auto p-6 md:flex prose">
+		<div class="flex-1 p-4">
+			{@html job_description}
+		</div>
 	</div>
 </div>
 

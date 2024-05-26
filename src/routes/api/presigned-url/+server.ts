@@ -8,6 +8,7 @@ const client = new S3Client({
 	// apiVersion: "2006-03-01",
 	credentials: { accessKeyId: ACCESS_ID, secretAccessKey: SECRET_KEY },
 	region: 'ap-south-1'
+	// region: 'us-east-2'
 });
 
 export const POST: RequestHandler = async ({ request, locals }) => {
@@ -23,15 +24,21 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 		return error(404, { message: 'Not found' });
 	}
 
-	const userId = locals.user.email.split('@')[0];
+	const userEmail = locals.user.email.split('@')[0];
 	// console.log('user id', userId);
 	//inserts into the s3 bucket
-	const command = new PutObjectCommand({
-		// Bucket: 'nikhil-pipeline-storage',
-		Bucket: 'stream-bin',
-		Key: `${userId}/${filename}`,
-		ContentType: type as string
-	});
-	const uploadUrl = await getSignedUrl(client, command, { expiresIn: 540 });
-	return json({ uploadUrl });
+	try {
+		const command = new PutObjectCommand({
+			// Bucket: 'nikhil-pipeline-storage',
+			Bucket: 'stream-bin',
+			Key: `${userEmail}/${filename}`,
+			ContentType: type as string
+		});
+		const uploadUrl = await getSignedUrl(client, command, { expiresIn: 540 });
+		return json({ uploadUrl });
+		// return uploadUrl;
+	} catch (err) {
+		console.log('error', err);
+		error(404, { message: 'Not found' });
+	}
 };

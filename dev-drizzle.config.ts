@@ -1,4 +1,3 @@
-// Used for running drizzle kit studio
 import type { Config } from 'drizzle-kit';
 import * as dotenv from 'dotenv';
 dotenv.config();
@@ -13,8 +12,6 @@ export default {
 	driver: 'turso',
 	dialect: 'sqlite',
 	dbCredentials: {
-		url: process.env.TURSO_DB!,
-		// url: 'http://127.0.0.1:8080',
-		authToken: process.env.TURSO_TOKEN
+		url: 'http://127.0.0.1:8080'
 	}
 } as Config;
