@@ -18,11 +18,12 @@ interface RequestFileProp {
 	sessionId: string;
 	filename: string;
 	expiresIn: number;
+	inputText: string;
 }
 
 export const POST: RequestHandler = async ({ request, locals }) => {
-	const { expiresIn, filename } = (await request.json()) as RequestFileProp;
-	console.log('body', expiresIn, filename);
+	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
+	// console.log('body', expiresIn, filename);
 
 	if (!locals.user) {
 		return error(404, { message: 'Not found' });
@@ -39,7 +40,6 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const downloadUrl = await getSignedUrl(client, command, {
 		expiresIn: Number(expiresIn) * 60
 	});
-	// console.log('res', downloadUrl);
 
 	if (downloadUrl) {
 		const id = generateIdFromEntropySize(6);
@@ -52,6 +52,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				userId: userid
 			});
 
+			console.log('res', inputText, 'key', `${userEmail}/${filename}`, downloadUrl);
 			//TODO will make calls to ai service from here? send url to ai service?
 			return json('success');
 		} catch (error) {

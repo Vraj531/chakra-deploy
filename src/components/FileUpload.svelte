@@ -2,37 +2,45 @@
 	import UploadIcon from './Icons/UploadIcon.svelte';
 	export let handleFileInput: (e: any) => void;
 	export let inputText: string;
+	export let handleTextChange: (text: string) => void;
+
+	$: handleTextChange(inputText);
 
 	let minRows = 1;
 	let maxRows = 20;
 
-	// $: minHeight = `${1 + minRows * 1.2}em`;
-	$: minHeight = inputText.length > 100 ? `${1 + minRows * 1.2}em` : 'auto';
-	// $: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
-	$: maxHeight = inputText.length ? `${1 + maxRows * 1.2}em` : `auto`;
+	$: minHeight = `${1 + minRows * 1.2}em`;
+	$: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
 
-	$: {
-		console.log('input text', maxHeight);
-	}
-
-	const handleDragOver = (event: DragEvent) => {
-		event.preventDefault();
-	};
+	// const handleDragOver = (event: DragEvent) => {
+	// 	event.preventDefault();
+	// };
 </script>
 
-<div class="container">
-	<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
-			'\n'}</pre>
+<div class="flex flex-col">
+	<div class="container">
+		<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
+				'\n'}</pre>
 
-	<textarea placeholder="Add additional details here" bind:value={inputText}></textarea>
-	<label class="btn btn-sm btn-primary absolute top-0 right-0 m-2.5" for="fileUpload">
-		<input type="file" class="hidden" id="fileUpload" />
+		<textarea placeholder="Add additional details about yourself here" bind:value={inputText}
+		></textarea>
+		<label
+			class="btn btn-sm md:flex hidden btn-primary absolute top-0 right-0 m-2.5"
+			for="fileUpload"
+		>
+			<input type="file" class="hidden" id="fileUpload" on:change={handleFileInput} />
+			<UploadIcon />
+			Upload Resume PDF
+		</label>
+	</div>
+	<label class="btn btn-sm flex md:hidden btn-primary mx-auto" for="fileUpload">
+		<input type="file" class="hidden" id="fileUpload" on:change={handleFileInput} />
 		<UploadIcon />
-		Upload File
+		Upload Resume PDF
 	</label>
 </div>
 
-<div
+<!-- <div
 	class="flex flex-1 items-center justify-center md:w-2/3 p-4 mx-auto"
 	role="button"
 	aria-label="File Drop Area. Press Enter to activate"
@@ -68,7 +76,7 @@
 		</div>
 		<input id="dropzone-file" type="file" class="hidden" on:change={handleFileInput} />
 	</label>
-</div>
+</div> -->
 
 <style>
 	.container {
@@ -76,6 +84,7 @@
 		width: 100%;
 		display: flex;
 		margin: auto;
+		padding: 0em;
 		margin-top: 6em;
 	}
 
