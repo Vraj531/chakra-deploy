@@ -25,7 +25,6 @@ interface RequestFileProp {
 
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
-	// console.log('body', expiresIn, filename);
 
 	if (!locals.user) {
 		return error(404, { message: 'Not found' });
