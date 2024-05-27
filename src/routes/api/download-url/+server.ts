@@ -8,10 +8,12 @@ import { userResumeTable } from '$lib/server/drizzle/turso-schema';
 import { generateIdFromEntropySize } from 'lucia';
 
 const client = new S3Client({
-	region: 'ap-south-1',
-	// region: 'us-east-2',
+	// region: 'ap-south-1',
+	region: 'us-east-2',
 	credentials: { accessKeyId: ACCESS_ID, secretAccessKey: SECRET_KEY }
 });
+
+const lambdaUrl = 'https://6dekrm05x2.execute-api.us-east-2.amazonaws.com/user_request';
 
 interface RequestFileProp {
 	s3Url: string;
@@ -32,8 +34,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	const userEmail = locals.user.email.split('@')[0];
 	const userid = locals.user.id;
 	const command = new GetObjectCommand({
-		// Bucket: 'nikhil-pipeline-storage',
-		Bucket: 'stream-bin',
+		Bucket: 'nikhil-pipeline-storage',
+		// Bucket: 'stream-bin',
 		Key: `${userEmail}/${filename}`,
 		ResponseContentDisposition: `attachment; filename="${filename}"`
 	});
@@ -52,7 +54,25 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				userId: userid
 			});
 
-			console.log('res', inputText, 'key', `${userEmail}/${filename}`, downloadUrl);
+			console.log('res', inputText, 'key', `${userEmail}/${filename}`);
+
+			const res = await fetch(lambdaUrl, {
+				method: 'POST',
+				body: JSON.stringify({
+					additional_text: inputText,
+					pdf_file_location: `s3//nikhil-pipeline-storage/${userEmail}/${filename}`
+				}),
+				headers: {
+					'Content-Type': 'application/json'
+				}
+			});
+			const fullResponse = await res.json();
+			console.log('response from api', fullResponse);
+			// if ('body' in fullResponse) {
+			// 	const r = JSON.parse(fullResponse.body);
+			// 	console.log('response from api', fullResponse, r);
+			// }
+
 			//TODO will make calls to ai service from here? send url to ai service?
 			return json('success');
 		} catch (error) {

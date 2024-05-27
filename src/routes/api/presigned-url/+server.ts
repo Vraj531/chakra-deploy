@@ -7,8 +7,8 @@ import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
 const client = new S3Client({
 	// apiVersion: "2006-03-01",
 	credentials: { accessKeyId: ACCESS_ID, secretAccessKey: SECRET_KEY },
-	region: 'ap-south-1'
-	// region: 'us-east-2'
+	// region: 'ap-south-1'
+	region: 'us-east-2'
 });
 
 export const POST: RequestHandler = async ({ request, locals }) => {
@@ -29,8 +29,8 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	//inserts into the s3 bucket
 	try {
 		const command = new PutObjectCommand({
-			// Bucket: 'nikhil-pipeline-storage',
-			Bucket: 'stream-bin',
+			Bucket: 'nikhil-pipeline-storage',
+			// Bucket: 'stream-bin',
 			Key: `${userEmail}/${filename}`,
 			ContentType: type as string
 		});
