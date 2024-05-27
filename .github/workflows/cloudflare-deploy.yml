@@ -14,13 +14,12 @@ jobs:
       GOOGLE_REDIRECT_URI: ${{ secrets.GOOGLE_REDIRECT_URI }}
       GOOGLE_CLIENT_SECRET: ${{ secrets.GOOGLE_CLIENT_SECRET }}
       GOOGLE_CLIENT_ID: ${{ secrets.GOOGLE_CLIENT_ID }}
-      MONGO_URL: ${{ secrets.MONGO_URL }}
-      NEON_DB: ${{ secrets.NEON_DB }}
-      ROACH_DB: ${{ secrets.ROACH_DB }}
       TURSO_DB: ${{ secrets.TURSO_DB }}
       TURSO_TOKEN: ${{ secrets.TURSO_TOKEN }}
       ACCESS_ID: ${{ secrets.ACCESS_ID }}
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      PUBLIC_MEASUREMENT_ID: ${{ secrets.PUBLIC_MEASUREMENT_ID }}
+      LAMBDA_URL: ${{ secrets.LAMBDA_URL }}
 
     steps:
       - uses: actions/checkout@v4
