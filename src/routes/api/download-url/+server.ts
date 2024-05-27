@@ -8,8 +8,8 @@ import { userResumeTable } from '$lib/server/drizzle/turso-schema';
 import { generateIdFromEntropySize } from 'lucia';
 
 const client = new S3Client({
-	// region: 'ap-south-1',
 	region: 'us-east-2',
+	// region: 'ap-south-1',
 	credentials: { accessKeyId: ACCESS_ID, secretAccessKey: SECRET_KEY }
 });
 
