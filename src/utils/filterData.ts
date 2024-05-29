@@ -3,22 +3,21 @@ export function filterObjects<T extends object, U extends Partial<T>>(data: T[],
 		// Check if all filter conditions are met for the current object
 		return Object.entries(filter).every(([key, value]) => {
 			// If the filter value is an empty string, include objects with or without that property
-			console.log('key', key, value);
-			if (value === '') {
+			// console.log('key', key, value);
+			if (value === '' || value === null) {
 				return true;
 			}
 
 			// Special case for 'salary' property
+			if (key in obj && obj[key as keyof T] === null) {
+				return true;
+			}
 			if (key === 'min_salary') {
 				// If the filter value is an empty string, include all objects
-				if (value === '') {
+				// console.log('value', key, value);
+				if (value === '' || value === null) {
+					console.log('value', key, value);
 					return true;
-				}
-
-				// Check if the object has the 'salary' property
-				if (!(key in obj)) {
-					console.log('lkey not', key);
-					return false;
 				}
 
 				// Include objects with salary greater than or equal to the filter value

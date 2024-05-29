@@ -23,6 +23,11 @@ interface RequestFileProp {
 	inputText: string;
 }
 
+interface IResponse {
+	statusCode: number;
+	body: string;
+}
+
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
 
@@ -65,15 +70,13 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 					'Content-Type': 'application/json'
 				}
 			});
-			const fullResponse = await res.json();
-			console.log('response from api', fullResponse);
-			// if ('body' in fullResponse) {
-			// 	const r = JSON.parse(fullResponse.body);
-			// 	console.log('response from api', fullResponse, r);
-			// }
-
-			//TODO will make calls to ai service from here? send url to ai service?
-			return json('success');
+			const fullResponse = (await res.json()) as IResponse;
+			// console.log('response from api');
+			if ('body' in fullResponse) {
+				const body = JSON.parse(fullResponse.body);
+				// console.log('response from api', body);
+				return json(body);
+			}
 		} catch (error) {
 			return json(error);
 		}

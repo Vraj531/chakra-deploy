@@ -31,13 +31,13 @@
 				<li><a href="/">Item 3</a></li>
 			</ul> -->
 		</div>
-		<img src="/chakraSvg.svg" alt="new logo" class="absolute w-20 h-20 p-0" />
+		<!-- <img src="/chakraSvg.svg" alt="new logo" class="absolute w-20 h-20 p-0" /> -->
 
-		<a class="btn btn-ghost text-xl ml-12" href="/">
+		<a class="btn btn-ghost text-xl" href="/">
 			<!-- <div class="h-10 w-10">
 				{@html ChakraIcon}
 			</div> -->
-			<!-- <img src="/soon (3).png" alt="new logo" class=" w-10 h-10 p-0" /> -->
+			<img src="/chakraImage.png" alt="new logo" class=" w-10 h-10 p-0" />
 			Career Chakra</a
 		>
 	</div>

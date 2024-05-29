@@ -1,16 +1,15 @@
 <script lang="ts">
 	import Axios, { type AxiosProgressEvent } from 'axios';
 	import Carousel from '$lib/components/Carousel.svelte';
-	import FileUpload from '$lib/components/FileUpload.svelte';
 	import RemoveIcon from '$lib/components/Icons/RemoveIcon.svelte';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
-	import { dummyData } from '$lib/dummyData';
-	import realJson from '$lib/realJson.json';
-	import ChakraSvg from '$lib/assets/icons/chakraSvg.svg?raw';
+	import { dummyData, type DummyData } from '$lib/dummyData';
 	import NewFileUpload from '../../../lib/components/NewFileUpload.svelte';
 	import FilterForm from '../../../lib/components/FilterForm.svelte';
 	import { filterObjects } from '../../../utils/filterData';
+	import { bigint } from 'drizzle-orm/mysql-core';
+	import { toastStore } from '../../../lib/stores/toastStores';
 
 	// const newArr = JSON.parse(realJson.body);
 
@@ -22,8 +21,15 @@
 
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
+	interface FilterObject {
+		clearance_required: string;
+		has_remote: string;
+		min_salary: number | string;
+		experience_level: string;
+	}
+
 	let progress = 0;
-	let state: '' | 'uploading' | 'analysing' | 'success' = '';
+	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' = '';
 	let inputText = '';
 	let file: File | null;
 	let filterValues: string[] = [];
@@ -86,9 +92,12 @@
 
 			//*
 			state = 'success';
-			console.log('user files', await res.json());
+			const fullRes = (await res.json()) as DummyData[];
+			console.log('body', fullRes);
+			arr = fullRes;
+			console.log('user files', arr);
 		} catch (error) {
-			state = '';
+			state = 'error';
 			console.log('error', error);
 		}
 	};
@@ -101,21 +110,24 @@
 		(document.getElementById('filter-modal') as HTMLDialogElement).showModal();
 	};
 
-	interface FilterObject {
-		clearance_required: string;
-		has_remote: string;
-		min_salary: number | string;
-		experience_level: string;
-	}
 	const handleSubmit = (e: SubmitEvent) => {
 		e.preventDefault();
 		if (!e.target) return;
 		const formData = new FormData(e.target as HTMLFormElement);
-		const dishData = Object.fromEntries(formData);
-		console.log('e', dishData);
-		const filteredData = filterObjects(arr, dishData);
+		const filterForm = Object.fromEntries(formData);
+		// console.log('e', filterForm);
+		const newFilter = {
+			clearance_required: filterForm.clearance === 'true' ? true : false,
+			has_remote: filterForm.has_remote === 'true' ? true : false,
+			experience: filterForm.experience.toString(),
+			min_salary: filterForm.min_salary.toString()
+		};
+		console.log('new filter', newFilter);
+		const filteredData = filterObjects(arr, newFilter);
 		console.log('filtered data', filteredData);
-		arr = filteredData;
+		toastStore.alert('Filters applied', { position: 'bottom-end' });
+
+		// arr = filteredData;
 	};
 </script>
 
@@ -142,11 +154,17 @@
 			<p class="mx-auto text-ellipsis overflow-hidden text-lg">Uploading {file?.name}</p>
 		</div>
 	{:else if state === 'analysing'}
-		<p>Analysing</p>
+		<img src="/chakraSvg.svg" alt="" class="animate-bounce w-52 h-52 mx-auto mt-12" />
 	{:else if state === 'success'}
 		<!-- <Carousel {arr} /> -->
 		<Carousel {arr} {triggerModal} />
 		<FilterForm {handleSubmit} />
+	{:else if state === 'error'}
+		<p class="text-3xl text-center mt-16">Something went wrong</p>
+		<button class="bigint btn-secondary" on:click={() => (state = '')}
+			>Try Again? (Only valid pdf are accepted)</button
+		>
 	{/if}
-	<img src="/chakraSvg.svg" alt="" class="animate-bounce w-52 h-52 mx-auto mt-12" />
+	<Carousel {arr} {triggerModal} />
+	<FilterForm {handleSubmit} />
 </div>

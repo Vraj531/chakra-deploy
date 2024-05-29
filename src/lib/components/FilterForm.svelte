@@ -4,16 +4,16 @@
 	export let handleSubmit: EventHandler<SubmitEvent, HTMLFormElement>;
 
 	let clearanceFilters = [
-		{ label: 'Required', value: 'TRUE' },
-		{ label: 'Optional', value: 'FALSE' }
+		{ label: 'Required', value: true },
+		{ label: 'Optional', value: false }
 	];
 	let jobTypeFilters = [
-		{ label: 'On-site', value: 'TRUE' },
-		{ label: 'Remote', value: 'FALSE' }
+		{ label: 'Full Time', value: 'Full Time' },
+		{ label: 'Part Time', value: 'Part Time' }
 	];
 	let experienceFilters = [
-		{ label: 'Entry Level', value: 'EN' },
-		{ label: 'Mid Level', value: 'MI' },
+		{ label: 'Entry Level', value: 'Entry Level' },
+		{ label: 'Mid Level', value: 'Mid Level' },
 		{ label: 'Senior Level', value: 'Senior Level' },
 		{ label: 'Executive Level', value: 'Executive Level' }
 	];
@@ -37,13 +37,13 @@
 						<p class="font-semibold">Clearance</p>
 						<label class="label cursor-pointer">
 							<span class="label-text">Required</span>
-							<input type="radio" name="clearance_required" class="radio" checked value="TRUE" />
+							<input type="radio" name="clearance" class="radio" checked value={true} />
 						</label>
 					</div>
 					<div class="form-control">
 						<label class="label cursor-pointer">
 							<span class="label-text">Not Required</span>
-							<input type="radio" name="clearance_required" class="radio" checked value="FALSE" />
+							<input type="radio" name="clearance" class="radio" checked value={false} />
 						</label>
 					</div>
 				</div>
@@ -57,7 +57,7 @@
 								name="has_remote"
 								class="radio checked:bg-primary"
 								checked
-								value="FALSE"
+								value={false}
 							/>
 						</label>
 					</div>
@@ -69,7 +69,7 @@
 								name="has_remote"
 								class="radio checked:bg-primary"
 								checked
-								value="TRUE"
+								value={true}
 							/>
 						</label>
 					</div>
@@ -84,7 +84,7 @@
 				<select
 					class="select select-primary w-full"
 					id="experience"
-					name="experience_level"
+					name="experience"
 					placeholder="Mid-level, Excecutive etc"
 				>
 					{#each experienceFilters as experienceLevel}

@@ -6,7 +6,7 @@
 
 	$: job_description = sanitizeHtml(slide.job_description);
 
-	$: clearance = slide?.clearance_required === 'TRUE' ? 'Yes' : 'No';
+	$: clearance = slide?.clearance_required ? 'Yes' : 'No';
 	let humanReadable: string;
 	$: if (slide.published_date) {
 		humanReadable = new Date(slide.published_date).toLocaleString('en-US', {
@@ -24,7 +24,7 @@
 			<div class="flex flex-col prose md:w-1/2">
 				<h2 class="text-lg font-semibold text-gray-800">{slide.title}</h2>
 
-				{#if slide?.max_salary}
+				{#if slide?.max_salary && slide?.max_salary !== null && slide?.min_salary !== null}
 					<p class="my-0">
 						Salary: {slide.min_salary.toLocaleString()} - {slide.max_salary.toLocaleString()}
 						{slide.salary_currency}
@@ -33,13 +33,13 @@
 					<p class="my-0">Salary: Not specified</p>
 				{/if}
 
-				{#if slide?.experience_level}
-					<p class="my-0">Experience: {slide.experience_level}</p>
+				{#if slide?.experience}
+					<p class="my-0">Experience: {slide.experience}</p>
 				{:else}
 					<p class="my-0">Experience: Not specified</p>
 				{/if}
 				{#if humanReadable}
-					<p class="my-0">{slide.has_remote === 'TRUE' ? 'Remote' : 'On-site'}</p>
+					<p class="my-0">{slide.has_remote ? 'Remote' : 'On-site'}</p>
 				{/if}
 				{#if humanReadable}
 					<p class="my-0">Date published: {humanReadable}</p>

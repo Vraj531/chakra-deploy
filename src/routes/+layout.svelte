@@ -7,6 +7,7 @@
 	import type { LayoutData } from './$types';
 	import Analytics from '$lib/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
+	import Toast from '$lib/components/Toast.svelte';
 
 	export let data: LayoutData;
 
@@ -62,4 +63,5 @@
 		</div>
 	{/key}
 	<Footer />
+	<Toast />
 </div>
