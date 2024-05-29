@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ChakraIcon from '$lib/assets/icons/chakraSvg.svg?raw';
 	interface IUser {
 		name: string;
 		picture: string;
@@ -8,27 +9,14 @@
 </script>
 
 <header
-	class="px-4 py-2.5 dark:bg-gray-800 h-full w-full bg-secondary-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-90 border border-gray-100 navbar"
+	class="px-2 py-2 dark:bg-gray-800 h-full w-full bg-secondary-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-90 border border-gray-100 navbar relative"
 >
 	<div class="navbar-start">
 		<div class="dropdown">
-			<div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
-				<svg
-					xmlns="http://www.w3.org/2000/svg"
-					class="h-5 w-5"
-					fill="none"
-					viewBox="0 0 24 24"
-					stroke="currentColor"
-					><path
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						d="M4 6h16M4 12h8m-8 6h16"
-					/></svg
-				>
-			</div>
+			<!-- <div tabindex="0" role="button" class="btn btn-ghost lg:hidden">
+			</div> -->
 			<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-			<ul
+			<!-- <ul
 				tabindex="0"
 				class="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
 			>
@@ -41,16 +29,22 @@
 					</ul>
 				</li>
 				<li><a href="/">Item 3</a></li>
-			</ul>
+			</ul> -->
 		</div>
-		<a class="btn btn-ghost text-xl" href="/">NextJob Ai</a>
+		<img src="/chakraSvg.svg" alt="new logo" class="absolute w-20 h-20 p-0" />
+
+		<a class="btn btn-ghost text-xl ml-12" href="/">
+			<!-- <div class="h-10 w-10">
+				{@html ChakraIcon}
+			</div> -->
+			<!-- <img src="/soon (3).png" alt="new logo" class=" w-10 h-10 p-0" /> -->
+			Career Chakra</a
+		>
 	</div>
 
 	<div class="navbar-center hidden lg:flex">
 		<ul class="menu menu-horizontal px-1">
-			<li><a href="/">About Us</a></li>
-			<li><a href="/">Pricing</a></li>
-			<li><a href="/">Try us now!</a></li>
+			<li><a href="/">Try us now</a></li>
 		</ul>
 	</div>
 	<div class="navbar-end">
@@ -82,7 +76,7 @@
 		<div class="flex md:place-content-center items-center my-2">
 
 			<p class="text-3xl font-semibold md:text-center font-mono" data-testid="stream-bin">
-				NextJob Ai
+				Chakra
 			</p>
 		</div>
 	</a>

@@ -33,13 +33,28 @@
 			Upload Resume PDF
 		</label>
 	</div>
-	<label class="btn btn-sm flex md:hidden btn-primary mx-auto" for="fileUpload">
+	<label class="btn btn-sm flex md:hidden btn-primary mx-auto mt-4" for="fileUpload">
 		<input type="file" class="hidden" id="fileUpload" on:change={handleFileInput} />
 		<UploadIcon />
 		Upload Resume PDF
 	</label>
 </div>
 
+<!-- <div class="container">
+		<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
+				'\n'}</pre>
+
+		<textarea placeholder="Add additional details about yourself here" bind:value={inputText}
+		></textarea>
+		<label
+			class="btn btn-sm md:flex hidden btn-primary absolute top-0 right-0 m-2.5"
+			for="fileUpload"
+		>
+			<input type="file" class="hidden" id="fileUpload" on:change={handleFileInput} />
+			<UploadIcon />
+			Upload Resume PDF
+		</label>
+	</div> -->
 <!-- <div
 	class="flex flex-1 items-center justify-center md:w-2/3 p-4 mx-auto"
 	role="button"

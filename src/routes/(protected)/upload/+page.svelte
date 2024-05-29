@@ -1,11 +1,24 @@
 <script lang="ts">
 	import Axios, { type AxiosProgressEvent } from 'axios';
-	import Carousel from '../../../components/Carousel.svelte';
-	import FileUpload from '../../../components/FileUpload.svelte';
-	import RemoveIcon from '../../../components/Icons/RemoveIcon.svelte';
-	import { generatePresignedLink } from '../../../utils/generatePresignedUrl';
+	import Carousel from '$lib/components/Carousel.svelte';
+	import FileUpload from '$lib/components/FileUpload.svelte';
+	import RemoveIcon from '$lib/components/Icons/RemoveIcon.svelte';
+	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData } from '$lib/dummyData';
+	import realJson from '$lib/realJson.json';
+	import ChakraSvg from '$lib/assets/icons/chakraSvg.svg?raw';
+	import NewFileUpload from '../../../lib/components/NewFileUpload.svelte';
+	import FilterForm from '../../../lib/components/FilterForm.svelte';
+	import { filterObjects } from '../../../utils/filterData';
+
+	// const newArr = JSON.parse(realJson.body);
+
+	// let obj = {
+	// 	someTHig: 'details',
+	// 	aNumber: 1200
+	// };
+	// console.log('real json', newArr, obj);
 
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
@@ -13,9 +26,10 @@
 	let state: '' | 'uploading' | 'analysing' | 'success' = '';
 	let inputText = '';
 	let file: File | null;
+	let filterValues: string[] = [];
 
 	const sessionId = generateIdFromEntropySize(6);
-	const arr = dummyData;
+	let arr = dummyData;
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -82,11 +96,33 @@
 	const handleTextChange = (text: string) => {
 		inputText = text;
 	};
+
+	const triggerModal = () => {
+		(document.getElementById('filter-modal') as HTMLDialogElement).showModal();
+	};
+
+	interface FilterObject {
+		clearance_required: string;
+		has_remote: string;
+		min_salary: number | string;
+		experience_level: string;
+	}
+	const handleSubmit = (e: SubmitEvent) => {
+		e.preventDefault();
+		if (!e.target) return;
+		const formData = new FormData(e.target as HTMLFormElement);
+		const dishData = Object.fromEntries(formData);
+		console.log('e', dishData);
+		const filteredData = filterObjects(arr, dishData);
+		console.log('filtered data', filteredData);
+		arr = filteredData;
+	};
 </script>
 
 <div class="relative flex flex-col p-2">
 	{#if state === ''}
-		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
+		<NewFileUpload {handleFileInput} {inputText} {handleTextChange} />
+		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->
 		{#if file}
 			<div
 				class="flex md:mx-auto w-full md:w-2/3 md:p-6 p-4 bg-white shadow-xl rounded-lg justify-between mt-4"
@@ -100,12 +136,17 @@
 			</div>
 			<button class="btn btn-primary mx-auto mt-4" on:click={submit}>Submit</button>
 		{/if}
-	{:else if state === 'uploading' || state === 'analysing'}
-		<div class="flex flex-col">
+	{:else if state === 'uploading'}
+		<div class="flex flex-col mt-44">
 			<progress class="progress progress-warning w-2/3 mx-auto flex" value={progress} max="100" />
-			<p class="mx-auto text-ellipsis overflow-hidden">Uploading {file?.name}</p>
+			<p class="mx-auto text-ellipsis overflow-hidden text-lg">Uploading {file?.name}</p>
 		</div>
+	{:else if state === 'analysing'}
+		<p>Analysing</p>
 	{:else if state === 'success'}
-		<Carousel {arr} />
+		<!-- <Carousel {arr} /> -->
+		<Carousel {arr} {triggerModal} />
+		<FilterForm {handleSubmit} />
 	{/if}
+	<img src="/chakraSvg.svg" alt="" class="animate-bounce w-52 h-52 mx-auto mt-12" />
 </div>

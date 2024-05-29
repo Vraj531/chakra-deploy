@@ -1,71 +1,101 @@
 <script lang="ts">
-	import emblaCarouselSvelte from 'embla-carousel-svelte';
 	import type { EmblaCarouselType } from 'embla-carousel';
+	import embla from '$lib/index';
 	// import ChevronLeft from '@tabler/icons-svelte/IconChevronLeft.svelte';
 	// import ChevronRight from '@tabler/icons-svelte/IconChevronRight.svelte';
 	import JobCard from './JobCard.svelte';
-	import ChevronRightIcon from './Icons/ChevronRightIcon.svelte';
-	import ChevronLeftIcon from './Icons/ChevronLeftIcon.svelte';
+	// import ChevronRightIcon from './Icons/ChevronRightIcon.svelte';
+	import ChevronLeftIcon from '$lib/assets/icons/ChevronLeftIcon.svg?raw';
+	import ChevronRightIcon from '$lib/assets/icons/ChevronRightIcon.svg?raw';
+	import FilterIcon from '$lib/assets/icons/Filter.svg?raw';
 	import type { DummyData } from '$lib/dummyData';
+	import { writable } from 'svelte/store';
 
 	export let arr: DummyData[];
+	export let triggerModal: () => void;
 
-	let emblaApi: EmblaCarouselType;
+	const carousel = writable<EmblaCarouselType>();
+
+	// let emblaApi: EmblaCarouselType;
 	let scrollSnapList: number[];
-	let carouselOptions = { loop: false };
-	// let selected: number = 0;
-	$: selected = emblaApi?.selectedScrollSnap() ?? 0;
+	let selected: number = 0;
+	// $: selected = emblaApi?.selectedScrollSnap() ?? 0;
 
 	// $: {
-	// 	console.log('embla api', emblaApi, selected);
+	// 	console.log('embla api', emblaApi);
 	// }
 
-	function onInit(event: CustomEvent<EmblaCarouselType>) {
-		emblaApi = event.detail;
-		scrollSnapList = emblaApi.scrollSnapList();
-		// console.log('list', scrollSnapList); // Access API
-	}
+	// function onInit(event: CustomEvent<EmblaCarouselType>) {
+	// emblaApi = event.detail;
+	// scrollSnapList = emblaApi.scrollSnapList();
+	// console.log('list', scrollSnapList); // Access API
+	// }
 	// $: selected = emblaApi?.selectedScrollSnap() ?? 0;
 
 	function nextCard() {
-		emblaApi.scrollNext();
-		selected = emblaApi?.selectedScrollSnap();
+		// emblaApi.scrollNext();
+		// selected = emblaApi?.selectedScrollSnap();
+
+		$carousel?.canScrollNext() && $carousel?.scrollNext();
 		// console.log('log', emblaApi.slideNodes());
 		// console.log('rest', selected, arr.length - 1);
 	}
 	function previousCard() {
-		emblaApi.scrollPrev();
-		selected = emblaApi?.selectedScrollSnap();
+		// emblaApi.scrollPrev();
+		// selected = emblaApi?.selectedScrollSnap();
+		$carousel?.canScrollPrev() && $carousel?.scrollPrev();
 	}
 	const select = (index: number) => () => {
-		emblaApi?.scrollTo(index);
-		selected = emblaApi?.selectedScrollSnap();
+		// emblaApi?.scrollTo(index);
+		// selected = emblaApi?.selectedScrollSnap();
+		$carousel?.scrollTo(index);
+	};
+
+	// const register = () => {
+	// 	console.log('embla', emblaApi?.selectedScrollSnap());
+	// 	selected = emblaApi?.selectedScrollSnap();
+	// };
+
+	// const currentState = () => {
+	// 	console.log('state', emblaApi?.selectedScrollSnap());
+	// };
+	const onSelect = () => {
+		selected = $carousel?.selectedScrollSnap();
 	};
 </script>
+
+<div class="flex w-full mt-4">
+	<div class="tooltip tooltip-left ml-auto md:mx-auto" data-tip="Filter">
+		<button class=" btn btn-primary" on:click={triggerModal}>
+			{@html FilterIcon}
+		</button>
+	</div>
+</div>
 
 <div class="relative py-16">
 	<div class={`hidden md:block`}>
 		<button
-			class={`left-10 btn btn-primary btn-circle absolute top-48 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+			class={`left-10 btn btn-primary btn-circle p-0 m-0 absolute top-48 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
 			on:click={previousCard}
 		>
 			<!-- <ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} /> -->
-			<ChevronLeftIcon />
+			<div class="pl-2 pt-1.5">
+				{@html ChevronLeftIcon}
+			</div>
 		</button>
 		<button
 			class={`btn btn-primary btn-circle absolute right-10 top-48 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
 			on:click={nextCard}
 		>
-			<ChevronRightIcon />
+			<div class="pl-2.5 pt-0.5">
+				{@html ChevronRightIcon}
+			</div>
+			<!-- <ChevronRightIcon /> -->
 			<!-- <ChevronRight class="h-9 w-9 pl-3" /> -->
 		</button>
 	</div>
 	<div class="embla">
-		<div
-			class="embla__viewport"
-			use:emblaCarouselSvelte={{ options: carouselOptions, plugins: [] }}
-			on:emblaInit={onInit}
-		>
+		<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
 			<div class="embla__container">
 				{#each arr as slide}
 					<JobCard {slide} />
@@ -73,7 +103,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="absolute bottom-4 left-0 w-full flex justify-center gap-4">
+	<div class="absolute top-4 left-0 w-full flex justify-center gap-4">
 		{#each arr as _, index}
 			<button class="w-[30px] h-[30px] grid place-items-center" on:click={select(index)}>
 				<div

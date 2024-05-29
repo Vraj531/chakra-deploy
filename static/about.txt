@@ -1,6 +1,0 @@
-This favicon was generated using the following font:
-
-- Font Title: Albert Sans
-- Font Author: Copyright 2021 The Albert Sans Project Authors (https://github.com/usted/Albert-Sans)
-- Font Source: https://fonts.gstatic.com/s/albertsans/v1/i7dfIFdwYjGaAMFtZd_QA1Zeelmy79QJ1HOSY9DJ6IfybRUz1r5t.ttf
-- Font License: SIL Open Font License, 1.1 (http://scripts.sil.org/OFL))

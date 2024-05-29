@@ -5,6 +5,7 @@
 	export let slide: DummyData;
 
 	$: job_description = sanitizeHtml(slide.job_description);
+
 	$: clearance = slide?.clearance_required === 'TRUE' ? 'Yes' : 'No';
 	let humanReadable: string;
 	$: if (slide.published_date) {
@@ -12,9 +13,6 @@
 			year: 'numeric',
 			month: 'long',
 			day: 'numeric',
-			// hour: '2-digit',
-			// minute: '2-digit',
-			// second: '2-digit',
 			hour12: true
 		});
 	} else humanReadable = 'Not specified';
@@ -22,12 +20,15 @@
 
 <div class="embla__slide">
 	<div class="bg-white shadow-md rounded-lg max-w-4xl w-full mx-auto p-6 md:flex prose">
-		<div class="flex-1 p-2 flex gap-2">
-			<div class="flex flex-col w-1/2 prose">
+		<div class="p-2 md:flex justify-center gap-2 w-full">
+			<div class="flex flex-col prose md:w-1/2">
 				<h2 class="text-lg font-semibold text-gray-800">{slide.title}</h2>
 
 				{#if slide?.max_salary}
-					<p class="my-0">Salary: {slide.min_salary} - {slide.max_salary}</p>
+					<p class="my-0">
+						Salary: {slide.min_salary.toLocaleString()} - {slide.max_salary.toLocaleString()}
+						{slide.salary_currency}
+					</p>
 				{:else}
 					<p class="my-0">Salary: Not specified</p>
 				{/if}
@@ -38,13 +39,19 @@
 					<p class="my-0">Experience: Not specified</p>
 				{/if}
 				{#if humanReadable}
+					<p class="my-0">{slide.has_remote === 'TRUE' ? 'Remote' : 'On-site'}</p>
+				{/if}
+				{#if humanReadable}
 					<p class="my-0">Date published: {humanReadable}</p>
 				{/if}
 				{#if slide?.company_linkedin_url}
 					<a class="my-0" href={slide.company_linkedin_url} target="_blank"> LinkedIn </a>
 				{/if}
 			</div>
-			<div class="flex flex-col w-1/2 pl-2">
+
+			<!-- <div class="divider divider-horizontal" /> -->
+
+			<div class="flex flex-col pl-2 md:w-1/2">
 				{#if slide?.company_logo}
 					<img alt="company logo" src={slide.company_logo} class="w-24 h-24 mx-auto my-0" />
 				{/if}
