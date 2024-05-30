@@ -1,9 +1,4 @@
 <script lang="ts">
-	import ChakraIcon from '$lib/assets/icons/chakraSvg.svg?raw';
-	interface IUser {
-		name: string;
-		picture: string;
-	}
 	export let userData;
 	// console.log('user data', userData);
 </script>
@@ -37,19 +32,19 @@
 			<!-- <div class="h-10 w-10">
 				{@html ChakraIcon}
 			</div> -->
-			<img src="/chakraImage.png" alt="new logo" class=" w-10 h-10 p-0" />
+			<img src="/chakraImage.png" alt="new logo" class=" w-10 h-10 p-0 rounded-xl" />
 			Career Chakra</a
 		>
 	</div>
 
 	<div class="navbar-center hidden lg:flex">
 		<ul class="menu menu-horizontal px-1">
-			<li><a href="/">Try us now</a></li>
+			<li><a href="/google">Try us now</a></li>
 		</ul>
 	</div>
 	<div class="navbar-end">
 		{#if !userData?.picture}
-			<a class="btn" href="/google">Login</a>
+			<a class="btn rounded-xl" href="/google">Login</a>
 		{:else}
 			<div class="dropdown dropdown-end">
 				<div tabindex="0" role="button" class="btn btn-circle btn-secondary">

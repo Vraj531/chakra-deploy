@@ -8,7 +8,7 @@
 	import RestoreIcon from '$lib/assets/icons/RestoreIcon.svg?raw';
 	import type { DummyData } from '$lib/dummyData';
 	import { writable } from 'svelte/store';
-	import { fade, fly } from 'svelte/transition';
+	import { fade } from 'svelte/transition';
 
 	export let arr: DummyData[];
 	export let triggerModal: () => void;
@@ -16,49 +16,18 @@
 
 	const carousel = writable<EmblaCarouselType>();
 
-	// let emblaApi: EmblaCarouselType;
-	let scrollSnapList: number[];
 	let selected: number = 0;
-	// $: selected = emblaApi?.selectedScrollSnap() ?? 0;
-
-	// $: {
-	// 	console.log('embla api', emblaApi);
-	// }
-
-	// function onInit(event: CustomEvent<EmblaCarouselType>) {
-	// emblaApi = event.detail;
-	// scrollSnapList = emblaApi.scrollSnapList();
-	// console.log('list', scrollSnapList); // Access API
-	// }
-	// $: selected = emblaApi?.selectedScrollSnap() ?? 0;
 
 	function nextCard() {
-		// emblaApi.scrollNext();
-		// selected = emblaApi?.selectedScrollSnap();
-
 		$carousel?.canScrollNext() && $carousel?.scrollNext();
-		// console.log('log', emblaApi.slideNodes());
-		// console.log('rest', selected, arr.length - 1);
 	}
 	function previousCard() {
-		// emblaApi.scrollPrev();
-		// selected = emblaApi?.selectedScrollSnap();
 		$carousel?.canScrollPrev() && $carousel?.scrollPrev();
 	}
 	const select = (index: number) => () => {
-		// emblaApi?.scrollTo(index);
-		// selected = emblaApi?.selectedScrollSnap();
 		$carousel?.scrollTo(index);
 	};
 
-	// const register = () => {
-	// 	console.log('embla', emblaApi?.selectedScrollSnap());
-	// 	selected = emblaApi?.selectedScrollSnap();
-	// };
-
-	// const currentState = () => {
-	// 	console.log('state', emblaApi?.selectedScrollSnap());
-	// };
 	const onSelect = () => {
 		selected = $carousel?.selectedScrollSnap();
 	};
@@ -109,7 +78,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="absolute top-4 left-0 w-full flex justify-center gap-4">
+	<div class="absolute bottom-20 left-0 w-full flex justify-center gap-4">
 		{#each arr as _, index}
 			<button class="w-[30px] h-[30px] grid place-items-center" on:click={select(index)}>
 				<div

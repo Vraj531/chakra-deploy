@@ -1,7 +1,5 @@
 <script lang="ts">
-	// export let isUserLoggedIn;
-
-	// console.log('user', isUserLoggedIn);
+	import { PUBLIC_CLOUDFRONT } from '$env/static/public';
 </script>
 
 <section class="bg-gradient-to-b from-gray-50 to-amber-200">
@@ -15,13 +13,16 @@
 			<p
 				class="max-w-2xl mb-6 font-light text-gray-500 lg:mb-8 md:text-lg lg:text-xl dark:text-gray-400"
 			>
-				Find your dream job with AI powered technology. Discover the best opportunities for you.
+				At Career Chakra, we are dedicated to connecting job seekers with their ideal careers
+				through the power of advanced AI technology. Our platform is designed to provide you with
+				the most relevant job matches, ensuring you never miss out on the latest and greatest
+				opportunities.
 			</p>
 			<a
 				href="/google"
-				class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-lg bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
+				class="inline-flex items-center justify-center px-5 py-3 mr-3 text-base font-medium text-center text-white rounded-xl bg-primary-700 hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
 			>
-				Try Now
+				Find your Next Job
 				<svg
 					class="w-5 h-5 ml-2 -mr-1"
 					fill="currentColor"
@@ -34,15 +35,14 @@
 					></path></svg
 				>
 			</a>
-			<!-- <a
-				href="/google"
-				class="inline-flex items-center justify-center px-5 py-3 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-700 dark:hover:bg-gray-700 dark:focus:ring-gray-800"
-			>
-				Log in
-			</a> -->
 		</div>
 		<div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
-			<img src="/chakraSvg.svg" alt="mockup" class="w-full ml-24" loading="lazy" />
+			<img
+				src={`${PUBLIC_CLOUDFRONT}/office1.jpg`}
+				alt="mockup"
+				class="w-full ml-24 max-h-svh"
+				loading="lazy"
+			/>
 		</div>
 	</div>
 </section>
@@ -52,13 +52,14 @@
 	>
 		<div class="font-light text-gray-500 sm:text-lg dark:text-gray-400">
 			<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-				We didn't reinvent the wheel
+				How It Works
 			</h2>
 			<p class="mb-4">
-				We are strategists, designers and developers. Innovators and problem solvers. Small enough
-				to be simple and quick, but big enough to deliver the scope you want at the pace you need.
-				Small enough to be simple and quick, but big enough to deliver the scope you want at the
-				pace you need.
+				Upload your resume, add your additional skills, and let our sophisticated AI take care of
+				the rest. Our advanced technology analyzes your skills, experience, and career goals to
+				match you with the best job opportunities tailored specifically to your profile. With our
+				database updated daily, you will always have recent to the freshest job listings,
+				eliminating the frustration of expired job posts.
 			</p>
 			<p>
 				We are strategists, designers and developers. Innovators and problem solvers. Small enough
@@ -68,12 +69,12 @@
 		<div class="grid grid-cols-2 gap-4 mt-8">
 			<img
 				class="w-full rounded-lg"
-				src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
+				src={`${PUBLIC_CLOUDFRONT}/office2.jpg`}
 				alt="office content 1"
 			/>
 			<img
 				class="mt-4 w-full lg:mt-10 rounded-lg"
-				src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-1.png"
+				src={`${PUBLIC_CLOUDFRONT}/office6.jpg`}
 				alt="office content 2"
 			/>
 		</div>
@@ -81,17 +82,21 @@
 </section>
 
 <section class="bg-gradient-to-b from-gray-50 to-amber-200">
-	<div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+	<div class="py-8 px-4 flex mx-auto max-w-screen-xl sm:py-16 lg:px-6 justify-evenly">
 		<div class="max-w-screen-md">
 			<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
-				Let's find the job that's right for you.
+				The Problem with Traditional Job Portals
 			</h2>
 			<p class="mb-8 font-light text-gray-500 sm:text-xl dark:text-gray-400">
-				Our AI-powered platform helps you connect with career opportunities that align with your
-				unique skills, experiences, and aspirations. Discovering and landing your dream job is easy
-				with our advanced technology that deeply understands your professional profile to deliver
-				tailored job matches. Say goodbye to irrelevant listings and hello to a curated selection of
-				roles you're an ideal fit for.
+				Many job seekers struggle to find the right opportunities due to the inherent limitations of
+				traditional job portals. These platforms often feature expired or inactive job posts,
+				leading to wasted time and resentment. Basic keyword matching and lack of personalized
+				recommendations mean users frequently receive irrelevant job suggestions. Additionally, the
+				user experience on these sites can be cumbersome, with complex interfaces and inefficient
+				search functions making navigation difficult. Perhaps most concerning is the prevalence of
+				fake job listings, which can mislead job seekers and waste valuable time. Infrequent updates
+				further exacerbate these issues, resulting in missed opportunities as new job postings are
+				not added promptly.
 			</p>
 			<div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
 				<a
@@ -100,41 +105,35 @@
 				>
 					Get started
 				</a>
-				<a
-					href="/"
-					class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-gray-900 border border-gray-300 rounded-lg hover:bg-gray-100 focus:ring-4 focus:ring-gray-100 dark:text-white dark:border-gray-600 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-				>
-					<svg
-						class="mr-2 -ml-1 w-5 h-5"
-						fill="currentColor"
-						viewBox="0 0 20 20"
-						xmlns="http://www.w3.org/2000/svg"
-						><path
-							d="M2 6a2 2 0 012-2h6a2 2 0 012 2v8a2 2 0 01-2 2H4a2 2 0 01-2-2V6zM14.553 7.106A1 1 0 0014 8v4a1 1 0 00.553.894l2 1A1 1 0 0018 13V7a1 1 0 00-1.447-.894l-2 1z"
-						></path></svg
-					>
-					View more
-				</a>
 			</div>
+		</div>
+		<div>
+			<img
+				class="w-full rounded-lg max-h-96"
+				src={`${PUBLIC_CLOUDFRONT}/office7.jpg`}
+				alt="office content 1"
+			/>
 		</div>
 	</div>
 </section>
-<section class="bg-gradient-to-b from-gray-50 to-amber-200">
+<section class="bg-gradient-to-t from-gray-50 to-amber-200">
 	<div class="py-8 px-4 mx-auto max-w-screen-xl lg:py-16 lg:px-6">
 		<div class="max-w-screen-lg text-gray-500 sm:text-lg dark:text-gray-400">
 			<h2 class="mb-4 text-4xl tracking-tight font-bold text-gray-900 dark:text-white">
-				Powering innovation at <span class="font-extrabold">200,000+</span> companies worldwide
+				Why Choose Us?
 			</h2>
 			<p class="mb-4 font-light">
-				Track work across the enterprise through an open, collaborative platform. Link issues across
-				Jira and ingest data from other software development tools, so your IT support and
-				operations teams have richer contextual information to rapidly respond to requests,
-				incidents, and changes.
+				At Career Chakra, we understand these disappointments and have designed our platform to
+				address these challenges head-on. Our cutting-edge AI technology ensures you receive job
+				recommendations that truly fit your qualifications and aspirations. We take extra steps to
+				verify job listings, minimizing the risk of encountering fake postings and ensuring you are
+				presented with genuine opportunities. Our commitment to keeping job listings current means
+				you will always have access to the latest openings, without the clutter of expired
+				positions.
 			</p>
 			<p class="mb-4 font-medium">
-				Deliver great service experiences fast - without the complexity of traditional ITSM
-				solutions.Accelerate critical development work, eliminate toil, and deploy changes with
-				ease.
+				Our user-friendly design makes navigating the platform a seamless and efficient experience,
+				so you can focus on what matters most – finding your next career opportunity.
 			</p>
 			<a
 				href="/"
@@ -153,6 +152,28 @@
 					></path></svg
 				>
 			</a>
+		</div>
+	</div>
+</section>
+<section class="bg-gradient-to-b from-gray-50 to-amber-200">
+	<div class="py-8 px-4 mx-auto max-w-screen-xl sm:py-16 lg:px-6">
+		<div class="max-w-screen-md">
+			<h2 class="mb-4 text-4xl tracking-tight font-extrabold text-gray-900 dark:text-white">
+				Join Us Today
+			</h2>
+			<p class="mb-8 font-light text-gray-500 sm:text-xl dark:text-gray-400">
+				Take the next step in your career journey with Career Chakra. Upload your resume today and
+				discover the opportunities waiting for you. Whether you are a seasoned professional or just
+				starting out, we are here to help you find the perfect job.
+			</p>
+			<div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+				<a
+					href="/"
+					class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
+				>
+					Get started
+				</a>
+			</div>
 		</div>
 	</div>
 </section>

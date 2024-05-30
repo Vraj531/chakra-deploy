@@ -1,42 +1,25 @@
 <script lang="ts">
 	import Axios, { type AxiosProgressEvent } from 'axios';
 	import Carousel from '$lib/components/Carousel.svelte';
-	import RemoveIcon from '$lib/components/Icons/RemoveIcon.svelte';
+	import RemoveIcon from '$lib/assets/icons/Remove.svg?raw';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData, type DummyData } from '$lib/dummyData';
 	import NewFileUpload from '../../../lib/components/NewFileUpload.svelte';
 	import FilterForm from '../../../lib/components/FilterForm.svelte';
 	import { filterObjects } from '../../../utils/filterData';
-	import { bigint } from 'drizzle-orm/mysql-core';
 	import { toastStore } from '../../../lib/stores/toastStores';
 
-	// const newArr = JSON.parse(realJson.body);
-
-	// let obj = {
-	// 	someTHig: 'details',
-	// 	aNumber: 1200
-	// };
-	// console.log('real json', newArr, obj);
-
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
-
-	interface FilterObject {
-		clearance_required: string;
-		has_remote: string;
-		min_salary: number | string;
-		experience_level: string;
-	}
 
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' = '';
 	let inputText = '';
 	let file: File | null;
-	let filterValues: string[] = [];
 
 	const sessionId = generateIdFromEntropySize(6);
-	let arr = dummyData;
-	let backUpData = dummyData;
+	let arr: DummyData[] = dummyData;
+	let backUpData: DummyData[] = dummyData;
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -147,13 +130,16 @@
 		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->
 		{#if file}
 			<div
-				class="flex md:mx-auto w-full md:w-2/3 md:p-6 p-4 bg-white shadow-xl rounded-lg justify-between mt-4"
+				class="flex md:mx-auto w-full md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
 			>
 				<p class="text-ellipsis overflow-hidden">
 					{file?.name}
 				</p>
-				<button class="btn btn-error btn-circle btn-sm ml-auto" on:click={() => (file = null)}>
-					<RemoveIcon />
+				<button
+					class="btn bg-red-400 hover:bg-red-500 btn-circle btn-sm ml-auto"
+					on:click={() => (file = null)}
+				>
+					{@html RemoveIcon}
 				</button>
 			</div>
 			<button class="btn btn-primary mx-auto mt-4" on:click={submit}>Submit</button>
