@@ -1,5 +1,4 @@
 <script lang="ts">
-	import ChakraIcon from '$lib/assets/icons/chakraSvg.svg?raw';
 	export let userData;
 	// console.log('user data', userData);
 </script>
@@ -28,7 +27,7 @@
 			</ul> -->
 		</div>
 
-		<a class="btn btn-ghost text-xl" href="/">
+		<a class="btn btn-ghost text-xl w-16" href="/">
 			<img src="/soon (1).png" alt="new logo" class="absolute w-16 h-16 p-0" />
 			<!-- <div class="h-10 w-10">
 				{@html ChakraIcon}
@@ -37,13 +36,13 @@
 		</a>
 	</div>
 
-	<div class="navbar-center hidden lg:flex">
+	<div class="navbar-center lg:flex">
 		<ul class="menu menu-horizontal px-1">
 			<img src="./textImage.png" alt="career chakra" class="w-full h-6" />
 		</ul>
 	</div>
 	<div class="navbar-end">
-		<a class="btn btn-primary rounded-xl mr-4" href="/google">Try us now</a>
+		<a class="btn btn-primary rounded-xl mr-4 hidden md:flex" href="/google">Try us now</a>
 		{#if !userData?.picture}
 			<a class="btn rounded-xl btn-primary" href="/google">Login</a>
 		{:else}
