@@ -38,7 +38,8 @@
 
 	<div class="navbar-center lg:flex">
 		<ul class="menu menu-horizontal px-1">
-			<img src="./textImage.png" alt="career chakra" class="w-full h-6" />
+			<div class="md:text-3xl text-xl">Career Chakra</div>
+			<!-- <img src="./textImage.png" alt="career chakra" class="w-full h-6" /> -->
 		</ul>
 	</div>
 	<div class="navbar-end">

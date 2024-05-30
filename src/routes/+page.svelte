@@ -8,7 +8,7 @@
 	<div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
 		<div class="mx-auto place-self-center lg:col-span-12">
 			<h1
-				class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white"
+				class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-4xl xl:text-6xl dark:text-white"
 			>
 				Find Your Dream Job with AI Power
 			</h1>
@@ -170,12 +170,12 @@
 				starting out, we are here to help you find the perfect job.
 			</p>
 			<div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-				<!-- <a
-					href="/"
+				<a
+					href="/google"
 					class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
 				>
-					Get started
-				</a> -->
+					Sign up
+				</a>
 			</div>
 		</div>
 	</div>
