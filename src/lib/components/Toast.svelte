@@ -23,7 +23,7 @@
 <div class="fixed bottom-5 right-5 space-y-2 z-50">
 	{#each toasts as toast}
 		<div
-			class="alert alert-success bg-green-600 text-white rounded-2xl shadow-lg cursor-pointer"
+			class="alert alert-info bg-amber-500 text-white rounded-2xl shadow-lg cursor-pointer"
 			on:click={() => removeToast(toast.id)}
 			transition:fade
 			aria-hidden="true"

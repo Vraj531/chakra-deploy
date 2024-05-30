@@ -36,6 +36,7 @@
 
 	const sessionId = generateIdFromEntropySize(6);
 	let arr = dummyData;
+	let backUpData = dummyData;
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -94,6 +95,7 @@
 			state = 'success';
 			const fullRes = (await res.json()) as DummyData[];
 			console.log('body', fullRes);
+			fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
 			arr = fullRes;
 			console.log('user files', arr);
 		} catch (error) {
@@ -125,9 +127,17 @@
 		console.log('new filter', newFilter);
 		const filteredData = filterObjects(arr, newFilter);
 		console.log('filtered data', filteredData);
-		toastStore.alert('Filters applied', { position: 'bottom-end' });
+		if (!filteredData.length) {
+			toastStore.alert(`Found ${filteredData.length} matches! Please reset`, {
+				position: 'bottom-end'
+			});
+		} else toastStore.alert(`Found ${filteredData.length} matches!`, { position: 'bottom-end' });
 
-		// arr = filteredData;
+		arr = filteredData;
+	};
+
+	const handleReset = () => {
+		arr = backUpData;
 	};
 </script>
 
@@ -157,7 +167,7 @@
 		<img src="/chakraSvg.svg" alt="" class="animate-bounce w-52 h-52 mx-auto mt-12" />
 	{:else if state === 'success'}
 		<!-- <Carousel {arr} /> -->
-		<Carousel {arr} {triggerModal} />
+		<Carousel {arr} {triggerModal} {handleReset} />
 		<FilterForm {handleSubmit} />
 	{:else if state === 'error'}
 		<p class="text-3xl text-center mt-16">Something went wrong</p>
@@ -165,6 +175,6 @@
 			>Try Again? (Only valid pdf are accepted)</button
 		>
 	{/if}
-	<Carousel {arr} {triggerModal} />
-	<FilterForm {handleSubmit} />
+	<!-- <Carousel {arr} {triggerModal} {handleReset} />
+	<FilterForm {handleSubmit} /> -->
 </div>

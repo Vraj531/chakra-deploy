@@ -1,18 +1,18 @@
 <script lang="ts">
 	import type { EmblaCarouselType } from 'embla-carousel';
 	import embla from '$lib/index';
-	// import ChevronLeft from '@tabler/icons-svelte/IconChevronLeft.svelte';
-	// import ChevronRight from '@tabler/icons-svelte/IconChevronRight.svelte';
 	import JobCard from './JobCard.svelte';
-	// import ChevronRightIcon from './Icons/ChevronRightIcon.svelte';
 	import ChevronLeftIcon from '$lib/assets/icons/ChevronLeftIcon.svg?raw';
 	import ChevronRightIcon from '$lib/assets/icons/ChevronRightIcon.svg?raw';
 	import FilterIcon from '$lib/assets/icons/Filter.svg?raw';
+	import RestoreIcon from '$lib/assets/icons/RestoreIcon.svg?raw';
 	import type { DummyData } from '$lib/dummyData';
 	import { writable } from 'svelte/store';
+	import { fade, fly } from 'svelte/transition';
 
 	export let arr: DummyData[];
 	export let triggerModal: () => void;
+	export let handleReset: () => void;
 
 	const carousel = writable<EmblaCarouselType>();
 
@@ -65,14 +65,20 @@
 </script>
 
 <div class="flex w-full mt-4">
-	<div class="tooltip tooltip-left ml-auto md:mx-auto" data-tip="Filter">
-		<button class=" btn btn-primary" on:click={triggerModal}>
-			{@html FilterIcon}
+	<div class=" ml-auto md:mx-auto">
+		<button class=" btn btn-primary" on:click={handleReset}>
+			{@html RestoreIcon}
+			Reset
 		</button>
+		<div class="tooltip tooltip-top" data-tip="filter">
+			<button class=" btn btn-primary" on:click={triggerModal}>
+				{@html FilterIcon}
+			</button>
+		</div>
 	</div>
 </div>
 
-<div class="relative py-16">
+<div class="relative py-16" transition:fade>
 	<div class={`hidden md:block`}>
 		<button
 			class={`left-10 btn btn-primary btn-circle p-0 m-0 absolute top-48 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}

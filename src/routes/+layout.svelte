@@ -20,7 +20,7 @@
 </script>
 
 <svelte:head>
-	<title>Chakra - Your AI-Powered Job Matching Service</title>
+	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
 	<meta
 		name="description"
 		content="Chakra uses advanced AI technology to analyze your resume and connect you with the best job opportunities. Get personalized job matches and career recommendations tailored just for you."

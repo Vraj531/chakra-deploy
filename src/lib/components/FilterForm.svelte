@@ -51,18 +51,6 @@
 					<div class="form-control">
 						<p class="font-semibold">Job Type</p>
 						<label class="label cursor-pointer">
-							<span class="label-text">On Site</span>
-							<input
-								type="radio"
-								name="has_remote"
-								class="radio checked:bg-primary"
-								checked
-								value={false}
-							/>
-						</label>
-					</div>
-					<div class="form-control">
-						<label class="label cursor-pointer">
 							<span class="label-text">Remote</span>
 							<input
 								type="radio"
@@ -70,6 +58,18 @@
 								class="radio checked:bg-primary"
 								checked
 								value={true}
+							/>
+						</label>
+					</div>
+					<div class="form-control">
+						<label class="label cursor-pointer">
+							<span class="label-text">On Site</span>
+							<input
+								type="radio"
+								name="has_remote"
+								class="radio checked:bg-primary"
+								checked
+								value={false}
 							/>
 						</label>
 					</div>

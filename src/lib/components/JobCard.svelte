@@ -5,22 +5,22 @@
 	export let slide: DummyData;
 
 	$: job_description = sanitizeHtml(slide.job_description);
-
 	$: clearance = slide?.clearance_required ? 'Yes' : 'No';
-	let humanReadable: string;
-	$: if (slide.published_date) {
-		humanReadable = new Date(slide.published_date).toLocaleString('en-US', {
-			year: 'numeric',
-			month: 'long',
-			day: 'numeric',
-			hour12: true
-		});
-	} else humanReadable = 'Not specified';
+
+	// let humanReadable: string;
+	$: humanReadable = slide.published_date
+		? new Date(slide.published_date).toLocaleString('en-US', {
+				year: 'numeric',
+				month: 'long',
+				day: 'numeric',
+				hour12: true
+			})
+		: 'Not specified';
 </script>
 
 <div class="embla__slide">
 	<div class="bg-white shadow-md rounded-lg max-w-4xl w-full mx-auto p-6 md:flex prose">
-		<div class="p-2 md:flex justify-center gap-2 w-full">
+		<div class="p-2 md:flex justify-center gap-4 w-full hidden">
 			<div class="flex flex-col prose md:w-1/2">
 				<h2 class="text-lg font-semibold text-gray-800">{slide.title}</h2>
 
@@ -38,37 +38,98 @@
 				{:else}
 					<p class="my-0">Experience: Not specified</p>
 				{/if}
-				{#if humanReadable}
+				{#if slide.has_remote}
 					<p class="my-0">{slide.has_remote ? 'Remote' : 'On-site'}</p>
 				{/if}
-				{#if humanReadable}
+				{#if slide?.published_date}
 					<p class="my-0">Date published: {humanReadable}</p>
 				{/if}
-				{#if slide?.company_linkedin_url}
-					<a class="my-0" href={slide.company_linkedin_url} target="_blank"> LinkedIn </a>
+
+				{#if slide?.job_posting_url}
+					<a
+						class="btn btn-primary my-2 hidden md:flex"
+						href={slide.job_posting_url}
+						target="_blank"
+					>
+						Apply now
+					</a>
 				{/if}
 			</div>
 
 			<!-- <div class="divider divider-horizontal" /> -->
 
-			<div class="flex flex-col pl-2 md:w-1/2">
+			<div class="flex flex-col md:w-1/2">
 				{#if slide?.company_logo}
-					<img alt="company logo" src={slide.company_logo} class="w-24 h-24 mx-auto my-0" />
+					<img
+						alt="company logo"
+						src={slide.company_logo}
+						class="hidden md:block w-24 h-24 mx-auto my-0"
+					/>
 				{/if}
 				<p class="my-0">
 					Company:
-					<a class="text-gray-600" href={slide.company_website_url}>{slide.company_name}</a>
+					<a class="text-gray-600" href={slide.company_website_url} target="_blank"
+						>{slide.company_name}</a
+					>
 				</p>
 				<p class="my-0">Location: {slide.location}</p>
 				{#if slide?.clearance_required}
 					<p class="my-0">Clearance Required: {clearance}</p>
 				{/if}
-				{#if slide?.job_posting_url}
-					<a class="btn btn-primary my-2" href={slide.job_posting_url} target="_blank">
-						Apply now
-					</a>
+				{#if slide?.company_linkedin_url}
+					<a class="my-0" href={slide.company_linkedin_url} target="_blank"> LinkedIn </a>
 				{/if}
 			</div>
+		</div>
+		<div class="md:hidden">
+			<div class="flex">
+				<div class="flex flex-col">
+					<h2 class="text-lg font-semibold text-gray-800">{slide.title}</h2>
+					{#if slide?.max_salary && slide?.max_salary !== null && slide?.min_salary !== null}
+						<p class="my-0">
+							Salary: {slide.min_salary.toLocaleString()} - {slide.max_salary.toLocaleString()}
+							{slide.salary_currency}
+						</p>
+					{:else}
+						<p class="my-0">Salary: Not specified</p>
+					{/if}
+
+					{#if slide?.experience}
+						<p class="my-0">Experience: {slide.experience}</p>
+					{:else}
+						<p class="my-0">Experience: Not specified</p>
+					{/if}
+					{#if slide.has_remote}
+						<p class="my-0">{slide.has_remote ? 'Remote' : 'On-site'}</p>
+					{/if}
+					{#if slide?.published_date}
+						<p class="my-0">Date published: {humanReadable}</p>
+					{/if}
+					<p class="my-0">
+						Company:
+						<a class="text-gray-600" href={slide.company_website_url} target="_blank"
+							>{slide.company_name}</a
+						>
+					</p>
+					<p class="my-0">Location: {slide.location}</p>
+					{#if slide?.clearance_required}
+						<p class="my-0">Clearance Required: {clearance}</p>
+					{/if}
+					{#if slide?.company_linkedin_url}
+						<a class="my-0" href={slide.company_linkedin_url} target="_blank"> LinkedIn </a>
+					{/if}
+				</div>
+				{#if slide?.company_logo}
+					<img alt="company logo" src={slide.company_logo} class="w-24 h-24 mx-auto" />
+				{/if}
+			</div>
+			{#if slide?.job_posting_url}
+				<div class="w-full flex">
+					<a class="btn btn-primary my-2 mx-auto" href={slide.job_posting_url} target="_blank">
+						Apply now
+					</a>
+				</div>
+			{/if}
 		</div>
 	</div>
 	<div class=" shadow-md rounded-lg max-w-4xl w-full mx-auto p-6 md:flex prose bg-amber-50 mt-4">
