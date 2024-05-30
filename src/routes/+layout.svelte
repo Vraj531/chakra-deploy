@@ -14,7 +14,6 @@
 	const duration = 300;
 	const delay = duration + 100;
 	const y = 10;
-
 	const transitionIn = { easing: cubicOut, y, duration, delay };
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 </script>
