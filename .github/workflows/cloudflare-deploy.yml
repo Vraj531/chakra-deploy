@@ -20,6 +20,7 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       PUBLIC_MEASUREMENT_ID: ${{ secrets.PUBLIC_MEASUREMENT_ID }}
       LAMBDA_URL: ${{ secrets.LAMBDA_URL }}
+      PUBLIC_CLOUDFRONT: ${{ secrets.PUBLIC_CLOUDFRONT }}
 
     steps:
       - uses: actions/checkout@v4
