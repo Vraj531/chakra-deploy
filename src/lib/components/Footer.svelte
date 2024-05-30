@@ -1,13 +1,16 @@
 <footer
-	class="mt-auto p-4 bg-white sm:p-6 dark:bg-gray-800 bg-gradient-to-t from-gray-50 to-amber-200"
+	class="mt-auto p-2 bg-white sm:p-6 dark:bg-gray-800 bg-gradient-to-t from-gray-50 to-amber-200"
 >
 	<div class="mx-auto max-w-screen-xl">
 		<div class="md:flex md:justify-between">
 			<div class="mb-6 md:mb-0">
 				<a href="/" class="flex items-center">
-					<span class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white"
-						>Career Chakra</span
+					<span
+						class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white flex items-center"
 					>
+						<img src="./soon (1).png" alt="" class="h-24" />
+						<img src="./textImage.png" alt="" class="h-6" />
+					</span>
 				</a>
 			</div>
 			<div class="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-2">

@@ -1,10 +1,11 @@
 <script lang="ts">
+	import ChakraIcon from '$lib/assets/icons/chakraSvg.svg?raw';
 	export let userData;
 	// console.log('user data', userData);
 </script>
 
 <header
-	class="px-2 py-2 dark:bg-gray-800 h-full w-full bg-secondary-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-90 border border-gray-100 navbar relative"
+	class="px-4 py-2 dark:bg-gray-800 h-full w-full bg-secondary-500 rounded-md bg-clip-padding backdrop-filter backdrop-blur-xl bg-opacity-90 border border-gray-100 navbar relative"
 >
 	<div class="navbar-start">
 		<div class="dropdown">
@@ -26,25 +27,25 @@
 				<li><a href="/">Item 3</a></li>
 			</ul> -->
 		</div>
-		<!-- <img src="/chakraSvg.svg" alt="new logo" class="absolute w-20 h-20 p-0" /> -->
 
 		<a class="btn btn-ghost text-xl" href="/">
+			<img src="/soon (1).png" alt="new logo" class="absolute w-16 h-16 p-0" />
 			<!-- <div class="h-10 w-10">
 				{@html ChakraIcon}
 			</div> -->
-			<img src="/chakraImage.png" alt="new logo" class=" w-10 h-10 p-0 rounded-xl" />
-			Career Chakra</a
-		>
+			<!-- <img src="/chakraImage.png" alt="new logo" class=" w-10 h-10 p-0 rounded-xl" /> -->
+		</a>
 	</div>
 
 	<div class="navbar-center hidden lg:flex">
 		<ul class="menu menu-horizontal px-1">
-			<li><a href="/google">Try us now</a></li>
+			<img src="./textImage.png" alt="career chakra" class="w-full h-6" />
 		</ul>
 	</div>
 	<div class="navbar-end">
+		<a class="btn btn-primary rounded-xl mr-4" href="/google">Try us now</a>
 		{#if !userData?.picture}
-			<a class="btn rounded-xl" href="/google">Login</a>
+			<a class="btn rounded-xl btn-primary" href="/google">Login</a>
 		{:else}
 			<div class="dropdown dropdown-end">
 				<div tabindex="0" role="button" class="btn btn-circle btn-secondary">

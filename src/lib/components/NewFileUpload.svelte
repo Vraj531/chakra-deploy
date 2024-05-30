@@ -25,11 +25,11 @@
 		<UploadIcon />
 		Upload Resume PDF
 	</label>
-	<div class="container">
+	<div class="container rounded-2xl">
 		<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
 				'\n'}</pre>
 
-		<textarea placeholder="Add additional details about yourself here" bind:value={inputText}
+		<textarea placeholder="Add additional skills" bind:value={inputText} class="rounded-2xl"
 		></textarea>
 	</div>
 	<label class="btn flex md:hidden btn-primary mx-auto" for="fileUpload">

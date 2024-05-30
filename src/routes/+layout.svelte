@@ -47,7 +47,7 @@
 <Analytics />
 
 <PageLoaderProgress />
-<div class="flex flex-col min-h-screen">
+<div class="flex flex-col min-h-screen font-varela">
 	<div class="sticky top-0 z-50">
 		<Header userData={data.user} />
 	</div>

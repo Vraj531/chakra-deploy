@@ -7,6 +7,9 @@ export default {
 	darkMode: 'class',
 	theme: {
 		extend: {
+			fontFamily: {
+				varela: ['Varela']
+			},
 			colors: {
 				primary: {
 					50: '#fefce8',

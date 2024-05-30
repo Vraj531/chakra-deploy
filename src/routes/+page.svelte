@@ -4,7 +4,7 @@
 
 <section class="bg-gradient-to-b from-gray-50 to-amber-200">
 	<div class="grid max-w-screen-xl px-4 py-8 mx-auto lg:gap-8 xl:gap-0 lg:py-16 lg:grid-cols-12">
-		<div class="mx-auto place-self-center lg:col-span-6">
+		<div class="mx-auto place-self-center lg:col-span-12">
 			<h1
 				class="max-w-2xl mb-4 text-4xl font-extrabold tracking-tight leading-none md:text-5xl xl:text-6xl dark:text-white"
 			>
@@ -36,14 +36,14 @@
 				>
 			</a>
 		</div>
-		<div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
+		<!-- <div class="hidden lg:mt-0 lg:col-span-5 lg:flex">
 			<img
 				src={`${PUBLIC_CLOUDFRONT}/office1.jpg`}
 				alt="mockup"
 				class="w-full ml-24 max-h-svh"
 				loading="lazy"
 			/>
-		</div>
+		</div> -->
 	</div>
 </section>
 <section class="bg-gradient-to-t from-gray-50 to-amber-200">
@@ -69,12 +69,12 @@
 		<div class="grid grid-cols-2 gap-4 mt-8">
 			<img
 				class="w-full rounded-lg"
-				src={`${PUBLIC_CLOUDFRONT}/office2.jpg`}
+				src="https://flowbite.s3.amazonaws.com/blocks/marketing-ui/content/office-long-2.png"
 				alt="office content 1"
 			/>
 			<img
 				class="mt-4 w-full lg:mt-10 rounded-lg"
-				src={`${PUBLIC_CLOUDFRONT}/office6.jpg`}
+				src={`${PUBLIC_CLOUDFRONT}/office3.jpg`}
 				alt="office content 2"
 			/>
 		</div>
@@ -98,14 +98,14 @@
 				further exacerbate these issues, resulting in missed opportunities as new job postings are
 				not added promptly.
 			</p>
-			<div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
+			<!-- <div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
 				<a
 					href="/"
 					class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
 				>
 					Get started
 				</a>
-			</div>
+			</div> -->
 		</div>
 		<div>
 			<img
@@ -135,7 +135,7 @@
 				Our user-friendly design makes navigating the platform a seamless and efficient experience,
 				so you can focus on what matters most – finding your next career opportunity.
 			</p>
-			<a
+			<!-- <a
 				href="/"
 				class="inline-flex items-center font-medium text-primary-600 hover:text-primary-800 dark:text-primary-500 dark:hover:text-primary-700"
 			>
@@ -151,7 +151,7 @@
 						clip-rule="evenodd"
 					></path></svg
 				>
-			</a>
+			</a> -->
 		</div>
 	</div>
 </section>
@@ -167,12 +167,12 @@
 				starting out, we are here to help you find the perfect job.
 			</p>
 			<div class="flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
-				<a
+				<!-- <a
 					href="/"
 					class="inline-flex items-center justify-center px-4 py-2.5 text-base font-medium text-center text-white bg-primary-700 rounded-lg hover:bg-primary-800 focus:ring-4 focus:ring-primary-300 dark:focus:ring-primary-900"
 				>
 					Get started
-				</a>
+				</a> -->
 			</div>
 		</div>
 	</div>
