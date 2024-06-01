@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { state } from '../stores/headerStore';
+
 	export let userData;
 	// console.log('user data', userData);
 </script>
@@ -43,7 +45,9 @@
 		</ul>
 	</div>
 	<div class="navbar-end">
-		<a class="btn btn-primary rounded-xl mr-4 hidden md:flex" href="/google">Try us now</a>
+		<a class="btn btn-primary rounded-xl mr-4 hidden md:flex" href="/google"
+			>{$state === 'uploaded' ? 'New Upload' : 'Try us now'}</a
+		>
 		{#if !userData?.picture}
 			<a class="btn rounded-xl btn-primary" href="/google">Login</a>
 		{:else}

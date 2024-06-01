@@ -62,7 +62,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				method: 'POST',
 				body: JSON.stringify({
 					additional_text: inputText,
-					pdf_file_location: `s3//nikhil-pipeline-storage/${userEmail}/${filename}`
+					pdf_file_location: `s3://nikhil-pipeline-storage/${userEmail}/${filename}`
 				}),
 				headers: {
 					'Content-Type': 'application/json'
@@ -72,7 +72,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 			if ('body' in fullResponse) {
 				const body = JSON.parse(fullResponse.body);
 				return json(body);
-			}
+			} else return json({ error: 'error reading pdf' });
 		} catch (error) {
 			return json(error);
 		}
