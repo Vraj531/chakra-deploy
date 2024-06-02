@@ -8,7 +8,8 @@ export default {
 	theme: {
 		extend: {
 			fontFamily: {
-				varela: ['Varela Round']
+				varela: ['Varela Round'],
+				mplus: ['M PLUS Rounded 1c']
 			},
 			colors: {
 				primary: {
