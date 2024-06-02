@@ -75,7 +75,6 @@
 			});
 
 			//*
-			state = 'success';
 			const fullRes = (await res.json()) as DummyData[];
 			// console.log('body', fullRes);
 			// fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
@@ -83,6 +82,10 @@
 				arr = fullRes;
 				backUpData = fullRes;
 				headerState.setState('uploaded');
+				state = 'success';
+				toastStore.alert(`Found ${arr.length} matches! Swipe to view more`, {
+					position: 'bottom-end'
+				});
 				// console.log('user files', arr);
 			} else state = 'error';
 		} catch (error) {

@@ -23,7 +23,7 @@
 			accept="application/pdf"
 		/>
 		<UploadIcon />
-		Upload Resume PDF
+		Upload Resume/CV PDF
 	</label>
 	<div class="container rounded-2xl">
 		<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
@@ -41,7 +41,7 @@
 			accept="application/pdf"
 		/>
 		<UploadIcon />
-		Upload Resume PDF
+		Upload Resume/CV PDF
 	</label>
 </div>
 

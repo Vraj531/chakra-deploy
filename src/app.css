@@ -1,3 +1,37 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+sub,
+sup {
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
+	vertical-align: baseline;
+}
+sup {
+	top: -0.3em;
+	vertical-align: super;
+}
+sub {
+	bottom: -0.25em;
+	vertical-align: sub;
+}
+
+pre {
+	scrollbar-color: #6b7280 #1f2937;
+}
+
+/* Works on Chrome, Edge, and Safari */
+pre::-webkit-scrollbar {
+	width: 12px;
+}
+pre::-webkit-scrollbar-track {
+	background: #1f2937;
+}
+
+pre::-webkit-scrollbar-thumb {
+	background-color: #6b7280;
+	border-radius: 20px;
+	border: 3px solid #1f2937;
+}

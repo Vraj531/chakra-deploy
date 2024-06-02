@@ -78,7 +78,7 @@
 			</div>
 		</div>
 	</div>
-	<div class="absolute bottom-20 left-0 w-full flex justify-center gap-4">
+	<div class="absolute md:bottom-20 md:px-10 px-4 top-5 left-0 w-full flex justify-center gap-4">
 		{#each arr as _, index}
 			<button class="w-[30px] h-[30px] grid place-items-center" on:click={select(index)}>
 				<div

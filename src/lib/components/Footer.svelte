@@ -9,7 +9,7 @@
 						class="self-center text-2xl font-semibold whitespace-nowrap dark:text-white flex items-center"
 					>
 						<img src="./soon (1).png" alt="" class="h-24" />
-						<img src="./textImage.png" alt="" class="h-6" />
+						<div class="md:text-3xl text-xl">Career Chakra</div>
 					</span>
 				</a>
 			</div>
