@@ -61,7 +61,7 @@
 					tabindex="0"
 					class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 				>
-					<li><a href="/upload">Upload Resume</a></li>
+					<li><a href="/upload">Upload Resume/CV PDF</a></li>
 					<li><a href="/api/sign-out">Log out</a></li>
 				</ul>
 			</div>

@@ -68,6 +68,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 					'Content-Type': 'application/json'
 				}
 			});
+			// console.log('response', await res.json());
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {
 				const body = JSON.parse(fullResponse.body);

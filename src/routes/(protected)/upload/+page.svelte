@@ -4,7 +4,7 @@
 	import RemoveIcon from '$lib/assets/icons/Remove.svg?raw';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
-	import { type DummyData } from '$lib/dummyData';
+	import { dummyData, type DummyData } from '$lib/dummyData';
 	import NewFileUpload from '$lib/components/NewFileUpload.svelte';
 	import FilterForm from '$lib/components/FilterForm.svelte';
 	import { filterObjects } from '../../../utils/filterData';
@@ -18,6 +18,8 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
+	// let arr: DummyData[] = dummyData;
+	// let backUpData: DummyData[] = dummyData;
 	let arr: DummyData[] = [];
 	let backUpData: DummyData[] = [];
 

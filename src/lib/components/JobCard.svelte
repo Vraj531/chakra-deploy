@@ -19,7 +19,8 @@
 </script>
 
 <div class="embla__slide">
-	<div class="bg-white shadow-md rounded-2xl max-w-4xl w-full mx-auto p-6 md:flex prose">
+	<div class="bg-white shadow-md rounded-2xl max-w-4xl w-full mx-auto p-6 md:flex">
+		<!-- paste here -->
 		<div class="p-2 md:flex justify-center gap-4 w-full hidden">
 			<div class="flex flex-col prose md:w-1/2">
 				<h2 class="text-lg font-semibold text-gray-800">{slide.title}</h2>
@@ -125,7 +126,7 @@
 						<img
 							alt="company logo"
 							src={slide.company_logo}
-							class="mx-auto my-0 outline outline-slate-100 p-1"
+							class="mx-auto my-0 outline outline-slate-100 p-1 max-h-48"
 						/>
 					</a>
 				{/if}
@@ -138,6 +139,8 @@
 				</div>
 			{/if}
 		</div>
+
+		<!-- paste here -->
 	</div>
 	<div class=" shadow-md rounded-xl max-w-4xl w-full mx-auto p-6 md:flex prose bg-amber-50 mt-4">
 		<div class="flex-1 p-4 max-h-screen overflow-scroll">
