@@ -133,7 +133,7 @@
 			</div>
 		</div>
 	</div>
-	<div class=" px-4 flex justify-center items-center gap-4">
+	<div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
 		{#if displayValues !== undefined}
 			{#each displayValues as item, index}
 				{#if item === '...'}
