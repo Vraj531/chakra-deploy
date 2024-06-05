@@ -42,9 +42,9 @@
 				{:else}
 					<p class="my-0">Experience: Not specified</p>
 				{/if}
-				{#if slide.has_remote}
+				<!-- {#if slide.has_remote}
 					<p class="my-0">{slide.has_remote ? 'Remote' : 'On-site'}</p>
-				{/if}
+				{/if} -->
 				{#if slide?.published_date}
 					<p class="my-0">Date published: {humanReadable}</p>
 				{/if}
@@ -107,9 +107,9 @@
 					{:else}
 						<p class="my-0">Experience: Not specified</p>
 					{/if}
-					{#if slide.has_remote}
+					<!-- {#if slide.has_remote}
 						<p class="my-0">{slide.has_remote ? 'Remote' : 'On-site'}</p>
-					{/if}
+					{/if} -->
 					{#if slide?.published_date}
 						<p class="my-0">Date published: {humanReadable}</p>
 					{/if}
