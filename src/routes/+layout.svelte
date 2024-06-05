@@ -8,6 +8,7 @@
 	import Analytics from '$lib/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/Toast.svelte';
+	import { inject } from '@vercel/analytics'
 
 	export let data: LayoutData;
 
