@@ -23,7 +23,10 @@
 		<!-- paste here -->
 		<div class="p-2 md:flex justify-center gap-4 w-full hidden">
 			<div class="flex flex-col prose md:w-1/2">
-				<h2 class="text-lg font-semibold text-gray-800">{slide.title}</h2>
+				<h2 class="text-lg font-semibold text-gray-800">
+					{slide.title}
+					<span class="badge badge-secondary">{slide.has_remote ? 'Remote' : 'On-site'}</span>
+				</h2>
 
 				{#if slide?.max_salary && slide?.max_salary !== null && slide?.min_salary !== null}
 					<p class="my-0">
@@ -86,7 +89,10 @@
 		<div class="md:hidden">
 			<div class="flex">
 				<div class="flex flex-col">
-					<h2 class="text-lg font-semibold text-gray-800">{slide.title}</h2>
+					<h2 class="text-lg font-semibold text-gray-800">
+						{slide.title}
+						<span class="badge badge-secondary">{slide.has_remote ? 'Remote' : 'On-site'}</span>
+					</h2>
 					{#if slide?.max_salary && slide?.max_salary !== null && slide?.min_salary !== null}
 						<p class="my-0">
 							Salary: {slide.min_salary.toLocaleString()} - {slide.max_salary.toLocaleString()}
