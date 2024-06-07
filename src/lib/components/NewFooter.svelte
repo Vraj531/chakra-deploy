@@ -70,7 +70,7 @@
 			</a>
 			<a
 				class="ml-3 text-gray-500"
-				href="https://www.linkedin.com/company/104042510/admin/feed/posts/"
+				href="https://www.linkedin.com/company/104065183/admin/feed/posts/"
 				target="_blank"
 			>
 				<svg
