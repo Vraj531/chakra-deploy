@@ -1,8 +1,9 @@
 <script lang="ts">
-	import logo from '$lib/assets/icons/logo.svg?raw';
-	import logoOne from '$lib/assets/icons/logo1.svg?raw';
+	// import logo from '$lib/assets/icons/logo.svg?raw';
+	// import logoOne from '$lib/assets/icons/logo1.svg?raw';
 
 	export let userData;
+	// console.log('user data', userData.picture);
 </script>
 
 <header class="text-gray-600 body-font">
@@ -11,7 +12,7 @@
 	>
 		<!-- Navigation links -->
 		<nav
-			class="flex lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex"
+			class="lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex"
 		>
 			<!-- <a class="mr-5 hover:text-gray-900" href="/">Terms and Conditions</a> -->
 			<!-- <a class="mr-5 hover:text-gray-900" href="help@careerchakra.com">Support</a> -->
@@ -54,10 +55,15 @@
 					</button>
 				</a>
 			{:else}
-				<div class="dropdown dropdown-end">
-					<button type="button" class="border-0 items-center py-2 px-6 inline-flex" tabindex="0">
-						<img class="w-10 h-10 rounded-full" src={userData?.picture} alt="avatar" />
-					</button>
+				<div class="dropdown md:dropdown-end dropdown-bottom dropdown-center">
+					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<div class="border-0 py-2 px-6" tabindex="0">
+						<img
+							class="chat-image w-10 h-10 rounded-full cursor-pointer"
+							src={userData?.picture}
+							alt="avatar"
+						/>
+					</div>
 					<!-- <div
 					tabindex="0"
 					role="button"

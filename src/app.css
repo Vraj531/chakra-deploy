@@ -35,3 +35,17 @@ pre::-webkit-scrollbar-thumb {
 	border-radius: 20px;
 	border: 3px solid #1f2937;
 }
+
+@layer components {
+	@media (max-width: 767px) {
+		.dropdown.dropdown-center.dropdown-right .dropdown-content,
+		.dropdown-center.dropdown-left .dropdown-content {
+			@apply top-1/2 transform -translate-y-1/2;
+		}
+
+		.dropdown-center.dropdown-bottom .dropdown-content,
+		.dropdown-center.dropdown-top .dropdown-content {
+			@apply left-1/2 transform -translate-x-1/2;
+		}
+	}
+}
