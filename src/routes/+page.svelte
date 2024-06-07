@@ -304,7 +304,7 @@
 		</div>
 	</section>
 
-	<section class="text-gray-600 body-font relative" style="background-color: #FFF9E6;">
+	<!-- <section class="text-gray-600 body-font relative" style="background-color: #FFF9E6;">
 		<div class="container px-5 py-24 mx-auto relative">
 			<svg
 				class="absolute w-24 h-24 lg:top-20 lg:right-20 md:top-5 md:right-5 top-5 right-0 lg:opacity-15 opacity-10"
@@ -333,5 +333,5 @@
 				>
 			</div>
 		</div>
-	</section>
+	</section> -->
 </body>

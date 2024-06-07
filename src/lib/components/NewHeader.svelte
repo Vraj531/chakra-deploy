@@ -13,19 +13,24 @@
 		<nav
 			class="flex lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex"
 		>
-			<a class="mr-5 hover:text-gray-900" href="/">Terms and Conditions</a>
-			<a class="mr-5 hover:text-gray-900" href="/">Support</a>
+			<!-- <a class="mr-5 hover:text-gray-900" href="/">Terms and Conditions</a> -->
+			<!-- <a class="mr-5 hover:text-gray-900" href="help@careerchakra.com">Support</a> -->
+			<a
+				class="mr-5 hover:text-gray-900"
+				on:click|preventDefault
+				href="mailto:help@careerchakra.com">Support</a
+			>
 		</nav>
 		<!-- Logo -->
 		<a
 			class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center mb-4 md:mb-0"
 			href="/"
 		>
-			<!-- <div class="max-h-14 max-w-14">
-				{@html logo}
-			</div> -->
-			<img src="/logo.svg" class="h-16 w-16" alt="logo" />
-			<span class="ml-3 text-xl">Career chakra</span>
+			<!-- <div class="max-h-14 max-w-14"> -->
+			<!-- {@html logo} -->
+			<!-- </div> -->
+			<img src="/logo.svg" class="h-20 w-20" alt="logo" />
+			<span class=" text-xl">Career chakra</span>
 		</a>
 		<!-- Button -->
 		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
