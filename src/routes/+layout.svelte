@@ -8,6 +8,8 @@
 	import Analytics from '$lib/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/Toast.svelte';
+	import NewFooter from '../lib/components/NewFooter.svelte';
+	import NewHeader from '../lib/components/NewHeader.svelte';
 
 	export let data: LayoutData;
 
@@ -48,19 +50,14 @@
 
 <PageLoaderProgress />
 <div class="flex flex-col min-h-screen font-varela">
-	<div class="sticky top-0 z-50">
-		<Header userData={data.user} />
-	</div>
+	<!-- <Header userData={data.user} /> -->
+	<NewHeader userData={data.user} />
 
 	{#key data.pathname}
-		<div
-			class="flex-1 bg-gradient-to-b from-gray-50 to-amber-200"
-			in:fly={transitionIn}
-			out:fly={transitionOut}
-		>
+		<div class="flex-1" in:fly={transitionIn} out:fly={transitionOut}>
 			<slot />
 		</div>
 	{/key}
-	<Footer />
+	<NewFooter />
 	<Toast />
 </div>

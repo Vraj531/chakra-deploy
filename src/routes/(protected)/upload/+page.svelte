@@ -2,6 +2,7 @@
 	import Axios, { type AxiosProgressEvent } from 'axios';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import RemoveIcon from '$lib/assets/icons/Remove.svg?raw';
+	import LogoIcon from '$lib/assets/icons/logo1.svg?raw';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData, type DummyData } from '$lib/dummyData';
@@ -161,7 +162,7 @@
 			<p class="mx-auto text-ellipsis overflow-hidden text-lg">Uploading {file?.name}</p>
 		</div>
 	{:else if state === 'analysing'}
-		<img src="/chakraSvg.svg" alt="analysing" class="animate-bounce w-52 h-52 mx-auto mt-12" />
+		<img src="/logo1.svg" alt="analysing" class="animate-bounce w-52 h-52 mx-auto mt-12" />
 		<p class="text-center text-2xl font-bold animate-pulse">Analysing...</p>
 	{:else if state === 'success'}
 		{#if !arr.length}
