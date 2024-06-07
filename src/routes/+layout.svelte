@@ -23,6 +23,7 @@
 
 <svelte:head>
 	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
+	<base href="https://www.careerchakra.com/" />
 	<meta property="og:url" content="https://www.careerchakra.com" />
 	<meta property="og:title" content="Your Website Title" />
 	<meta
