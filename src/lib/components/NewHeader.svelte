@@ -54,10 +54,11 @@
 					</button>
 				</a>
 			{:else}
-				<div class="dropdown dropdown-end">
-					<button type="button" class="border-0 items-center py-2 px-6 inline-flex" tabindex="0">
+				<div class="dropdown md:dropdown-end dropdown-bottom dropdown-center">
+					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+					<div class="border-0 items-center py-2 px-6 inline-flex" tabindex="0">
 						<img class="w-10 h-10 rounded-full" src={userData?.picture} alt="avatar" />
-					</button>
+					</div>
 					<!-- <div
 					tabindex="0"
 					role="button"
