@@ -23,13 +23,10 @@
 
 <svelte:head>
 	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
-	<base href="https://www.careerchakra.com/" />
+	{#if !dev}
+		<base href="https://www.careerchakra.com/" />
+	{/if}
 	<meta property="og:url" content="https://www.careerchakra.com" />
-	<meta property="og:title" content="Your Website Title" />
-	<meta
-		property="og:description"
-		content="Career Chakra uses advanced AI technology to analyze your resume and connect you with the best job opportunities. Get personalized job matches and career recommendations tailored just for you."
-	/>
 	<meta property="og:image" content="/chakraImg.png" />
 
 	<meta

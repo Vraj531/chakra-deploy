@@ -3,25 +3,26 @@
 
 	export let handleSubmit: EventHandler<SubmitEvent, HTMLFormElement>;
 
-	let clearanceFilters = [
-		{ label: 'Required', value: true },
-		{ label: 'Optional', value: false }
-	];
-	let jobTypeFilters = [
-		{ label: 'Full Time', value: 'Full Time' },
-		{ label: 'Part Time', value: 'Part Time' }
-	];
+	// let clearanceFilters = [
+	// 	{ label: 'Required', value: true },
+	// 	{ label: 'Optional', value: false }
+	// ];
+	// let jobTypeFilters = [
+	// 	{ label: 'Full Time', value: 'Full Time' },
+	// 	{ label: 'Part Time', value: 'Part Time' }
+	// ];
+	// let salaryScale = 0;
+
+	// let clearance = '';
+	// let jobTypeValue = '';
+	// let experienceValue = '';
+
 	let experienceFilters = [
 		{ label: 'Entry Level', value: 'Entry Level' },
 		{ label: 'Mid Level', value: 'Mid Level' },
 		{ label: 'Senior Level', value: 'Senior Level' },
 		{ label: 'Executive Level', value: 'Executive Level' }
 	];
-	let salaryScale = 0;
-
-	let clearance = '';
-	let jobTypeValue = '';
-	let experienceValue = '';
 </script>
 
 <dialog id="filter-modal" class="modal modal-bottom sm:modal-middle">

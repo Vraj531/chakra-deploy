@@ -1,5 +1,23 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+	import { isInAppBrowser } from '$lib/utils/detectInAppBrowser';
+	import OpenDefaultBrowserModal from '$lib/components/OpenDefaultBrowserModal.svelte';
+
+	// let showOpenInBrowserPrompt = false;
+
+	// onMount(() => {
+	// 	// showOpenInBrowserPrompt = isInAppBrowser();
+	// 	console.log('show', showOpenInBrowserPrompt);
+	// 	if (showOpenInBrowserPrompt) return;
+	// 	(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
+	// });
+	// const openInDefaultBrowser = () => {
+	// 	const currentUrl = window.location.href;
+	// 	window.open(currentUrl, '_blank');
+	// };
+</script>
+
 <body>
-	<!-- <NewHeader /> -->
 	<section class="text-gray-600 body-font relative">
 		<div
 			class="container mx-auto flex lg:px-20 md:px-10 px-5 py-24 md:flex-row flex-col items-center"

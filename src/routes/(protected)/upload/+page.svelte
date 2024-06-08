@@ -2,15 +2,15 @@
 	import Axios, { type AxiosProgressEvent } from 'axios';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import RemoveIcon from '$lib/assets/icons/Remove.svg?raw';
-	import LogoIcon from '$lib/assets/icons/logo1.svg?raw';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData, type DummyData } from '$lib/dummyData';
 	import NewFileUpload from '$lib/components/NewFileUpload.svelte';
 	import FilterForm from '$lib/components/FilterForm.svelte';
-	import { filterObjects } from '../../../utils/filterData';
+
 	import { toastStore } from '$lib/stores/toastStores';
 	import { state as headerState } from '$lib/stores/headerStore';
+	import { filterObjects } from '$lib/utils/filterData';
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
 	let progress = 0;
