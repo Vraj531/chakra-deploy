@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { detectInAppBrowser } from '../utils/detectInAppBrowser';
 	import OpenDefaultBrowserModal from './OpenDefaultBrowserModal.svelte';
 
