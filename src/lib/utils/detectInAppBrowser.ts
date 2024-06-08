@@ -30,9 +30,9 @@ export function detectInAppBrowser() {
 	const isWebview = (isAndroid && /; wv\)/.test(normalizedUserAgent)) || (isIos && !isSafari);
 
 	let mobileView = false;
-	if (isIos || isAndroid) {
-		mobileView = true;
-	}
+	// if (isIos || isAndroid) {
+	// 	mobileView = true;
+	// }
 	if (isWebview) {
 		mobileView = true;
 	}
