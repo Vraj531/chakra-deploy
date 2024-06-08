@@ -9,9 +9,9 @@ const rules = [
 
 export function detectInAppBrowser() {
 	// const navigator = window.navigator;
-	// const userAgent = navigator.userAgent;
-	const userAgent =
-		'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36';
+	const userAgent = navigator.userAgent;
+	// const userAgent =
+	// 	'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36';
 
 	const webviewRegExp = new RegExp('(' + rules.join('|') + ')', 'ig');
 
