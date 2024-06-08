@@ -2,9 +2,9 @@ const rules = [
 	'WebView', // General webview indicator
 	'(iPhone|iPod|iPad)(?!.*Safari)', // iOS webview not containing Safari
 	'Android.*(;\\s*wv|Version/\\d+\\.\\d+\\s+Chrome/\\d+\\.\\d+\\.\\d+\\.\\d+)', // Android webview indicators
-	'Linux; U; Android', // Old Android webview pattern
-	'Chrome/[.0-9]* Mobile Safari/[.0-9]*', // General Android Chrome mobile
-	'Mobile Safari/[.0-9]*' // General mobile Safari
+	'Linux; U; Android' // Old Android webview pattern
+	// 'Chrome/[.0-9]* Mobile Safari/[.0-9]*', // General Android Chrome mobile
+	// 'Mobile Safari/[.0-9]*' // General mobile Safari
 ];
 
 export function detectInAppBrowser() {
