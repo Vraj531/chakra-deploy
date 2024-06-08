@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { isInAppBrowser } from '../utils/detectInAppBrowser';
+	import { detectInAppBrowser, isInAppBrowser } from '../utils/detectInAppBrowser';
 	import OpenDefaultBrowserModal from './OpenDefaultBrowserModal.svelte';
 
 	// import logo from '$lib/assets/icons/logo.svg?raw';
@@ -11,8 +11,8 @@
 	let browserValue = '';
 
 	onMount(() => {
-		showOpenInBrowserPrompt = isInAppBrowser().inAppBrowser;
-		browserValue = isInAppBrowser().userAgent;
+		showOpenInBrowserPrompt = detectInAppBrowser().inAppBrowser;
+		browserValue = detectInAppBrowser().userAgent;
 		// console.log('show', showOpenInBrowserPrompt);
 		if (!showOpenInBrowserPrompt) return;
 		(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
