@@ -17,14 +17,10 @@
 		if (!showOpenInBrowserPrompt) return;
 		(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
 	});
-	const openInDefaultBrowser = () => {
-		const currentUrl = window.location.href;
-		window.open(currentUrl, '_blank');
-	};
 </script>
 
 <header class="text-gray-600 body-font">
-	<OpenDefaultBrowserModal {openInDefaultBrowser} />
+	<OpenDefaultBrowserModal />
 	{browserValue}
 	<div
 		class="container mx-auto flex flex-wrap py-5 px-4 md:px-20 flex-col md:flex-row items-center"

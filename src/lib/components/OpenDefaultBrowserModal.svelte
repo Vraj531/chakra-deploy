@@ -1,5 +1,10 @@
 <script lang="ts">
-	export let openInDefaultBrowser: () => void;
+	// export let openInDefaultBrowser: () => void;
+	const openInDefaultBrowser = () => {
+		const currentUrl = window.location.href;
+		window.open(currentUrl, '_blank');
+		(document.getElementById('default-browser-modal') as HTMLDialogElement).close();
+	};
 </script>
 
 <dialog id="default-browser-modal" class="modal modal-bottom sm:modal-middle">
@@ -9,7 +14,12 @@
 		</form>
 		<div class="flex flex-col justify-center gap-4 mt-8">
 			<h4>For a better experience, please open this link in your default browser.</h4>
-			<button class="btn btn-primary" on:click={openInDefaultBrowser}>Open Default Browser</button>
+			<a
+				href="intent:https://www.careerchakra.com#Intent;end"
+				class="btn btn-primary"
+				target="_blank">Open Default Browser</a
+			>
+			<!-- <button class="btn btn-primary" on:click={openInDefaultBrowser}>Open Default Browser</button> -->
 		</div>
 	</div>
 	<form method="dialog" class="modal-backdrop">
