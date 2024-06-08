@@ -21,7 +21,7 @@
 
 <header class="text-gray-600 body-font">
 	<OpenDefaultBrowserModal />
-	{browserValue}
+	<!-- {browserValue} -->
 	<div
 		class="container mx-auto flex flex-wrap py-5 px-4 md:px-20 flex-col md:flex-row items-center"
 	>
