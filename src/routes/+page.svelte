@@ -1,8 +1,4 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
-	import { isInAppBrowser } from '$lib/utils/detectInAppBrowser';
-	import OpenDefaultBrowserModal from '$lib/components/OpenDefaultBrowserModal.svelte';
-
 	// let showOpenInBrowserPrompt = false;
 
 	// onMount(() => {

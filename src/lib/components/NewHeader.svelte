@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
-	import { detectInAppBrowser, isInAppBrowser } from '../utils/detectInAppBrowser';
+	import { detectInAppBrowser } from '../utils/detectInAppBrowser';
 	import OpenDefaultBrowserModal from './OpenDefaultBrowserModal.svelte';
 
 	// import logo from '$lib/assets/icons/logo.svg?raw';
@@ -10,13 +10,25 @@
 	let showOpenInBrowserPrompt = false;
 	let browserValue = '';
 
-	onMount(() => {
+	// onMount(() => {
+	// 	showOpenInBrowserPrompt = detectInAppBrowser().inAppBrowser;
+	// 	browserValue = detectInAppBrowser().userAgent;
+	// 	// console.log('show', showOpenInBrowserPrompt);
+	// 	if (!showOpenInBrowserPrompt) return;
+	// 	(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
+	// });
+
+	const googleLogin = async () => {
 		showOpenInBrowserPrompt = detectInAppBrowser().inAppBrowser;
 		browserValue = detectInAppBrowser().userAgent;
 		// console.log('show', showOpenInBrowserPrompt);
-		if (!showOpenInBrowserPrompt) return;
+		if (!showOpenInBrowserPrompt) {
+			window.location.href = '/google';
+			return;
+		}
+
 		(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
-	});
+	};
 </script>
 
 <header class="text-gray-600 body-font">
@@ -51,7 +63,7 @@
 		<!-- Button -->
 		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
 			{#if !userData?.picture}
-				<a href="/google">
+				<button on:click={googleLogin}>
 					<button
 						class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-md"
 					>
@@ -68,7 +80,7 @@
 							<path d="M5 12h14M12 5l7 7-7 7"></path>
 						</svg>
 					</button>
-				</a>
+				</button>
 			{:else}
 				<div class="dropdown md:dropdown-end dropdown-bottom dropdown-center">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
