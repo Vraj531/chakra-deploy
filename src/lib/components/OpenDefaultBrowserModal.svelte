@@ -16,7 +16,12 @@
 		</form>
 		<div class="flex flex-col justify-center gap-4 mt-8">
 			<h4>For a better experience, please open this link in your default browser.</h4>
-			<button on:click={openInDefaultBrowser} class="btn btn-primary">Open Default Browser</button>
+			<a
+				rel="noopener noreferrer"
+				href="https://www.careerchakra.com#Intent"
+				class="btn btn-primary"
+				target="_blank">Open Default Browser</a
+			>
 			<!-- <button class="btn btn-primary" on:click={openInDefaultBrowser}>Open Default Browser</button> -->
 		</div>
 	</div>
