@@ -18,7 +18,6 @@
 </script>
 
 <header class="text-gray-600 body-font">
-	<!-- {browserValue} -->
 	<div
 		class="container mx-auto flex flex-wrap py-5 px-4 md:px-20 flex-col md:flex-row items-center"
 	>
@@ -27,12 +26,7 @@
 			class="lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex"
 		>
 			<!-- <a class="mr-5 hover:text-gray-900" href="/">Terms and Conditions</a> -->
-			<!-- <a class="mr-5 hover:text-gray-900" href="help@careerchakra.com">Support</a> -->
-			<a
-				class="mr-5 hover:text-gray-900"
-				on:click|preventDefault
-				href="mailto:help@careerchakra.com">Support</a
-			>
+			<a class="mr-5 hover:text-gray-900" href="mailto:help@careerchakra.com">Support</a>
 		</nav>
 		<!-- Logo -->
 		<a
