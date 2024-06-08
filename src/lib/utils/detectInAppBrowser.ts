@@ -15,9 +15,7 @@ export function detectInAppBrowser() {
 
 	const webviewRegExp = new RegExp('(' + rules.join('|') + ')', 'ig');
 
-	const isAndroid = userAgent.toLowerCase().includes('android');
-	const isSafari = userAgent.toLowerCase().includes('safari');
-	const isWebview = !!userAgent.match(webviewRegExp) && !(isAndroid && isSafari);
+	const isWebview = !!userAgent.match(webviewRegExp);
 
 	console.log('web view', isWebview, userAgent.match(webviewRegExp));
 	// const isWebview = /webview|wv|ip((?!.*Safari)|(?=.*like Safari))/i.test(userAgent);
