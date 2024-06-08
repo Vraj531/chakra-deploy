@@ -8,9 +8,11 @@
 
 	export let userData;
 	let showOpenInBrowserPrompt = false;
+	let browserValue = '';
 
 	onMount(() => {
-		showOpenInBrowserPrompt = isInAppBrowser();
+		showOpenInBrowserPrompt = isInAppBrowser().inAppBrowser;
+		browserValue = isInAppBrowser().userAgent;
 		// console.log('show', showOpenInBrowserPrompt);
 		if (!showOpenInBrowserPrompt) return;
 		(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
@@ -23,6 +25,7 @@
 
 <header class="text-gray-600 body-font">
 	<OpenDefaultBrowserModal {openInDefaultBrowser} />
+	{browserValue}
 	<div
 		class="container mx-auto flex flex-wrap py-5 px-4 md:px-20 flex-col md:flex-row items-center"
 	>

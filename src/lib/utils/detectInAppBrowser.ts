@@ -11,5 +11,6 @@ export function isInAppBrowser() {
 		'TikTok'
 	];
 
-	return inAppBrowserAgents.some((agent) => userAgent.includes(agent));
+	const val = inAppBrowserAgents.some((agent) => userAgent.includes(agent));
+	return { userAgent: userAgent, inAppBrowser: val };
 }
