@@ -1,37 +1,23 @@
 <script lang="ts">
-	import { detectInAppBrowser } from '../utils/detectInAppBrowser';
-	import OpenDefaultBrowserModal from './OpenDefaultBrowserModal.svelte';
-
 	// import logo from '$lib/assets/icons/logo.svg?raw';
 	// import logoOne from '$lib/assets/icons/logo1.svg?raw';
 
 	export let userData;
-	let showOpenInBrowserPrompt = false;
-	let browserValue = '';
 
-	// onMount(() => {
+	// const googleLogin = async () => {
 	// 	showOpenInBrowserPrompt = detectInAppBrowser().inAppBrowser;
 	// 	browserValue = detectInAppBrowser().userAgent;
 	// 	// console.log('show', showOpenInBrowserPrompt);
-	// 	if (!showOpenInBrowserPrompt) return;
+	// 	if (!showOpenInBrowserPrompt) {
+	// 		goto('/google');
+	// 		return;
+	// 	}
+
 	// 	(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
-	// });
-
-	const googleLogin = async () => {
-		showOpenInBrowserPrompt = detectInAppBrowser().inAppBrowser;
-		browserValue = detectInAppBrowser().userAgent;
-		// console.log('show', showOpenInBrowserPrompt);
-		if (!showOpenInBrowserPrompt) {
-			window.location.href = '/google';
-			return;
-		}
-
-		(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
-	};
+	// };
 </script>
 
 <header class="text-gray-600 body-font">
-	<OpenDefaultBrowserModal />
 	<!-- {browserValue} -->
 	<div
 		class="container mx-auto flex flex-wrap py-5 px-4 md:px-20 flex-col md:flex-row items-center"
@@ -62,8 +48,8 @@
 		<!-- Button -->
 		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
 			{#if !userData?.picture}
-				<button
-					on:click={googleLogin}
+				<a
+					href="/google"
 					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-md"
 				>
 					Login
@@ -78,12 +64,13 @@
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
 					</svg>
-				</button>
+				</a>
 			{:else}
 				<div class="dropdown md:dropdown-end dropdown-bottom dropdown-center">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<div class="border-0 py-2 px-6" tabindex="0">
 						<img
+							referrerpolicy="no-referrer"
 							class="chat-image w-10 h-10 rounded-full cursor-pointer"
 							src={userData?.picture}
 							alt="avatar"

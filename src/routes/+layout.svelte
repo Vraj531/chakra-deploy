@@ -7,11 +7,16 @@
 	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/Toast.svelte';
 	import { inject } from '@vercel/analytics';
-	import NewHeader from '../lib/components/NewHeader.svelte';
-	import NewFooter from '../lib/components/NewFooter.svelte';
+	import NewHeader from '$lib/components/NewHeader.svelte';
+	import NewFooter from '$lib/components/NewFooter.svelte';
 	import { dev } from '$app/environment';
+	import { page } from '$app/stores';
+	import { onMount } from 'svelte';
+	import WebviewModal from '$lib/components/WebviewModal.svelte';
 
 	export let data: LayoutData;
+
+	$: query = $page.url.searchParams;
 
 	const duration = 300;
 	const delay = duration + 100;
@@ -19,6 +24,12 @@
 	const transitionIn = { easing: cubicOut, y, duration, delay };
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 	inject({ mode: dev ? 'development' : 'production' });
+
+	onMount(() => {
+		if (query.get('webview') && query.get('webview') === 'true') {
+			(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
+		}
+	});
 </script>
 
 <svelte:head>
@@ -57,6 +68,7 @@
 
 <PageLoaderProgress />
 <div class="flex flex-col min-h-screen font-varela">
+	<WebviewModal />
 	<!-- <Header userData={data.user} /> -->
 	<NewHeader userData={data.user} />
 

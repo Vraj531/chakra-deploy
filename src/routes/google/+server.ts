@@ -1,8 +1,18 @@
 import { generateCodeVerifier, generateState } from 'arctic';
 import { google } from '$lib/server/google-auth';
 import { redirect, type RequestEvent } from '@sveltejs/kit';
+import { detectUserAgent } from '$lib/utils/detectInAppBrowser';
 
 export async function GET(event: RequestEvent): Promise<Response> {
+	const userAgent = event.request.headers.get('user-agent');
+	// const userAgent = 'WebView'; //for
+	if (userAgent) {
+		const webView = detectUserAgent(userAgent);
+		if (webView) {
+			//true, then in webview
+			throw redirect(302, `/?webview=${webView}`);
+		}
+	}
 	if (event.locals.user) {
 		throw redirect(302, '/upload');
 	}

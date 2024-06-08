@@ -16,11 +16,13 @@ export function detectInAppBrowser() {
 	const webviewRegExp = new RegExp('(' + rules.join('|') + ')', 'ig');
 
 	const isWebview = !!userAgent.match(webviewRegExp);
-
-	console.log('web view', isWebview, userAgent.match(webviewRegExp));
 	// const isWebview = /webview|wv|ip((?!.*Safari)|(?=.*like Safari))/i.test(userAgent);
 
 	return { userAgent: userAgent, inAppBrowser: isWebview };
-	// const osText = isIos ? 'iOS' : isAndroid ? 'Android' : 'Other';
-	// const webviewText = isWebview ? 'Yes' : 'No';
+}
+
+export function detectUserAgent(userAgent: string) {
+	const webviewRegExp = new RegExp('(' + rules.join('|') + ')', 'ig');
+
+	return !!userAgent.match(webviewRegExp);
 }
