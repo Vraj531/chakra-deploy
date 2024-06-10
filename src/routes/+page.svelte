@@ -329,8 +329,7 @@
 			</div>
 		</div>
 	</section>
-
-	<section data-aos="fade-right" class="bg-white text-gray-600 body-font relative">
+	<section data-aos="fade-right" class="text-gray-600 body-font relative">
 		<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 320"
 			><path
 				fill="#fff9e6"
