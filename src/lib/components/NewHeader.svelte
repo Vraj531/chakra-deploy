@@ -1,34 +1,30 @@
 <script lang="ts">
+	import { state } from '../stores/headerStore';
+
 	// import logo from '$lib/assets/icons/logo.svg?raw';
 	// import logoOne from '$lib/assets/icons/logo1.svg?raw';
 
 	export let userData;
-
-	// const googleLogin = async () => {
-	// 	showOpenInBrowserPrompt = detectInAppBrowser().inAppBrowser;
-	// 	browserValue = detectInAppBrowser().userAgent;
-	// 	// console.log('show', showOpenInBrowserPrompt);
-	// 	if (!showOpenInBrowserPrompt) {
-	// 		goto('/google');
-	// 		return;
-	// 	}
-
-	// 	(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
-	// };
 </script>
 
 <header class="text-gray-600 body-font bg-white">
 	<div class="container mx-auto flex flex-wrap py-5 px-4 md:px-20 justify-between items-center">
 		<!-- Navigation links -->
-		<nav class="flex lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex">
+		<nav
+			class="lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex"
+		>
 			<a href="mailto:help@careerchakra.com" class="mr-5 hover:text-gray-900">Support</a>
 		</nav>
 		<!-- Logo -->
-		<a href="/" class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center">
+		<a
+			href="/"
+			class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center"
+		>
 			<img src="/logo.svg" class="h-20 w-20" alt="logo" />
 			<span class="ml-3 text-lg hidden lg:inline-block">Career chakra</span>
 		</a>
 		<!-- Button -->
+
 		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
 			{#if !userData?.picture}
 				<a
@@ -49,6 +45,13 @@
 					</svg>
 				</a>
 			{:else}
+				{#if $state === 'uploaded'}
+					<a
+						href="/google"
+						class="inline-flex text-white btn btn-primary border-0 items-center my-1 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+						>New Upload</a
+					>
+				{/if}
 				<div class="dropdown md:dropdown-end dropdown-bottom dropdown-center">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<div class="border-0 py-2 px-6" tabindex="0">
