@@ -4,7 +4,7 @@
 	import 'aos/dist/aos.css';
 	import { onMount } from 'svelte';
 
-	onMount(() => AOS.init());
+	onMount(() => AOS.init({ duration: 1200, offset: 200 }));
 </script>
 
 <body>
@@ -372,7 +372,7 @@
 </body>
 
 <style>
-	@keyframes -global-ripple {
+	@keyframes ripple {
 		0% {
 			transform: scale(0.2);
 			opacity: 0.8;
@@ -394,7 +394,7 @@
 			opacity: 0;
 		}
 	}
-	@-webkit-keyframes -global-ripple {
+	@-webkit-keyframes ripple {
 		0% {
 			transform: scale(0.2);
 			opacity: 0.8;
