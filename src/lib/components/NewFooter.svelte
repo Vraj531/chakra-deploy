@@ -1,4 +1,4 @@
-<footer class="text-gray-600 body-font">
+<footer class="text-gray-600 body-font bg-white">
 	<div class="container mx-auto lg:px-20 md:px-10 px-5 py-8 flex items-center sm:flex-row flex-col">
 		<a
 			class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900"
@@ -92,3 +92,4 @@
 		</span>
 	</div>
 </footer>
+
