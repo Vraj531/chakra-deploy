@@ -136,7 +136,7 @@
 	};
 </script>
 
-<div class="relative flex flex-col p-2">
+<div class="relative flex-1 flex flex-col bg-[#F5F5F4]">
 	{#if state === ''}
 		<NewFileUpload {handleFileInput} {inputText} {handleTextChange} />
 		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->

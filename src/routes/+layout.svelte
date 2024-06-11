@@ -73,7 +73,7 @@
 	<NewHeader userData={data.user} />
 
 	{#key data.pathname}
-		<div class="flex-1" in:fly={transitionIn} out:fly={transitionOut}>
+		<div class="flex-1 flex flex-col" in:fly={transitionIn} out:fly={transitionOut}>
 			<slot />
 		</div>
 	{/key}
