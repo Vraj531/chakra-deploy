@@ -37,7 +37,7 @@
 		file = selectedFiles[0];
 	};
 
-	const submit = async () => {
+	const handlePdfSubmit = async () => {
 		console.log('submitting');
 		if (!file) return;
 		try {
@@ -154,7 +154,7 @@
 					{@html RemoveIcon}
 				</button>
 			</div>
-			<button class="btn btn-primary mx-auto mt-4" on:click={submit}>Submit</button>
+			<button class="btn btn-primary mx-auto mt-4" on:click={handlePdfSubmit}>Submit</button>
 		{/if}
 	{:else if state === 'uploading'}
 		<div class="flex flex-col mt-44">

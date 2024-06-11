@@ -56,7 +56,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				userId: userid
 			});
 
-			console.log('res', inputText, 'key', `${userEmail}/${filename}`);
+			// console.log('res', inputText, 'key', `${userEmail}/${filename}`);
 
 			const res = await fetch(lambdaUrl, {
 				method: 'POST',
@@ -78,5 +78,5 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 			return json(error);
 		}
 	}
-	error(404, { message: 'Not found' });
+	return error(404, { message: 'Not found' });
 };
