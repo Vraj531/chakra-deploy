@@ -1,10 +1,14 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	// @ts-ignore
+	import Cookies from 'js-cookie';
 	import { PUBLIC_MEASUREMENT_ID } from '$env/static/public';
 	// import * as gtag from '@types/gtag.js'
 
+	let consent = Cookies.get('cookie-consent');
+
 	$: {
-		if (typeof gtag !== 'undefined') {
+		if (consent === 'true' && typeof gtag !== 'undefined') {
 			gtag('config', 'MEASUREMENT_ID', {
 				page_title: document.title,
 				page_path: $page.url.pathname

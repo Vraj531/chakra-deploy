@@ -6,10 +6,9 @@
 	import Analytics from '$lib/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/Toast.svelte';
-	import { inject } from '@vercel/analytics';
 	import NewHeader from '../lib/components/NewHeader.svelte';
 	import NewFooter from '../lib/components/NewFooter.svelte';
-	import { dev } from '$app/environment';
+	import CookieConsent from '../lib/components/CookieConsent.svelte';
 
 	export let data: LayoutData;
 
@@ -18,7 +17,6 @@
 	const y = 10;
 	const transitionIn = { easing: cubicOut, y, duration, delay };
 	const transitionOut = { easing: cubicIn, y: -y, duration };
-	inject({ mode: dev ? 'development' : 'production' });
 </script>
 
 <svelte:head>
@@ -47,6 +45,7 @@
 	/>
 	<meta name="twitter:image" content="/path/to/your/image.jpg" />
 </svelte:head>
+<CookieConsent />
 <Analytics />
 
 <PageLoaderProgress />
