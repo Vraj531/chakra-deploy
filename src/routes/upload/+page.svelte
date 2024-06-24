@@ -18,10 +18,10 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	let arr: DummyData[] = dummyData;
-	let backUpData: DummyData[] = dummyData;
-	// let arr: DummyData[] = [];
-	// let backUpData: DummyData[] = [];
+	// let arr: DummyData[] = dummyData;
+	// let backUpData: DummyData[] = dummyData;
+	let arr: DummyData[] = [];
+	let backUpData: DummyData[] = [];
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -78,7 +78,7 @@
 
 			//*
 			const fullRes = (await res.json()) as DummyData[];
-			// console.log('body', fullRes);
+			console.log('body', fullRes);
 			// fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
 			if (Array.isArray(fullRes)) {
 				arr = fullRes;
@@ -180,6 +180,6 @@
 		</button>
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
-	<Carousel {arr} {triggerModal} {handleReset} />
-	<FilterForm {handleSubmit} />
+	<!-- <Carousel {arr} {triggerModal} {handleReset} />
+	<FilterForm {handleSubmit} /> -->
 </div>

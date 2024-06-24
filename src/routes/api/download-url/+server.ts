@@ -6,6 +6,7 @@ import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
 import { db } from '$lib/server/drizzle/turso-db';
 import { userResumeTable } from '$lib/server/drizzle/turso-schema';
 import { generateIdFromEntropySize } from 'lucia';
+import { limiter } from '$lib/server/rateLimiter';
 
 const client = new S3Client({
 	region: 'us-east-2',
@@ -27,7 +28,15 @@ interface IResponse {
 	body: string;
 }
 
-export const POST: RequestHandler = async ({ request, locals }) => {
+export const POST: RequestHandler = async (event) => {
+	const { request, locals } = event;
+	if (!locals.user && (await limiter.isLimited(event))) {
+		return json({
+			status: 429,
+			message: 'Too many requests'
+		});
+	}
+
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
 
 	// if (!locals.user) {
@@ -36,7 +45,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 
 	const userEmail = locals.user ? locals.user.email : 'guestuser@gmail.com';
 	const username = userEmail.split('@')[0];
-	console.log('session id log', locals.session?.id);
+	// console.log('session id log', locals.session?.id);
 	const userid = locals.user ? locals.user.id : locals.session?.id;
 
 	const command = new GetObjectCommand({
@@ -69,7 +78,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 				method: 'POST',
 				body: JSON.stringify({
 					additional_text: inputText,
-					pdf_file_location: `s3://nikhil-pipeline-storage/${userEmail}/${filename}`
+					pdf_file_location: `s3://nikhil-pipeline-storage/${username}/${filename}`
 				}),
 				headers: {
 					'Content-Type': 'application/json'
@@ -79,6 +88,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {
 				const body = JSON.parse(fullResponse.body);
+				// console.log('body', body);
 				return json(body);
 			} else return json({ error: 'error reading pdf' });
 		} catch (error) {

@@ -2,7 +2,6 @@
 	import { state } from '../stores/headerStore';
 
 	export let userData;
-	// console.log('user data', userData);
 </script>
 
 <header

@@ -62,6 +62,7 @@
 							class="chat-image w-10 h-10 rounded-full cursor-pointer"
 							src={userData?.picture}
 							alt="avatar"
+							referrerPolicy="no-referrer"
 						/>
 					</div>
 					<!-- <div
