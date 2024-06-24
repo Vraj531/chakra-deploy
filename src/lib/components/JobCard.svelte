@@ -1,8 +1,22 @@
 <script lang="ts">
 	import type { DummyData } from '$lib/dummyData';
 	import sanitizeHtml from 'sanitize-html';
+	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
+	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
 
 	export let slide: DummyData;
+
+	const handleBookmark = async () => {
+		// console.log('slide', slide);
+		const res = await fetch('api/bookmark', {
+			method: 'POST',
+			body: JSON.stringify({
+				...slide
+			})
+		});
+		const data = await res.json();
+		console.log('data', data);
+	};
 
 	$: job_description = sanitizeHtml(slide.job_description);
 	$: clearance = slide?.clearance_required ? 'Yes' : 'No';
@@ -64,6 +78,10 @@
 					>
 						Apply now
 					</a>
+					<button class="btn btn-primary" on:click={handleBookmark}>
+						{@html BookmarkBlankIcon}
+						<!-- {@html BookmarkFilledIcon} -->
+					</button>
 				{/if}
 			</div>
 
@@ -142,6 +160,9 @@
 					<a class="btn btn-primary my-2 mx-auto" href={slide.job_posting_url} target="_blank">
 						Apply now
 					</a>
+					<button class="btn btn-primary">
+						{@html BookmarkBlankIcon}
+					</button>
 				</div>
 			{/if}
 		</div>

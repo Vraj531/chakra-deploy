@@ -45,11 +45,11 @@
 	/>
 	<meta name="twitter:image" content="/path/to/your/image.jpg" />
 </svelte:head>
-<CookieConsent />
 <Analytics />
 
 <PageLoaderProgress />
 <div class="flex flex-col min-h-screen font-varela">
+	<CookieConsent />
 	<!-- <Header userData={data.user} /> -->
 	<NewHeader userData={data.user} />
 

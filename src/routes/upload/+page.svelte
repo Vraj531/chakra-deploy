@@ -2,13 +2,12 @@
 	import Axios, { type AxiosProgressEvent } from 'axios';
 	import Carousel from '$lib/components/Carousel.svelte';
 	import RemoveIcon from '$lib/assets/icons/Remove.svg?raw';
-	import LogoIcon from '$lib/assets/icons/logo1.svg?raw';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData, type DummyData } from '$lib/dummyData';
 	import NewFileUpload from '$lib/components/NewFileUpload.svelte';
 	import FilterForm from '$lib/components/FilterForm.svelte';
-	import { filterObjects } from '../../../utils/filterData';
+	import { filterObjects } from '../../utils/filterData';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { state as headerState } from '$lib/stores/headerStore';
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
@@ -19,10 +18,10 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	// let arr: DummyData[] = dummyData;
-	// let backUpData: DummyData[] = dummyData;
-	let arr: DummyData[] = [];
-	let backUpData: DummyData[] = [];
+	let arr: DummyData[] = dummyData;
+	let backUpData: DummyData[] = dummyData;
+	// let arr: DummyData[] = [];
+	// let backUpData: DummyData[] = [];
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -181,6 +180,6 @@
 		</button>
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
-	<!-- <Carousel {arr} {triggerModal} {handleReset} />
-	<FilterForm {handleSubmit} /> -->
+	<Carousel {arr} {triggerModal} {handleReset} />
+	<FilterForm {handleSubmit} />
 </div>

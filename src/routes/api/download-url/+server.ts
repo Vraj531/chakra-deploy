@@ -30,15 +30,18 @@ interface IResponse {
 export const POST: RequestHandler = async ({ request, locals }) => {
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
 
-	if (!locals.user) {
-		return error(404, { message: 'Not found' });
-	}
+	// if (!locals.user) {
+	// 	return error(404, { message: 'Not found' });
+	// }
 
-	const userEmail = locals.user.email.split('@')[0];
-	const userid = locals.user.id;
+	const userEmail = locals.user ? locals.user.email : 'guestuser@gmail.com';
+	const username = userEmail.split('@')[0];
+	console.log('session id log', locals.session?.id);
+	const userid = locals.user ? locals.user.id : locals.session?.id;
+
 	const command = new GetObjectCommand({
 		Bucket: 'nikhil-pipeline-storage',
-		Key: `${userEmail}/${filename}`,
+		Key: `${username}/${filename}`,
 		ResponseContentDisposition: `attachment; filename="${filename}"`
 	});
 	const downloadUrl = await getSignedUrl(client, command, {
@@ -48,12 +51,16 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	if (downloadUrl) {
 		const id = generateIdFromEntropySize(6);
 		try {
+			console.log('value sent', {
+				id,
+				email: userEmail
+			});
 			await db.insert(userResumeTable).values({
 				id,
-				email: locals.user.email,
-				fileLocation: `${userEmail}/${filename}`,
+				email: userEmail,
+				fileLocation: `${username}/${filename}`,
 				pdfUrl: downloadUrl,
-				userId: userid
+				userId: userid || 'guest user'
 			});
 
 			console.log('res', inputText, 'key', `${userEmail}/${filename}`);

@@ -1,4 +1,5 @@
 <script lang="ts">
+	//@ts-nocheck
 	import type { EmblaCarouselType } from 'embla-carousel';
 	import embla from '$lib/index';
 	import JobCard from './JobCard.svelte';

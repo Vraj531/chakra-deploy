@@ -36,7 +36,8 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			const userId = generateIdFromEntropySize(16);
 			await db.insert(userTable).values({
 				id: userId,
-				google_id: googleUser.id,
+				providerId: googleUser.id,
+				provider: 'google',
 				email: googleUser.email,
 				name: googleUser.name,
 				picture: googleUser.picture,

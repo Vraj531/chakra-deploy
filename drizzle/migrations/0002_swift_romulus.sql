@@ -1,0 +1,23 @@
+CREATE TABLE `bookmarked_jobs` (
+	`id` text PRIMARY KEY NOT NULL,
+	`published_date` text NOT NULL,
+	`company_name` text NOT NULL,
+	`title` text NOT NULL,
+	`user_id` text NOT NULL,
+	`location` text,
+	`has_remote` integer,
+	`experience` text,
+	`job_posting_url` text,
+	`clearance_required` integer,
+	`min_salary` text,
+	`max_salary` text,
+	`salary_currency` text,
+	`job_type` text NOT NULL,
+	`company_logo` text,
+	`company_website_url` text NOT NULL,
+	`company_linkedin_url` text,
+	`job_description` text NOT NULL,
+	`country_name` text,
+	`company_id` integer,
+	FOREIGN KEY (`user_id`) REFERENCES `users`(`id`) ON UPDATE no action ON DELETE no action
+);

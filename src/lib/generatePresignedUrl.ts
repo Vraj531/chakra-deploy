@@ -9,7 +9,7 @@ export const generatePresignedLink = async (file: File, sessionId: string) => {
 	// formData.append('expiresIn', expiresIn);
 	formData.append('sessionId', sessionId);
 	try {
-		const res = await fetch('/api/presigned-url', { method: 'POST', body: formData });
+		const res = await fetch('api/presigned-url', { method: 'POST', body: formData });
 		if (res.ok) {
 			const val: ResponseType = await res.json();
 			return val.uploadUrl;

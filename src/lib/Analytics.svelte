@@ -3,12 +3,14 @@
 	// @ts-ignore
 	import Cookies from 'js-cookie';
 	import { PUBLIC_MEASUREMENT_ID } from '$env/static/public';
-	// import * as gtag from '@types/gtag.js'
+	// import * as gtag from 'gtag.js'
 
 	let consent = Cookies.get('cookie-consent');
 
 	$: {
+		// @ts-ignore
 		if (consent === 'true' && typeof gtag !== 'undefined') {
+			// @ts-ignore
 			gtag('config', 'MEASUREMENT_ID', {
 				page_title: document.title,
 				page_path: $page.url.pathname
