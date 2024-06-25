@@ -4,7 +4,7 @@ import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
 import { db } from '$lib/server/drizzle/turso-db';
-import { userResumeTable } from '$lib/server/drizzle/turso-schema';
+import { guestResumeTable, userResumeTable } from '$lib/server/drizzle/turso-schema';
 import { generateIdFromEntropySize } from 'lucia';
 import { limiter } from '$lib/server/rateLimiter';
 
@@ -31,8 +31,7 @@ interface IResponse {
 export const POST: RequestHandler = async (event) => {
 	const { request, locals } = event;
 	if (!locals.user && (await limiter.isLimited(event))) {
-		return json({
-			status: 429,
+		throw error(429, {
 			message: 'Too many requests'
 		});
 	}
@@ -44,9 +43,8 @@ export const POST: RequestHandler = async (event) => {
 	// }
 
 	const userEmail = locals.user ? locals.user.email : 'guestuser@gmail.com';
-	const username = userEmail.split('@')[0];
+	const username = !locals.user ? 'guest-user' : locals.user.email.split('@')[0];
 	// console.log('session id log', locals.session?.id);
-	const userid = locals.user ? locals.user.id : locals.session?.id;
 
 	const command = new GetObjectCommand({
 		Bucket: 'nikhil-pipeline-storage',
@@ -60,19 +58,28 @@ export const POST: RequestHandler = async (event) => {
 	if (downloadUrl) {
 		const id = generateIdFromEntropySize(6);
 		try {
-			console.log('value sent', {
-				id,
-				email: userEmail
-			});
-			await db.insert(userResumeTable).values({
-				id,
-				email: userEmail,
-				fileLocation: `${username}/${filename}`,
-				pdfUrl: downloadUrl,
-				userId: userid || 'guest user'
-			});
+			// console.log('value sent', {
+			// 	id,
+			// 	email: userEmail
+			// });
+			if (!locals.user) {
+				await db.insert(guestResumeTable).values({
+					id,
+					fileLocation: `${username}/${filename}`,
+					pdfUrl: downloadUrl
+				});
+			} else {
+				const userid = locals.user.id;
+				await db.insert(userResumeTable).values({
+					id,
+					email: userEmail,
+					fileLocation: `${username}/${filename}`,
+					pdfUrl: downloadUrl,
+					userId: userid
+				});
+			}
 
-			console.log('res', inputText, 'key', `${userEmail}/${filename}`);
+			// console.log('res', inputText, 'key', `${username}/${filename}`);
 
 			const res = await fetch(lambdaUrl, {
 				method: 'POST',

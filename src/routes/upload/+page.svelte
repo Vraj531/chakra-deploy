@@ -13,7 +13,7 @@
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
 	let progress = 0;
-	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' = '';
+	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
 	let inputText = '';
 	let file: File | null;
 
@@ -43,7 +43,11 @@
 			//* file upload phase *//
 			state = 'uploading';
 			const presignedUrl = await generatePresignedLink(file, sessionId);
-			// console.log('url', presignedUrl)
+			console.log('url', presignedUrl);
+			if (presignedUrl === 'capped') {
+				state = 'capped';
+				return;
+			}
 			if (!presignedUrl || !presignedUrl.length) {
 				state = '';
 				return;
@@ -173,13 +177,19 @@
 			<Carousel {arr} {triggerModal} {handleReset} />
 			<FilterForm {handleSubmit} />
 		{/if}
+	{:else if state === 'capped'}
+		<p class="text-2xl text-center mt-16">
+			You have reached your daily limit of 5 files. Please try again tomorrow.
+		</p>
+		<a class="btn btn-primary mx-auto mt-4" href="/google">Login ? </a>
 	{:else if state === 'error'}
-		<p class="text-3xl text-center mt-16">Something went wrong</p>
+		<p class="text-2xl text-center mt-16">Something went wrong</p>
 		<button class="btn btn-secondary mx-auto mt-4" on:click={() => (state = '')}
 			>Try Again?
 		</button>
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
+
 	<!-- <Carousel {arr} {triggerModal} {handleReset} />
 	<FilterForm {handleSubmit} /> -->
 </div>

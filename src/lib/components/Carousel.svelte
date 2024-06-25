@@ -144,7 +144,7 @@
 						class={`btn md:btn-md btn-xs btn-circle btn-secondary grid place-items-center ${selected === item && 'bg-gradient-to-br from-orange-500 to-orange-300'}`}
 						on:click={select(item)}
 					>
-						{item}
+						{item + 1}
 					</button>
 				{/if}
 			{/each}
