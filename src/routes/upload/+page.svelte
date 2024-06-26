@@ -7,9 +7,9 @@
 	import { dummyData, type DummyData } from '$lib/dummyData';
 	import NewFileUpload from '$lib/components/NewFileUpload.svelte';
 	import FilterForm from '$lib/components/FilterForm.svelte';
-	import { filterObjects } from '../../utils/filterData';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { state as headerState } from '$lib/stores/headerStore';
+	import { filterObjects } from '$lib/utils/filterData';
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
 	let progress = 0;
@@ -36,7 +36,7 @@
 		file = selectedFiles[0];
 	};
 
-	const submit = async () => {
+	const handlePdfSubmit = async () => {
 		console.log('submitting');
 		if (!file) return;
 		try {
@@ -139,7 +139,7 @@
 	};
 </script>
 
-<div class="relative flex flex-col p-2">
+<div class="relative flex-1 flex flex-col bg-[#F5F5F4]">
 	{#if state === ''}
 		<NewFileUpload {handleFileInput} {inputText} {handleTextChange} />
 		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->
@@ -157,7 +157,7 @@
 					{@html RemoveIcon}
 				</button>
 			</div>
-			<button class="btn btn-primary mx-auto mt-4" on:click={submit}>Submit</button>
+			<button class="btn btn-primary mx-auto mt-4" on:click={handlePdfSubmit}>Submit</button>
 		{/if}
 	{:else if state === 'uploading'}
 		<div class="flex flex-col mt-44">

@@ -79,7 +79,7 @@ export const POST: RequestHandler = async (event) => {
 				});
 			}
 
-			// console.log('res', inputText, 'key', `${username}/${filename}`);
+			// // console.log('res', inputText, 'key', `${username}/${filename}`);
 
 			const res = await fetch(lambdaUrl, {
 				method: 'POST',
@@ -102,5 +102,5 @@ export const POST: RequestHandler = async (event) => {
 			return json(error);
 		}
 	}
-	error(404, { message: 'Not found' });
+	return error(404, { message: 'Not found' });
 };

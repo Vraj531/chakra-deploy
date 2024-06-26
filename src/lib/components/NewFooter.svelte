@@ -1,4 +1,4 @@
-<footer class="text-gray-600 body-font">
+<footer class="text-gray-600 body-font bg-white">
 	<div class="container mx-auto lg:px-20 md:px-10 px-5 py-8 flex items-center sm:flex-row flex-col">
 		<a
 			class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900"
@@ -43,10 +43,10 @@
 					stroke-linejoin="round"
 					stroke-width="2"
 					class="w-5 h-5"
-					viewBox="0 0 24 24"
+					viewBox="0 0 50 50"
 				>
 					<path
-						d="M23 3a10.9 10.9 0 01-3.14 1.53 4.48 4.48 0 00-7.86 3v1A10.66 10.66 0 013 4s-4 9 5 13a11.64 11.64 0 01-7 2c9 5 20 0 20-11.5a4.5 4.5 0 00-.08-.83A7.72 7.72 0 0023 3z"
+						d="M 6.9199219 6 L 21.136719 26.726562 L 6.2285156 44 L 9.40625 44 L 22.544922 28.777344 L 32.986328 44 L 43 44 L 28.123047 22.3125 L 42.203125 6 L 39.027344 6 L 26.716797 20.261719 L 16.933594 6 L 6.9199219 6 z"
 					></path>
 				</svg>
 			</a>
@@ -70,7 +70,7 @@
 			</a>
 			<a
 				class="ml-3 text-gray-500"
-				href="https://www.linkedin.com/company/104042510/admin/feed/posts/"
+				href="https://www.linkedin.com/company/104065183/admin/feed/posts/"
 				target="_blank"
 			>
 				<svg
