@@ -1,6 +1,5 @@
 <script>
 	import { onMount } from 'svelte';
-	// @ts-ignore
 	import Cookies from 'js-cookie';
 	import { inject } from '@vercel/analytics';
 	import { dev } from '$app/environment';

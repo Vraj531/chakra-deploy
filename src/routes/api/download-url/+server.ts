@@ -30,11 +30,11 @@ interface IResponse {
 
 export const POST: RequestHandler = async (event) => {
 	const { request, locals } = event;
-	if (!locals.user && (await limiter.isLimited(event))) {
-		throw error(429, {
-			message: 'Too many requests'
-		});
-	}
+	// if (!locals.user && (await limiter.isLimited(event))) {
+	// 	throw error(429, {
+	// 		message: 'Too many requests'
+	// 	});
+	// }
 
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
 

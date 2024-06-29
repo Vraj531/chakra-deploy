@@ -6,7 +6,7 @@
 	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData, type DummyData } from '$lib/dummyData';
 	import NewFileUpload from '$lib/components/NewFileUpload.svelte';
-	import FilterForm from '$lib/components/FilterForm.svelte';
+	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { state as headerState } from '$lib/stores/headerStore';
 	import { filterObjects } from '$lib/utils/filterData';
@@ -142,7 +142,6 @@
 <div class="relative flex-1 flex flex-col bg-[#F5F5F4]">
 	{#if state === ''}
 		<NewFileUpload {handleFileInput} {inputText} {handleTextChange} />
-		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->
 		{#if file}
 			<div
 				class="flex md:mx-auto w-full md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"

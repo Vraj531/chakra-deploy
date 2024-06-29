@@ -1,16 +1,11 @@
 <script lang="ts">
-	import { toastStore } from '../stores/toastStores';
 	import CheckIcon from '$lib/assets/icons/check.svg?raw';
 	import CopyIcon from '$lib/assets/icons/copy.svg?raw';
+	import { toastStore } from '../../stores/toastStores';
 
 	let isCopied = false;
-	// export let openInDefaultBrowser: () => void;
+
 	const openInDefaultBrowser = async () => {
-		// const currentUrl = window.location.href;
-		// window.location.href = 'https://www.careerchakra.com';
-		// window.open(currentUrl, '_system');
-		// window.open(currentUrl, '_blank');
-		// (document.getElementById('default-browser-modal') as HTMLDialogElement).close();
 		try {
 			await copyToClipboard();
 			toastStore.alert('Link copied', { position: 'top-center' });

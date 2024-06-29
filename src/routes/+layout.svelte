@@ -6,13 +6,16 @@
 	import Analytics from '$lib/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/Toast.svelte';
-	import NewHeader from '$lib/components/NewHeader.svelte';
-	import NewFooter from '$lib/components/NewFooter.svelte';
+
 	import CookieConsent from '$lib/components/CookieConsent.svelte';
 	import { page } from '$app/stores';
 	import { dev } from '$app/environment';
-	import WebviewModal from '$lib/components/WebviewModal.svelte';
+
 	import { onMount } from 'svelte';
+	import AuthModal from '$lib/components/ModalComponents/AuthModal.svelte';
+	import NewHeader from '$lib/components/LayoutComponents/NewHeader.svelte';
+	import NewFooter from '$lib/components/LayoutComponents/NewFooter.svelte';
+	import WebviewModal from '$lib/components/ModalComponents/WebviewModal.svelte';
 
 	export let data: LayoutData;
 
@@ -32,6 +35,11 @@
 </script>
 
 <svelte:head>
+	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+
+	<!-- <script
+		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
+	></script> -->
 	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
 	{#if !dev}
 		<base href="https://www.careerchakra.com/" />
@@ -69,6 +77,7 @@
 <div class="flex flex-col min-h-screen font-varela">
 	<CookieConsent />
 	<WebviewModal />
+	<AuthModal />
 	<!-- <Header userData={data.user} /> -->
 	<NewHeader userData={data.user} />
 

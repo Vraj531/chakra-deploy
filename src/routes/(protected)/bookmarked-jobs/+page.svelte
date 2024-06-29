@@ -1,9 +1,11 @@
 <script lang="ts">
-	import Carousel from '../../../lib/components/Carousel.svelte';
-	import FilterForm from '../../../lib/components/FilterForm.svelte';
-	import type { DummyData } from '../../../lib/dummyData';
-	import { toastStore } from '../../../lib/stores/toastStores';
-	import { filterObjects } from '../../../utils/filterData';
+	import Carousel from '$lib/components/Carousel.svelte';
+	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
+
+	import type { DummyData } from '$lib/dummyData';
+	import { toastStore } from '$lib/stores/toastStores';
+	import { filterObjects } from '$lib/utils/filterData';
+
 	import type { PageData } from './$types';
 
 	export let data: PageData;
