@@ -5,10 +5,10 @@
 		<p class="mt-6 text-base leading-7 text-gray-600">
 			Sorry, we couldn't find the page you're looking for.
 		</p>
-		<div class="mt-10 flex items-center justify-center w-full custom-gap">
+		<div class="mt-10 flex items-center justify-center w-full gap-x-6">
 			<a
 				href="/"
-				class="rounded-md btn btn-primary bg-indigo-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+				class=" btn btn-primary px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2"
 				>Go back home</a
 			>
 			<a href="mailto:help@careerchakra.com" class="text-sm font-semibold text-gray-900"
@@ -17,10 +17,3 @@
 		</div>
 	</div>
 </main>
-
-<style>
-	/* oddly unruly gap */
-	.custom-gap {
-		gap: 2.5rem;
-	}
-</style>
