@@ -1,10 +1,10 @@
 <script lang="ts">
-	import type { DummyData } from '$lib/dummyData';
+	import type { JobListing } from '$lib/dummyData';
 	import sanitizeHtml from 'sanitize-html';
 	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
 	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
 
-	export let slide: DummyData;
+	export let slide: JobListing;
 
 	const handleBookmark = async () => {
 		// console.log('slide', slide);

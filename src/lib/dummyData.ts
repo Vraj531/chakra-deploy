@@ -1,5 +1,5 @@
 /* eslint-disable no-irregular-whitespace */
-export type DummyData = {
+export type JobListing = {
 	title: string;
 	location: string;
 	has_remote: boolean;
@@ -20,7 +20,7 @@ export type DummyData = {
 	company_id: number;
 	id: number;
 };
-export const dummyData: DummyData[] = [
+export const dummyData: JobListing[] = [
 	{
 		clearance_required: false,
 		company_id: 41,

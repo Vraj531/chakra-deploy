@@ -2,16 +2,17 @@
 	//@ts-nocheck
 	import type { EmblaCarouselType } from 'embla-carousel';
 	import embla from '$lib/index';
-	import JobCard from './JobCard.svelte';
+
 	import ChevronLeftIcon from '$lib/assets/icons/ChevronLeftIcon.svg?raw';
 	import ChevronRightIcon from '$lib/assets/icons/ChevronRightIcon.svg?raw';
 	import FilterIcon from '$lib/assets/icons/Filter.svg?raw';
 	import RestoreIcon from '$lib/assets/icons/RestoreIcon.svg?raw';
-	import type { DummyData } from '$lib/dummyData';
+	import type { JobListing } from '$lib/dummyData';
 	import { writable } from 'svelte/store';
 	import { fade } from 'svelte/transition';
+	import JobCard from './JobCard.svelte';
 
-	export let arr: DummyData[];
+	export let arr: JobListing[];
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
 
@@ -78,26 +79,32 @@
 	}
 </script>
 
-<div class="flex w-full mt-4">
+<div class="flex w-full mt-4 p-2">
 	<div class="md:hidden">
-		<button class="btn btn-circle btn-primary" on:click={previousCard}>
+		<button class="btn rounded-lg btn-circle btn-primary" on:click={previousCard}>
 			<div class="pl-0">
 				{@html ChevronLeftIcon}
 			</div>
 		</button>
-		<button class="btn btn-circle btn-primary" on:click={nextCard}>
+		<button class="btn rounded-lg btn-circle btn-primary" on:click={nextCard}>
 			{@html ChevronRightIcon}
 		</button>
 	</div>
-	<div class="ml-auto md:mx-auto">
-		<button class=" btn btn-primary" on:click={handleReset}>
-			{@html RestoreIcon}
-			Reset
-		</button>
-		<div class="tooltip tooltip-top" data-tip="filter">
-			<button class=" btn btn-primary" on:click={triggerModal}>
-				{@html FilterIcon}
+
+	<div class="ml-auto p-2 md:mx-auto">
+		<div class="flex gap-4">
+			<div class="flex items-center">
+				{selected + 1}/{arr.length + 1}
+			</div>
+			<button class=" btn btn-primary" on:click={handleReset}>
+				{@html RestoreIcon}
+				Reset
 			</button>
+			<div class="tooltip tooltip-top" data-tip="filter">
+				<button class=" btn btn-primary" on:click={triggerModal}>
+					{@html FilterIcon}
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -125,7 +132,6 @@
 		</button>
 	</div>
 	<div class="embla">
-		<!-- // @ts-nocheck -->
 		<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
 			<div class="embla__container">
 				{#each arr as slide}

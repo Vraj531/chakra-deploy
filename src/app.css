@@ -2,6 +2,14 @@
 @tailwind components;
 @tailwind utilities;
 
+.btn {
+	@apply rounded;
+}
+
+.btn-circle {
+	@apply rounded-full;
+}
+
 sub,
 sup {
 	font-size: 75%;

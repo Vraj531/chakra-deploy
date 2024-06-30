@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { fade } from 'svelte/transition';
-	import { toastStore } from '../stores/toastStores';
+	import { toastStore } from '../../stores/toastStores';
 
 	interface Toast {
 		id: number;

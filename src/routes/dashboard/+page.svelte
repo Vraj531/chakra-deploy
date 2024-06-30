@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_POWERBI_TOKEN } from '$env/static/public';
-	import PowerBiComponent from '$lib/components/PowerBiComponent.svelte';
+	import PowerBiComponent from '$lib/components/DashboardComponents/PowerBiComponent.svelte';
 
 	const groupId = '15acbe14-92a9-4c0f-8c62-2d42c0de06b7';
 

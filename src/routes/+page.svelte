@@ -1,5 +1,4 @@
 <script lang="ts">
-	// @ts-ignore
 	import AOS from 'aos';
 	import 'aos/dist/aos.css';
 	import { onMount } from 'svelte';
@@ -42,30 +41,46 @@
 			</div>
 		</div>
 	</section>
-	
-	<section class="text-gray-600 body-font relative" style="background-color: #FFF9E6;" data-aos="fade-right" data-aos-offset="150">
+
+	<section
+		class="text-gray-600 body-font relative"
+		style="background-color: #FFF9E6;"
+		data-aos="fade-right"
+		data-aos-offset="150"
+	>
 		<div class="container px-5 py-24 mx-auto">
 			<div class="flex flex-col text-center w-full mb-20">
-				<h3 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">Why Choose Us?</h3>
+				<h3 class="sm:text-3xl text-2xl font-medium title-font mb-4 text-gray-900">
+					Why Choose Us?
+				</h3>
 			</div>
 			<div class="flex flex-wrap">
-				<div class="xl:w-1/2 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
-					<h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Exclusive Focus on USA Jobs</h2>
+				<div
+					class="xl:w-1/2 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60"
+				>
+					<h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">
+						Exclusive Focus on USA Jobs
+					</h2>
 					<p class="leading-relaxed text-base mb-4">
-						We specialize exclusively in job openings across the United States, ensuring you get access to the most relevant and up-to-date opportunities in your desired location.
+						We specialize exclusively in job openings across the United States, ensuring you get
+						access to the most relevant and up-to-date opportunities in your desired location.
 					</p>
 				</div>
-				<div class="xl:w-1/2 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60">
-					<h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">Real-Time Updates</h2>
+				<div
+					class="xl:w-1/2 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60"
+				>
+					<h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">
+						Real-Time Updates
+					</h2>
 					<p class="leading-relaxed text-base mb-4">
-						Our database is updated multiple times daily, so you never miss out on the latest job openings. Stay ahead of the curve with fresh opportunities as soon as they hit the market.
+						Our database is updated multiple times daily, so you never miss out on the latest job
+						openings. Stay ahead of the curve with fresh opportunities as soon as they hit the
+						market.
 					</p>
 				</div>
 			</div>
 		</div>
 	</section>
-	
-	  
 
 	<section class="text-gray-600 body-font overflow-hidden relative bg-white">
 		<div class="ripple" style="top: -30rem; left: -30rem;"></div>

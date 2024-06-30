@@ -1,15 +1,15 @@
 <script lang="ts">
-	import Carousel from '$lib/components/Carousel.svelte';
-	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
+	import Carousel from '$lib/components/UploadComponents/Carousel.svelte';
 
-	import type { DummyData } from '$lib/dummyData';
+	import type { JobListing } from '$lib/dummyData';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { filterObjects } from '$lib/utils/filterData';
+	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
 
 	import type { PageData } from './$types';
 
 	export let data: PageData;
-	let arr: DummyData[] = data.bookmarkedJobs as unknown as DummyData[];
+	let arr: JobListing[] = data.bookmarkedJobs as unknown as JobListing[];
 	let backUpData = arr;
 
 	const handleReset = () => {

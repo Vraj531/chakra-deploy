@@ -1,5 +1,6 @@
 <script lang="ts">
-	import UploadIcon from './Icons/UploadIcon.svelte';
+	import UploadIcon from '../Icons/UploadIcon.svelte';
+
 	export let handleFileInput: (e: any) => void;
 	export let inputText: string;
 	export let handleTextChange: (text: string) => void;

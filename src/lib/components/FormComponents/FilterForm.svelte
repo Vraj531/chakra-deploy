@@ -3,20 +3,6 @@
 
 	export let handleSubmit: EventHandler<SubmitEvent, HTMLFormElement>;
 
-	// let clearanceFilters = [
-	// 	{ label: 'Required', value: true },
-	// 	{ label: 'Optional', value: false }
-	// ];
-	// let jobTypeFilters = [
-	// 	{ label: 'Full Time', value: 'Full Time' },
-	// 	{ label: 'Part Time', value: 'Part Time' }
-	// ];
-	// let salaryScale = 0;
-
-	// let clearance = '';
-	// let jobTypeValue = '';
-	// let experienceValue = '';
-
 	let experienceFilters = [
 		{ label: 'Entry Level', value: 'Entry Level' },
 		{ label: 'Mid Level', value: 'Mid Level' },

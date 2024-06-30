@@ -1,5 +1,5 @@
 <script lang="ts">
-	import LoginForm from '../FormComponents/LoginForm.svelte';
+	import LoginForm from './LoginForm.svelte';
 
 	let activeTab = 0;
 </script>

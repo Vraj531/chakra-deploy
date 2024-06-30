@@ -14,12 +14,40 @@
 </script>
 
 <header class="text-gray-600 body-font bg-white">
-	<div class="container mx-auto flex flex-wrap py-5 px-4 md:px-20 justify-between items-center">
+	<div class="container mx-auto flex flex-wrap py-0 px-4 md:px-20 justify-between items-center">
 		<!-- Navigation links -->
+
 		<nav
 			class="lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex"
 		>
-			<a href="mailto:help@careerchakra.com" class="mr-5 hover:text-gray-900">Support</a>
+			<div class="dropdown">
+				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
+				<div class="border-0 py-2 px-6" tabindex="0">
+					<button class="btn btn-sm btn-primary">
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							class="inline-block h-5 w-5 stroke-current"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M4 6h16M4 12h16M4 18h16"
+							></path>
+						</svg></button
+					>
+					<ul
+						tabindex="0"
+						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+					>
+						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/faq">FAQ</a></li>
+					</ul>
+				</div>
+			</div>
+			<!-- <a href="mailto:help@careerchakra.com" class="mr-5 hover:text-gray-900">Support</a> -->
 		</nav>
 		<!-- Logo -->
 		<a

@@ -68,10 +68,10 @@ export default {
 		themes: [
 			{
 				mytheme: {
-					primary: '#EF9F3E',
-					'primary-content': '#140901',
+					primary: '#eab308',
+					'primary-content': '#fff',
 					secondary: '#F4BE7B',
-					'secondary-content': '#140d05',
+					'secondary-content': '#fff',
 					accent: '#fc3400',
 					'accent-content': '#160100',
 					neutral: '#dcdcdc',

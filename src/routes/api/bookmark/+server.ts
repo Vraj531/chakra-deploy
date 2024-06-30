@@ -1,5 +1,5 @@
 import { error, json } from '@sveltejs/kit';
-import type { DummyData } from '$lib/dummyData';
+import type { JobListing } from '$lib/dummyData';
 import { db } from '$lib/server/drizzle/turso-db';
 import { bookMarkedJobs } from '$lib/server/drizzle/turso-schema';
 import { generateIdFromEntropySize } from 'lucia';
@@ -9,7 +9,7 @@ export const POST = async ({ locals, request }) => {
 		throw error(404, { message: 'Not found' });
 	}
 
-	const req = (await request.json()) as DummyData;
+	const req = (await request.json()) as JobListing;
 	const bookmarkId = generateIdFromEntropySize(16);
 
 	const res = await db.insert(bookMarkedJobs).values({

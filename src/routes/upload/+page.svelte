@@ -1,11 +1,11 @@
 <script lang="ts">
 	import Axios, { type AxiosProgressEvent } from 'axios';
-	import Carousel from '$lib/components/Carousel.svelte';
+	import Carousel from '$lib/components/UploadComponents/Carousel.svelte';
 	import RemoveIcon from '$lib/assets/icons/Remove.svg?raw';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
-	import { dummyData, type DummyData } from '$lib/dummyData';
-	import NewFileUpload from '$lib/components/NewFileUpload.svelte';
+	import { dummyData, type JobListing } from '$lib/dummyData';
+	import NewFileUpload from '$lib/components/UploadComponents/NewFileUpload.svelte';
 	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { state as headerState } from '$lib/stores/headerStore';
@@ -18,10 +18,10 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	// let arr: DummyData[] = dummyData;
-	// let backUpData: DummyData[] = dummyData;
-	let arr: DummyData[] = [];
-	let backUpData: DummyData[] = [];
+	let arr: JobListing[] = dummyData;
+	let backUpData: JobListing[] = dummyData;
+	// let arr: JobListing[] = [];
+	// let backUpData: JobListing[] = [];
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -81,7 +81,7 @@
 			});
 
 			//*
-			const fullRes = (await res.json()) as DummyData[];
+			const fullRes = (await res.json()) as JobListing[];
 			console.log('body', fullRes);
 			// fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
 			if (Array.isArray(fullRes)) {
@@ -139,7 +139,7 @@
 	};
 </script>
 
-<div class="relative flex-1 flex flex-col bg-[#F5F5F4]">
+<div class="relative flex-1 flex flex-col">
 	{#if state === ''}
 		<NewFileUpload {handleFileInput} {inputText} {handleTextChange} />
 		{#if file}
@@ -178,7 +178,7 @@
 		{/if}
 	{:else if state === 'capped'}
 		<p class="text-2xl text-center mt-16">
-			You have reached your daily limit of 5 files. Please try again tomorrow.
+			You have reached your daily limit of 5 files. Login to get access to more.
 		</p>
 		<a class="btn btn-primary mx-auto mt-4" href="/google">Login ? </a>
 	{:else if state === 'error'}
@@ -189,6 +189,6 @@
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
 
-	<!-- <Carousel {arr} {triggerModal} {handleReset} />
-	<FilterForm {handleSubmit} /> -->
+	<Carousel {arr} {triggerModal} {handleReset} />
+	<FilterForm {handleSubmit} />
 </div>

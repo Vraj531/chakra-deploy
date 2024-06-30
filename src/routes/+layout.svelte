@@ -4,18 +4,18 @@
 	import '../app.css';
 	import type { LayoutData } from './$types';
 	import Analytics from '$lib/Analytics.svelte';
-	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
-	import Toast from '$lib/components/Toast.svelte';
+	import PageLoaderProgress from '$lib/components/LayoutComponents/PageLoaderProgress.svelte';
+	import Toast from '$lib/components/LayoutComponents/Toast.svelte';
 
-	import CookieConsent from '$lib/components/CookieConsent.svelte';
+	import CookieConsent from '$lib/components/LayoutComponents/CookieConsent.svelte';
 	import { page } from '$app/stores';
 	import { dev } from '$app/environment';
 
 	import { onMount } from 'svelte';
-	import AuthModal from '$lib/components/ModalComponents/AuthModal.svelte';
+	import AuthModal from '$lib/components/AuthComponents/AuthModal.svelte';
 	import NewHeader from '$lib/components/LayoutComponents/NewHeader.svelte';
 	import NewFooter from '$lib/components/LayoutComponents/NewFooter.svelte';
-	import WebviewModal from '$lib/components/ModalComponents/WebviewModal.svelte';
+	import WebviewModal from '$lib/components/LayoutComponents/WebviewModal.svelte';
 
 	export let data: LayoutData;
 
@@ -35,7 +35,9 @@
 </script>
 
 <svelte:head>
-	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+	{#if !dev}
+		<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+	{/if}
 
 	<!-- <script
 		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
