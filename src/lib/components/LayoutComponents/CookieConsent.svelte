@@ -11,25 +11,8 @@
 
 	function initAnalytics() {
 		// Code to activate Google Analytics and Vercel Analytics
-		inject({ mode: dev ? 'development' : 'production' });
-		const script = document.createElement('script');
-		script.src = `https://www.googletagmanager.com/gtag/js?id=${PUBLIC_MEASUREMENT_ID}`;
-		script.async = true;
-		document.head.appendChild(script);
-
-		script.onload = () => {
-			// @ts-ignore
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				// @ts-ignore
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			gtag('config', PUBLIC_MEASUREMENT_ID, {
-				page_path: $page.url.pathname, // Set initial page path
-				send_page_view: true // Ensure initial page view is sent
-			});
-		};
+		// initGoogleAnalytics();
+		initVercelAnalytics();
 		console.log('Analytics initialized.');
 	}
 
@@ -48,6 +31,31 @@
 		Cookies.set('show-cookie-consent', 'declined', { expires: 365 });
 		consent = 'false';
 		showConsent = false;
+	}
+
+	function initGoogleAnalytics() {
+		const script = document.createElement('script');
+		script.src = `https://www.googletagmanager.com/gtag/js?id=${PUBLIC_MEASUREMENT_ID}`;
+		script.async = true;
+		document.head.appendChild(script);
+
+		script.onload = () => {
+			// @ts-ignore
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				// @ts-ignore
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', PUBLIC_MEASUREMENT_ID, {
+				page_path: $page.url.pathname, // Set initial page path
+				send_page_view: true // Ensure initial page view is sent
+			});
+		};
+	}
+
+	function initVercelAnalytics() {
+		inject({ mode: dev ? 'development' : 'production' });
 	}
 
 	onMount(() => {

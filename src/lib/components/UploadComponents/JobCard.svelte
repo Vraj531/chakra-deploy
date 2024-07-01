@@ -1,13 +1,14 @@
 <script lang="ts">
 	import type { JobListing } from '$lib/dummyData';
-	import sanitizeHtml from 'sanitize-html';
+	// import sanitizeHtml from 'sanitize-html';
+	import DOMPurify from 'isomorphic-dompurify';
 	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
 	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
 
 	export let slide: JobListing;
 
 	const handleBookmark = async () => {
-		// console.log('slide', slide);
+		console.log('slide', slide);
 		const res = await fetch('api/bookmark', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -15,10 +16,12 @@
 			})
 		});
 		const data = await res.json();
-		console.log('data', data);
+		// console.log('data', data);
 	};
 
-	$: job_description = sanitizeHtml(slide.job_description);
+	$: job_description = DOMPurify.sanitize(slide.job_description);
+
+	// console.log('dom', slide.job_description);
 	$: clearance = slide?.clearance_required ? 'Yes' : 'No';
 
 	// let humanReadable: string;
@@ -71,17 +74,19 @@
 					<a class="my-0" href={slide.company_linkedin_url} target="_blank"> LinkedIn </a>
 				{/if}
 				{#if slide?.job_posting_url}
-					<a
-						class="btn btn-primary my-2 rounded-xl hidden md:flex"
-						href={slide.job_posting_url}
-						target="_blank"
-					>
-						Apply now
-					</a>
-					<button class="btn btn-primary" on:click={handleBookmark}>
-						{@html BookmarkBlankIcon}
-						<!-- {@html BookmarkFilledIcon} -->
-					</button>
+					<div class="flex gap-2">
+						<a
+							class="btn btn-primary rounded-xl hidden md:flex"
+							href={slide.job_posting_url}
+							target="_blank"
+						>
+							Apply now
+						</a>
+						<button class="btn btn-primary hidden md:flex" on:click={handleBookmark}>
+							{@html BookmarkBlankIcon}
+							<!-- {@html BookmarkFilledIcon} -->
+						</button>
+					</div>
 				{/if}
 			</div>
 
@@ -156,10 +161,8 @@
 				{/if}
 			</div>
 			{#if slide?.job_posting_url}
-				<div class="w-full flex">
-					<a class="btn btn-primary my-2 mx-auto" href={slide.job_posting_url} target="_blank">
-						Apply now
-					</a>
+				<div class="w-full flex justify-center gap-2 mt-4">
+					<a class="btn btn-primary" href={slide.job_posting_url} target="_blank"> Apply now </a>
 					<button class="btn btn-primary">
 						{@html BookmarkBlankIcon}
 					</button>
@@ -181,21 +184,4 @@
 		flex: 0 0 100%;
 		min-width: 0;
 	}
-	/* :root {
-		--shadow: #e7a304;
-		--scrollbarBG: #eee;
-		--thumbBG: #f0f0f0;
-	}
-	::-webkit-scrollbar {
-		width: 16px;
-	}
-	::-webkit-scrollbar-track {
-		background: var(--scrollbarBG);
-	}
-	::-webkit-scrollbar-thumb {
-		background-color: var(--thumbBG);
-		box-shadow:
-			0 -100vh 0 100vh var(--shadow),
-			0 0 15px 5px black;
-	} */
 </style>

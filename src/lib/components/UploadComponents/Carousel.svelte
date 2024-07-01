@@ -38,7 +38,7 @@
 	// 	console.log('carousel', selected);
 	// }
 
-	let displayValues = [0, 1, 2, 3, 4, 5, 6, '...', arr.length];
+	let displayValues = [...Array(arr.length).keys()];
 
 	$: {
 		// Only update displayValues based on arr.length and selected index

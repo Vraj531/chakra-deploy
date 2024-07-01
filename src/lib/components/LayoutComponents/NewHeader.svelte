@@ -140,6 +140,7 @@
 						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li><a href="/upload">Upload Resume</a></li>
+						<li><a href="/bookmarked-jobs?page=1">Bookmarked Jobs</a></li>
 						<li><a href="/api/sign-out">Sign out</a></li>
 					</ul>
 				</div>

@@ -1,13 +1,25 @@
 <script lang="ts">
 	import type { JobListing } from '$lib/dummyData';
-	import sanitizeHtml from 'sanitize-html';
+	import DOMPurify from 'isomorphic-dompurify';
+	import { onMount } from 'svelte';
+	import { toastStore } from '$lib/stores/toastStores';
+	import type { ActionData } from '../../../routes/(protected)/bookmarked-jobs/$types';
 
 	export let jobListing: JobListing | null;
-	console.log('job', jobListing);
+	let form: ActionData;
+	// console.log('job', jobListing);
 
-	$: job_description = jobListing?.job_description ? sanitizeHtml(jobListing.job_description) : '';
+	$: job_description = jobListing?.job_description
+		? DOMPurify.sanitize(jobListing.job_description)
+		: '';
 
 	$: clearance = jobListing?.clearance_required ? 'Yes' : 'No';
+
+	onMount(() => {
+		if (form?.success) {
+			toastStore.alert('Bookmark removed', { position: 'top-right' });
+		}
+	});
 </script>
 
 <dialog id="job-description-modal" class="modal modal-bottom sm:modal-middle">

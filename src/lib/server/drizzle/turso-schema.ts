@@ -39,7 +39,8 @@ export const guestResumeTable = sqliteTable('guest_resumes', {
 
 export const bookMarkedJobs = sqliteTable('bookmarked_jobs', {
 	id: text('id').notNull().primaryKey(),
-
+	jobId: text('job_id').notNull(),
+	createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 	published_date: text('published_date').notNull(),
 	company_name: text('company_name').notNull(),
 	title: text('title').notNull(),

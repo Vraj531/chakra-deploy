@@ -8,9 +8,9 @@
 	import JobList from '$lib/components/BookmarkedJobsComponents/JobList.svelte';
 
 	export let data: PageData;
-	let arr: JobListing[] = data.bookmarkedJobs;
+	$: arr = data.bookmarkedJobs as unknown as JobListing[];
 
-	let backUpData = arr;
+	$: backUpData = data.bookmarkedJobs as unknown as JobListing[];
 
 	const handleReset = () => {
 		arr = backUpData;
@@ -47,7 +47,7 @@
 </script>
 
 <div class="relative flex flex-col p-2">
-	<JobList JobList={arr} />
+	<JobList JobList={arr} count={data.total} pages={data.pages} />
 </div>
 <div class="relative flex flex-col p-2">
 	<FilterForm {handleSubmit} />
