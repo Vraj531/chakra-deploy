@@ -80,7 +80,7 @@
 	<CookieConsent />
 	<WebviewModal />
 	<AuthModal />
-	<!-- <Header userData={data.user} /> -->
+	<Toast />
 	<NewHeader userData={data.user} />
 
 	{#key data.pathname}
@@ -89,5 +89,4 @@
 		</div>
 	{/key}
 	<NewFooter />
-	<Toast />
 </div>

@@ -1,97 +1,169 @@
 <div class="prose mx-auto p-4 max-w-screen-lg">
 	<h1>Website Terms and Conditions of Use</h1>
 
-	<h2>1. Terms</h2>
-
+	<h2>Introduction</h2>
 	<p>
-		By accessing this Website, accessible from <a href="/">https://www.careerchakra.com</a>, you are
-		agreeing to be bound by these Website Terms and Conditions of Use and agree that you are
-		responsible for the agreement with any applicable local laws. If you disagree with any of these
-		terms, you are prohibited from accessing this site. The materials contained in this Website are
-		protected by copyright and trade mark law.
+		Welcome to Career Chakra. These Terms of Service ("Terms") govern your use of our website
+		located at <a href="/">https://www.careerchakra.com</a> (the "Site") and any related services provided
+		by Career Chakra ("we," "us," "our"). By accessing or using our Site, you agree to comply with and
+		be bound by these Terms. If you do not agree to these Terms, please do not use our Site.
 	</p>
 
-	<h2>2. Use License</h2>
+	<h2>1. Acceptance of Terms</h2>
 
 	<p>
-		Permission is granted to temporarily download one copy of the materials on Career Chakra's
-		Website for personal, non-commercial transitory viewing only. This is the grant of a license,
-		not a transfer of title, and under this license you may not:
+		By accessing or using our Site, you represent that you have read, understood, and agree to be
+		bound by these Terms, as well as our Privacy Policy, which is incorporated by reference into
+		these Terms.
 	</p>
 
+	<h2>2. Eligibility</h2>
+
+	<p>
+		You must be at least 18 years old to use our Site. By using our Site, you represent and warrant
+		that you are at least 18 years old and that you have the right, authority, and capacity to enter
+		into and abide by these Terms.
+	</p>
+
+	<h2>3. Account Registration</h2>
+
+	<p>
+		To access certain features of our Site, you must register for an account using your Google
+		account. By registering, you agree to provide accurate, current, and complete information and to
+		keep this information up-to-date. You are responsible for maintaining the confidentiality of
+		your account credentials and for all activities that occur under your account.
+	</p>
+
+	<h2>4. User Content</h2>
+
+	<h3>4.1. Resume Uploads</h3>
+
+	<p>
+		Our Site allows you to upload your resume and other related documents ("User Content"). By
+		uploading User Content, you grant us a non-exclusive, worldwide, royalty-free, sublicensable,
+		and transferable license to use, reproduce, distribute, display, and perform your User Content
+		in connection with our Site and services.
+	</p>
+	<h3>4.2. Responsibility for User Content</h3>
+	<p>
+		You are solely responsible for your User Content. You represent and warrant that you own or have
+		the necessary rights and permissions to upload and share your User Content and that your User
+		Content does not violate any third-party rights or any applicable laws.
+	</p>
+
+	<h2>5. Use of the Site</h2>
+	<h3>5.1. Job Listings</h3>
+
+	<p>
+		Our Site provides a platform for displaying job listings. We do not guarantee the accuracy,
+		completeness, or availability of any job listings and are not responsible for any errors or
+		omissions in the listings.
+	</p>
+
+	<h2>5.2. Prohibited Activities</h2>
+	<p>
+		You agree not to use our Site for any unlawful or prohibited activities, including but not
+		limited to:
+	</p>
 	<ul>
-		<li>modify or copy the materials;</li>
-		<li>use the materials for any commercial purpose or for any public display;</li>
-		<li>attempt to reverse engineer any software contained on Career Chakra's Website;</li>
-		<li>remove any copyright or other proprietary notations from the materials; or</li>
+		<li>Uploading or sharing false or misleading information.</li>
 		<li>
-			transferring the materials to another person or "mirror" the materials on any other server.
+			Impersonating any person or entity or falsely stating or otherwise misrepresenting your
+			affiliation with a person or entity.
 		</li>
+		<li>Engaging in any activity that disrupts or interferes with our Site or services.</li>
 	</ul>
+	<h2>6. User Data</h2>
+	<h3>6.1. Collection and Use</h3>
 
 	<p>
-		This will let Career Chakra to terminate upon violations of any of these restrictions. Upon
-		termination, your viewing right will also be terminated and you should destroy any downloaded
-		materials in your possession whether it is printed or electronic format. These Terms of Service
-		has been created with the help of the <a href="https://www.termsofservicegenerator.net"
-			>Terms Of Service Generator</a
-		>.
+		We collect and use personal data in accordance with our Privacy Policy, which details the types
+		of data we collect, the purposes for which we use it, and how we protect it. By using our Site,
+		you consent to the collection and use of your data as described in our Privacy Policy.
 	</p>
 
-	<h2>3. Disclaimer</h2>
-
+	<h3>6.2. Data Security</h3>
 	<p>
-		All the materials on Career Chakra's Website are provided "as is". Career Chakra makes no
-		warranties, may it be expressed or implied, therefore negates all other warranties. Furthermore,
-		Career Chakra does not make any representations concerning the accuracy or reliability of the
-		use of the materials on its Website or otherwise relating to such materials or any sites linked
-		to this Website.
+		We implement appropriate technical and organizational measures to protect your data against
+		unauthorized access, alteration, disclosure, or destruction. However, no method of transmission
+		over the internet or electronic storage is completely secure, and we cannot guarantee absolute
+		security.
 	</p>
 
-	<h2>4. Limitations</h2>
+	<h3>6.3. Data Retention</h3>
 
 	<p>
-		Career Chakra or its suppliers will not be hold accountable for any damages that will arise with
-		the use or inability to use the materials on Career Chakra's Website, even if Career Chakra or
-		an authorize representative of this Website has been notified, orally or written, of the
-		possibility of such damage. Some jurisdiction does not allow limitations on implied warranties
-		or limitations of liability for incidental damages, these limitations may not apply to you.
+		We retain your personal data only for as long as necessary to fulfill the purposes for which it
+		was collected, as outlined in our Privacy Policy, unless a longer retention period is required
+		or permitted by law.
+	</p>
+	<h3>6.4. User Rights</h3>
+	<p>
+		You have certain rights regarding your personal data, including the right to access, correct,
+		delete, and restrict its use. For more information on your rights and how to exercise them,
+		please refer to our Privacy Policy.
+	</p>
+	<h2>7. Intellectual Property</h2>
+	<p>
+		All content and materials on our Site, including but not limited to text, graphics, logos, and
+		software, are the property of Career Chakra or its licensors and are protected by intellectual
+		property laws. You agree not to reproduce, distribute, or create derivative works from any
+		content or materials on our Site without our prior written consent.
 	</p>
 
-	<h2>5. Revisions and Errata</h2>
-
+	<h2>8. Privacy</h2>
 	<p>
-		The materials appearing on Career Chakra's Website may include technical, typographical, or
-		photographic errors. Career Chakra will not promise that any of the materials in this Website
-		are accurate, complete, or current. Career Chakra may change the materials contained on its
-		Website at any time without notice. Career Chakra does not make any commitment to update the
-		materials.
+		Your use of our Site is also governed by our Privacy Policy, which can be found at [Privacy
+		Policy URL]. Please review our Privacy Policy to understand our practices regarding the
+		collection, use, and disclosure of your personal information.
+	</p>
+	<h2>9. Disclaimers</h2>
+	<p>
+		Our Site and services are provided on an "as-is" and "as-available" basis. We make no
+		warranties, express or implied, regarding the availability, reliability, or accuracy of our Site
+		or services. We disclaim all warranties, including but not limited to, the warranties of
+		merchantability, fitness for a particular purpose, and non-infringement.
+	</p>
+	<h2>10. Limitation of Liability</h2>
+	<p>
+		To the maximum extent permitted by law, Career Chakra shall not be liable for any indirect,
+		incidental, special, consequential, or punitive damages, or any loss of profits or revenues,
+		whether incurred directly or indirectly, or any loss of data, use, goodwill, or other intangible
+		losses, resulting from your use or inability to use our Site or services, unauthorized access to
+		our servers, interruption or cessation of transmission to or from our Site, bugs, viruses,
+		trojan horses, or any errors or omissions in any content posted, emailed, transmitted, or
+		otherwise made available through our Site or services.
 	</p>
 
-	<h2>6. Links</h2>
-
+	<h2>11. Indemnification</h2>
 	<p>
-		Career Chakra has not reviewed all of the sites linked to its Website and is not responsible for
-		the contents of any such linked site. The presence of any link does not imply endorsement by
-		Career Chakra of the site. The use of any linked website is at the user's own risk.
+		You agree to indemnify and hold harmless Career Chakra, its affiliates, officers, directors,
+		employees, and agents from and against any claims, liabilities, damages, losses, and expenses,
+		including without limitation reasonable legal and accounting fees, arising out of or in any way
+		connected with your access to or use of our Site or services, your User Content, or your
+		violation of these Terms.
 	</p>
 
-	<h2>7. Site Terms of Use Modifications</h2>
-
+	<h2>12. Termination</h2>
 	<p>
-		Career Chakra may revise these Terms of Use for its Website at any time without prior notice. By
-		using this Website, you are agreeing to be bound by the current version of these Terms and
-		Conditions of Use.
+		We may terminate or suspend your access to our Site and services at any time, without prior
+		notice or liability, for any reason, including if we believe you have breached these Terms. Upon
+		termination, your right to use our Site and services will immediately cease.
 	</p>
 
-	<h2>8. Your Privacy</h2>
-
-	<p>Please read our <a href="/privacy-policy">Privacy Policy</a>.</p>
-
-	<h2>9. Governing Law</h2>
-
+	<h2>14. Changes to Terms</h2>
 	<p>
-		Any claim related to Career Chakra's Website shall be governed by the laws of us without regards
-		to its conflict of law provisions.
+		We reserve the right to modify these Terms at any time. If we make material changes to these
+		Terms, we will notify you by email or through our Site. Your continued use of our Site following
+		any changes constitutes your acceptance of the revised Terms.
+	</p>
+
+	<h2>15. Contact Information</h2>
+	<p>
+		If you have any questions about these Terms, please contact us at: Career Chakra, <a
+			href="mailto:help@careerchakra.com">help@careerchakra.com</a
+		>
+		. By using our Site, you acknowledge that you have read, understood, and agree to be bound by these
+		Terms.
 	</p>
 </div>

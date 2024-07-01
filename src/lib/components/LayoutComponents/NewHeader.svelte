@@ -43,6 +43,8 @@
 						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/terms-of-service">Terms of service</a></li>
+						<li><a href="/privacy-policy">Privacy Policy</a></li>
 						<li><a href="/faq">FAQ</a></li>
 					</ul>
 				</div>
@@ -103,7 +105,7 @@
 						>New Upload</a
 					>
 				{/if}
-				<div class="dropdown md:dropdown-end dropdown-bottom dropdown-center">
+				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<div class="border-0 py-2 px-6" tabindex="0">
 						<img

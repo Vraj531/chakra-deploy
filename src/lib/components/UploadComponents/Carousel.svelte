@@ -94,7 +94,7 @@
 	<div class="ml-auto p-2 md:mx-auto">
 		<div class="flex gap-4">
 			<div class="flex items-center">
-				{selected + 1}/{arr.length + 1}
+				{selected + 1}/{arr.length}
 			</div>
 			<button class=" btn btn-primary" on:click={handleReset}>
 				{@html RestoreIcon}
@@ -112,23 +112,20 @@
 <div class="relative py-4" transition:fade>
 	<div class={`hidden md:block`}>
 		<button
-			class={`left-10 btn btn-primary btn-circle p-0 m-0 absolute top-36 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+			class={` btn btn-primary btn-circle p-0 m-0 absolute left-10 lg:left-44 top-36 z-10  ${selected === 0 ? 'hidden' : 'md:block'}`}
 			on:click={previousCard}
 		>
-			<!-- <ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} /> -->
 			<div class="pl-2">
 				{@html ChevronLeftIcon}
 			</div>
 		</button>
 		<button
-			class={`btn btn-primary btn-circle absolute right-10 top-36 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+			class={`btn btn-primary btn-circle  absolute right-10 lg:right-44 top-36 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
 			on:click={nextCard}
 		>
 			<div class="pl-2.5">
 				{@html ChevronRightIcon}
 			</div>
-			<!-- <ChevronRightIcon /> -->
-			<!-- <ChevronRight class="h-9 w-9 pl-3" /> -->
 		</button>
 	</div>
 	<div class="embla">

@@ -1,15 +1,15 @@
 <script lang="ts">
-	import Carousel from '$lib/components/UploadComponents/Carousel.svelte';
-
 	import type { JobListing } from '$lib/dummyData';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { filterObjects } from '$lib/utils/filterData';
 	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
 
 	import type { PageData } from './$types';
+	import JobList from '$lib/components/BookmarkedJobsComponents/JobList.svelte';
 
 	export let data: PageData;
-	let arr: JobListing[] = data.bookmarkedJobs as unknown as JobListing[];
+	let arr: JobListing[] = data.bookmarkedJobs;
+
 	let backUpData = arr;
 
 	const handleReset = () => {
@@ -47,6 +47,8 @@
 </script>
 
 <div class="relative flex flex-col p-2">
-	<Carousel {arr} {triggerModal} {handleReset} />
+	<JobList JobList={arr} />
+</div>
+<div class="relative flex flex-col p-2">
 	<FilterForm {handleSubmit} />
 </div>
