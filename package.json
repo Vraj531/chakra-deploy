@@ -5,17 +5,16 @@
 	"scripts": {
 		"dev": "vite dev",
 		"build": "vite build",
-		"preview": "npm run build && wrangler pages dev --port 5173",
+		"preview": "npm run build && vite preview --port 5173",
 		"dev:db": "drizzle-kit studio --config=dev-drizzle.config.ts",
 		"dev:generate": "drizzle-kit generate --config=dev-drizzle.config.ts",
 		"dev:migrate": "drizzle-kit migrate --config=dev-drizzle.config.ts",
-		"dev:push": "drizzle-kit push --config=dev-drizzle.config.ts",
 		"dev:drop": "drizzle-kit drop --config=dev-drizzle.config.ts",
+		"dev:push": "drizzle-kit push --config=dev-drizzle.config.ts",
 		"prod:db:push": "drizzle-kit push --config=drizzle.config.ts",
 		"prod:db": "drizzle-kit studio --config=drizzle.config.ts",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
-		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch",
-		"deploy": "npm run build && wrangler pages deploy"
+		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
 	},
 	"devDependencies": {
 		"@aws-sdk/client-s3": "^3.582.0",

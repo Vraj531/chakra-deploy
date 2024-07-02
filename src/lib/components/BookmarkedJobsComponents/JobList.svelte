@@ -7,14 +7,9 @@
 	export let count: number;
 	export let pages: number;
 
-	let activePage = parseInt($page.url.searchParams.get('page') || '1');
-	let pageNumbers = [...Array.from({ length: pages }, (_, i) => i + 1)];
-	// console.log('page', pageNumbers);
+	$: activePage = parseInt($page.url.searchParams.get('page') || '1');
+	$: pageNumbers = [...Array.from({ length: pages }, (_, i) => i + 1)];
 
-	// console.log('url', JobList);
-
-	// let JobList: JobListing[] = [];
-	// TODO: handle unbookmarking a job
 	let jobListing: JobListing;
 	$: jobListWithHumanReadableDates = !JobList.length
 		? []
@@ -74,7 +69,11 @@
 					</form>
 				</div>
 				<div class="flex flex-col gap-2">
-					<img src={job?.company_logo} alt="company logo" class=" md:max-h-32 max-h-16" />
+					<div
+						class="image-container bg-cover bg-center transition-background-image duration-500 md:max-h-32 w-full max-h-16"
+						style="background-image: url({job?.company_logo});"
+					/>
+					<!-- <img src={job?.company_logo} alt="company logo" class=" md:max-h-32 max-h-16" /> -->
 					<button class="btn btn-primary md:btn-md btn-sm" on:click={() => viewJobDetails(job.id)}
 						>View</button
 					>

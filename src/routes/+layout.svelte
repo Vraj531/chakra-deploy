@@ -3,7 +3,7 @@
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import '../app.css';
 	import type { LayoutData } from './$types';
-	import Analytics from '$lib/Analytics.svelte';
+	import Analytics from '$lib/components/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/LayoutComponents/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/LayoutComponents/Toast.svelte';
 
