@@ -16,7 +16,7 @@
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
 	export let data: PageData;
-	console.log('data', data);
+
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
 	let inputText = '';

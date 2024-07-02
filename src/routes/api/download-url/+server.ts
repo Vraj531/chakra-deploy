@@ -6,7 +6,6 @@ import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
 import { db } from '$lib/server/drizzle/turso-db';
 import { guestResumeTable, userResumeTable } from '$lib/server/drizzle/turso-schema';
 import { generateIdFromEntropySize } from 'lucia';
-import { limiter } from '$lib/server/rateLimiter';
 
 const client = new S3Client({
 	region: 'us-east-2',
