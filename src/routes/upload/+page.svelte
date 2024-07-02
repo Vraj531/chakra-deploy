@@ -10,8 +10,13 @@
 	import { toastStore } from '$lib/stores/toastStores';
 	import { state as headerState } from '$lib/stores/headerStore';
 	import { filterObjects } from '$lib/utils/filterData';
+	import type { PageData } from './$types';
+	import { onMount } from 'svelte';
+	import Cookies from 'js-cookie';
 	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
 
+	export let data: PageData;
+	console.log('data', data);
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
 	let inputText = '';
@@ -36,8 +41,19 @@
 		file = selectedFiles[0];
 	};
 
+	//if user is not logged in, check cookie if policy was agreed and if no, then ask them to agree
 	const handlePdfSubmit = async () => {
 		console.log('submitting');
+		if (!data?.user) {
+			if (!Cookies.get('privacy_policy')) {
+				console.log('here', Cookies.get('privacy_policy'));
+				Cookies.set('privacy_policy', 'false');
+			}
+			if (Cookies.get('privacy_policy') === 'false') {
+				(document.getElementById('privacy-policy-modal') as HTMLDialogElement).showModal();
+				return;
+			}
+		}
 		if (!file) return;
 		try {
 			//* file upload phase *//

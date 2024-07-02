@@ -3,9 +3,7 @@ import { redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { lucia } from '$lib/server/auth';
 import { getCache, setCache } from '$lib/cache';
 
-//what is this value of 60000 ms in minutes?
-
-const TTL = 60000;
+const TTL = 60000 * 5; //stay live for 5mins
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = crypto.randomUUID();
@@ -30,7 +28,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		return response; // bailing here allows the 404 page to build
 	}
 	const sessionId = event.cookies.get(lucia.sessionCookieName);
-	console.log('ses', sessionId);
+	// console.log('ses', sessionId);
 
 	let user = null;
 	let session = null;
@@ -39,7 +37,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const cachedData = getCache(sessionId);
 		if (cachedData) {
 			({ session, user } = cachedData);
-			console.log('using cache');
+			console.count('using cache');
 		} else {
 			const validationResponse = await lucia.validateSession(sessionId);
 			console.count('using db res');
@@ -59,6 +57,7 @@ export const handle: Handle = async ({ event, resolve }) => {
 					...sessionCookie.attributes
 				});
 			}
+			// console.log('sesion', validationResponse);
 			if (session && user) {
 				setCache({ key: sessionId, value: { session, user }, ttl: TTL });
 			}

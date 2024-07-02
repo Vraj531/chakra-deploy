@@ -29,6 +29,8 @@
 		<input type="text" placeholder="email" class="input input-bordered" name="email" />
 	</label>
 
+	<input type="checkbox" name="props" id="" required class="hidden" />
+
 	<label class="form-control w-full">
 		<span class="label-text">Password</span>
 		<input type="password" placeholder="password" class="input input-bordered" name="password" />

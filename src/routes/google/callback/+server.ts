@@ -41,8 +41,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				email: googleUser.email,
 				name: googleUser.name,
 				picture: googleUser.picture,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString()
+				agreedToPrivacyPolicy: false
 			});
 			const session = await lucia.createSession(userId, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);

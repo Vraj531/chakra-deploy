@@ -16,6 +16,7 @@
 	import NewHeader from '$lib/components/LayoutComponents/NewHeader.svelte';
 	import NewFooter from '$lib/components/LayoutComponents/NewFooter.svelte';
 	import WebviewModal from '$lib/components/LayoutComponents/WebviewModal.svelte';
+	import PrivacyPolicyModal from '$lib/components/LayoutComponents/PrivacyPolicyModal.svelte';
 
 	export let data: LayoutData;
 
@@ -28,7 +29,12 @@
 	const transitionOut = { easing: cubicIn, y: -y, duration };
 
 	onMount(() => {
+		// console.log('first', data.user?.agreedToPrivacyPolicy);
+		if (data.user && !data.user?.agreedToPrivacyPolicy) {
+			(document.getElementById('privacy-policy-modal') as HTMLDialogElement).showModal();
+		}
 		if (query.get('webview') && query.get('webview') === 'true') {
+			//likely will not interfere since users arent allowed to sign in if they are on web view
 			(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
 		}
 	});
@@ -78,9 +84,10 @@
 <PageLoaderProgress />
 <div class="flex flex-col min-h-screen font-varela">
 	<CookieConsent />
-	<WebviewModal />
 	<AuthModal />
 	<Toast />
+	<PrivacyPolicyModal {data} />
+	<WebviewModal />
 	<NewHeader userData={data.user} />
 
 	{#key data.pathname}

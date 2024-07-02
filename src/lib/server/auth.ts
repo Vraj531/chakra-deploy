@@ -13,7 +13,8 @@ export const lucia = new Lucia(adapter, {
 			providerId: attributes.providerId,
 			email: attributes.email,
 			name: attributes.name,
-			picture: attributes?.picture || ''
+			picture: attributes?.picture || '',
+			agreedToPrivacyPolicy: attributes.agreedToPrivacyPolicy
 		};
 	}
 });
@@ -30,4 +31,5 @@ interface DatabaseUserAttributes {
 	email: string;
 	name: string;
 	picture?: string;
+	agreedToPrivacyPolicy: boolean;
 }

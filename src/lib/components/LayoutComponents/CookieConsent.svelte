@@ -8,7 +8,7 @@
 
 	let consent = Cookies.get('cookie-consent');
 	let showConsent = !Cookies.get('show-cookie-consent');
-	console.log('show', showConsent);
+	// console.log('show', showConsent);
 
 	function initAnalytics() {
 		// Code to activate Google Analytics and Vercel Analytics
