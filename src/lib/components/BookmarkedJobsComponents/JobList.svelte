@@ -96,14 +96,16 @@
 			</div>
 		</div>
 	{/each}
-	<div class="join">
-		{#each pageNumbers as pageNum}
-			<a
-				class={`join-item btn ${activePage === pageNum && 'btn-active'}`}
-				href={`/bookmarked-jobs?page=${pageNum}`}>{Number(pageNum)}</a
-			>
-		{/each}
-	</div>
+	{#if JobList.length}
+		<div class="join">
+			{#each pageNumbers as pageNum}
+				<a
+					class={`join-item btn ${activePage === pageNum && 'btn-active'}`}
+					href={`/bookmarked-jobs?page=${pageNum}`}>{Number(pageNum)}</a
+				>
+			{/each}
+		</div>
+	{/if}
 	<JobDescriptionModal {jobListing} />
 </div>
 

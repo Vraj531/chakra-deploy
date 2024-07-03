@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { onMount } from 'svelte';
 	import { state } from '../../stores/headerStore';
+	import type { PageData } from '../../../routes/$types';
 
-	export let userData;
+	export let userData: PageData['user'];
 
 	const showAuthModal = () => {
 		(document.getElementById('auth-modal') as HTMLDialogElement).showModal();
@@ -62,8 +63,8 @@
 		<!-- Button -->
 
 		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
-			{#if !userData?.picture}
-				<a
+			{#if !userData}
+				<!-- <a
 					href="/google"
 					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
@@ -79,8 +80,8 @@
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
 					</svg>
-				</a>
-				<!-- <button
+				</a> -->
+				<button
 					on:click={showAuthModal}
 					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
@@ -96,7 +97,7 @@
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
 					</svg>
-				</button> -->
+				</button>
 			{:else}
 				{#if $state === 'uploaded'}
 					<a
@@ -108,13 +109,21 @@
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<div class="border-0 py-2 px-6" tabindex="0">
-						<img
-							referrerpolicy="no-referrer"
-							class="chat-image w-10 h-10 rounded-full cursor-pointer"
-							src={userData?.picture}
-							alt="avatar"
-							referrerPolicy="no-referrer"
-						/>
+						{#if !userData?.picture}
+							<div class="chat-image w-10 h-10 rounded-full cursor-pointer bg-amber-500 relative">
+								<p class="absolute top-[18%] left-[33%] text-xl text-black">
+									{userData.name.charAt(0).toLocaleUpperCase()}
+								</p>
+							</div>
+						{:else}
+							<img
+								referrerpolicy="no-referrer"
+								class="chat-image w-10 h-10 rounded-full cursor-pointer"
+								src={userData?.picture}
+								alt="avatar"
+								referrerPolicy="no-referrer"
+							/>
+						{/if}
 					</div>
 					<!-- <div
 					tabindex="0"

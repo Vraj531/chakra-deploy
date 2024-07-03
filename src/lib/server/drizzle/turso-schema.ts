@@ -92,3 +92,6 @@ export const bookMarkedJobs = sqliteTable(
 		};
 	}
 );
+
+export type TNewUser = typeof userTable.$inferInsert;
+export type TUserTable = typeof userTable.$inferSelect;

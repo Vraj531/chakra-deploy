@@ -1,5 +1,6 @@
 <script lang="ts">
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 
 	export let toForgotPassword: () => void;
 
@@ -7,9 +8,8 @@
 		const formData = new FormData(e.target as HTMLFormElement);
 		const data = Object.fromEntries(formData);
 		try {
-			// console.log('data', window.grecaptcha);
-			// data.token = await getRecaptchaToken();
-			data.token = data['g-recaptcha-response'];
+			data.token = await getRecaptchaToken('LOGIN');
+			// data.token = data['g-recaptcha-response'];
 			console.log('data', data);
 			const res = await fetch('api/login', {
 				method: 'POST',
@@ -29,15 +29,13 @@
 		<input type="text" placeholder="email" class="input input-bordered" name="email" />
 	</label>
 
-	<input type="checkbox" name="props" id="" required class="hidden" />
+	<!-- <input type="checkbox" name="props" id="remember1" required class="hidden" /> -->
 
 	<label class="form-control w-full">
 		<span class="label-text">Password</span>
 		<input type="password" placeholder="password" class="input input-bordered" name="password" />
-		<a
-			href="#forgot-password"
-			class="label-text-alt link link-hover pt-2"
-			on:click={toForgotPassword}>Forgot password?</a
+		<a href="#forgot-password" class="label-text-alt link pt-2" on:click={toForgotPassword}
+			>Forgot password?</a
 		>
 	</label>
 
