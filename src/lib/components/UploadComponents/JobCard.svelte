@@ -4,20 +4,11 @@
 	import DOMPurify from 'isomorphic-dompurify';
 	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
 	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
+	import { toastStore } from '$lib/stores/toastStores';
 
 	export let slide: JobListing;
-
-	const handleBookmark = async () => {
-		console.log('slide', slide);
-		const res = await fetch('api/bookmark', {
-			method: 'POST',
-			body: JSON.stringify({
-				...slide
-			})
-		});
-		const data = await res.json();
-		// console.log('data', data);
-	};
+	export let handleBookmark: (slide: JobListing) => void;
+	// console.log('slide', slide);
 
 	$: job_description = DOMPurify.sanitize(slide.job_description);
 
@@ -82,10 +73,19 @@
 						>
 							Apply now
 						</a>
-						<button class="btn btn-primary hidden md:flex" on:click={handleBookmark}>
-							{@html BookmarkBlankIcon}
-							<!-- {@html BookmarkFilledIcon} -->
-						</button>
+						<!-- @ts-ignore -->
+						{#if slide?.bookmarked}
+							<button
+								class="btn btn-primary hidden md:flex"
+								on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
+							>
+								{@html BookmarkFilledIcon}
+							</button>
+						{:else}
+							<button class="btn btn-primary hidden md:flex" on:click={() => handleBookmark(slide)}>
+								{@html BookmarkBlankIcon}
+							</button>
+						{/if}
 					</div>
 				{/if}
 			</div>
@@ -163,9 +163,18 @@
 			{#if slide?.job_posting_url}
 				<div class="w-full flex justify-center gap-2 mt-4">
 					<a class="btn btn-primary" href={slide.job_posting_url} target="_blank"> Apply now </a>
-					<button class="btn btn-primary">
-						{@html BookmarkBlankIcon}
-					</button>
+					{#if slide?.bookmarked}
+						<button
+							class="btn btn-primary md:flex"
+							on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
+						>
+							{@html BookmarkFilledIcon}
+						</button>
+					{:else}
+						<button class="btn btn-primary" on:click={() => handleBookmark(slide)}>
+							{@html BookmarkBlankIcon}
+						</button>
+					{/if}
 				</div>
 			{/if}
 		</div>

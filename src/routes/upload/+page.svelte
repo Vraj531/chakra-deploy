@@ -11,11 +11,12 @@
 	import { state as headerState } from '$lib/stores/headerStore';
 	import { filterObjects } from '$lib/utils/filterData';
 	import type { PageData } from './$types';
-	import { onMount } from 'svelte';
 	import Cookies from 'js-cookie';
-	// const arr = [1, 2, 3]; //will be replaced by data from ai-model api
+	import GuestPrivacyPolicyModal from '$lib/components/UploadComponents/GuestPrivacyPolicyModal.svelte';
 
 	export let data: PageData;
+
+	// console.log('company ids', companyIds);
 
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
@@ -23,8 +24,28 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	let arr: JobListing[] = dummyData;
-	let backUpData: JobListing[] = dummyData;
+	// let arr: JobListing[] = dummyData;
+	// let backUpData: JobListing[] = dummyData;
+	let arr: JobListing[] = [];
+	let backUpData: JobListing[] = [];
+	let companyIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job.company_id) : [];
+
+	$: {
+		if (companyIds.length > 0 && arr.length > 0) {
+			arr = arr.map((job) => {
+				if (companyIds.includes(job.company_id)) {
+					return {
+						...job,
+						bookmarked: true
+					};
+				}
+				return {
+					...job,
+					bookmarked: false
+				};
+			});
+		}
+	}
 	// let arr: JobListing[] = [];
 	// let backUpData: JobListing[] = [];
 
@@ -41,25 +62,25 @@
 		file = selectedFiles[0];
 	};
 
-	//if user is not logged in, check cookie if policy was agreed and if no, then ask them to agree
 	const handlePdfSubmit = async () => {
-		console.log('submitting');
 		if (!data?.user) {
 			if (!Cookies.get('privacy_policy')) {
 				console.log('here', Cookies.get('privacy_policy'));
 				Cookies.set('privacy_policy', 'false');
 			}
 			if (Cookies.get('privacy_policy') === 'false') {
-				(document.getElementById('privacy-policy-modal') as HTMLDialogElement).showModal();
+				(document.getElementById('guest-privacy-policy-modal') as HTMLDialogElement).showModal();
 				return;
 			}
 		}
+		console.log('submitting');
+
 		if (!file) return;
 		try {
 			//* file upload phase *//
 			state = 'uploading';
 			const presignedUrl = await generatePresignedLink(file, sessionId);
-			console.log('url', presignedUrl);
+			// console.log('url', presignedUrl);
 			if (presignedUrl === 'capped') {
 				state = 'capped';
 				return;
@@ -98,7 +119,7 @@
 
 			//*
 			const fullRes = (await res.json()) as JobListing[];
-			console.log('body', fullRes);
+			// console.log('body', fullRes);
 			// fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
 			if (Array.isArray(fullRes)) {
 				arr = fullRes;
@@ -153,14 +174,45 @@
 	const handleReset = () => {
 		arr = backUpData;
 	};
+
+	const handleBookmark = async (slide: JobListing) => {
+		// console.log('slide', slide);
+		try {
+			const res = await fetch('api/bookmark', {
+				method: 'POST',
+				body: JSON.stringify({
+					...slide
+				})
+			});
+			const data = await res.json();
+			// console.log('data', data);
+			if (data.message === 'success') {
+				arr = arr.map((job) => {
+					if (job.company_id === slide.company_id) {
+						// console.log('bok', job.bookmarked);
+						return {
+							...job,
+							bookmarked: true
+						};
+					}
+					return job;
+				});
+				arr = structuredClone(arr);
+			}
+		} catch (error) {
+			console.log('error', error);
+		}
+
+		// console.log('data', data);
+	};
 </script>
 
-<div class="relative flex-1 flex flex-col">
+<div class="relative flex-1 flex flex-col items-center">
 	{#if state === ''}
 		<NewFileUpload {handleFileInput} {inputText} {handleTextChange} />
 		{#if file}
 			<div
-				class="flex md:mx-auto w-full md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
+				class="flex md:mx-auto w-full md:w-1/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
 			>
 				<p class="text-ellipsis overflow-hidden">
 					{file?.name}
@@ -189,7 +241,7 @@
 				>Try Again?</button
 			>
 		{:else}
-			<Carousel {arr} {triggerModal} {handleReset} />
+			<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
 			<FilterForm {handleSubmit} />
 		{/if}
 	{:else if state === 'capped'}
@@ -204,7 +256,7 @@
 		</button>
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
-
-	<Carousel {arr} {triggerModal} {handleReset} />
-	<FilterForm {handleSubmit} />
+	<GuestPrivacyPolicyModal {data} sendFile={handlePdfSubmit} />
+	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
+	<FilterForm {handleSubmit} /> -->
 </div>

@@ -87,7 +87,8 @@ export const bookMarkedJobs = sqliteTable(
 	},
 	(table) => {
 		return {
-			userIdIndex: index('user_id_index').on(table.user_id)
+			userIdIndex: index('user_id_index').on(table.user_id),
+			companyIdIndex: index('company_id').on(table.company_id)
 		};
 	}
 );

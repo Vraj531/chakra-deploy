@@ -7,7 +7,7 @@
 	import { page } from '$app/stores';
 
 	let consent = Cookies.get('cookie-consent');
-	let showConsent = !Cookies.get('show-cookie-consent');
+	let showConsent = false;
 	// console.log('show', showConsent);
 
 	function initAnalytics() {
@@ -21,7 +21,7 @@
 		Cookies.set('cookie-consent', 'true', { expires: 365 });
 		Cookies.set('show-cookie-consent', 'accepted', { expires: 365 });
 		consent = 'true';
-		showConsent = false;
+		showConsent = true;
 
 		// Initialize analytics or other scripts here
 		initAnalytics();
@@ -60,6 +60,16 @@
 	}
 
 	onMount(() => {
+		!Cookies.get('show-cookie-consent') ? (showConsent = true) : (showConsent = false);
+		// console.log('show', showConsent);
+		// Check if user has already given consent
+		if (!consent) {
+			// Show cookie consent banner
+			showConsent = true;
+		} else if (consent === 'true') {
+			// Initialize analytics or other scripts here
+			initAnalytics();
+		}
 		if (consent === 'true') {
 			initAnalytics();
 		}
@@ -67,7 +77,9 @@
 </script>
 
 {#if showConsent}
-	<div class="cookie-consent">
+	<div
+		class="fixed bottom-0 md:max-w-sm w-full border border-slate-500 p-2 md:m-2 text-center z-50 bg-white"
+	>
 		<p>
 			We use cookies to enhance your browsing experience. By clicking 'Accept', you consent to our
 			use of cookies.
@@ -81,10 +93,11 @@
 			position: fixed;
 			bottom: 0;
 			left: 0;
-			right: 0;
+			max-width: 40%;
 			background-color: white;
-			border-top: 1px solid #ccc;
+			border: 1px solid #ccc;
 			padding: 10px;
+			margin: 10px;
 			text-align: center;
 			z-index: 1000;
 		}

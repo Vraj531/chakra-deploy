@@ -14,7 +14,7 @@
 	$: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
 </script>
 
-<div class="flex flex-col md:flex-row items-center gap-4 md:px-12 mt-[6em]">
+<div class="flex flex-col md:flex-row items-center gap-4 md:px-12 mt-[6em] w-4/5">
 	<label class="btn hidden md:flex btn-primary mx-auto" for="fileUpload">
 		<input
 			type="file"
@@ -30,7 +30,7 @@
 		<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
 				'\n'}</pre>
 
-		<textarea placeholder="Add additional skills" bind:value={inputText} class="rounded-2xl"
+		<textarea placeholder="Add additional skills" bind:value={inputText} class="rounded-lg w-full"
 		></textarea>
 	</div>
 	<label class="btn flex md:hidden btn-primary mx-auto" for="fileUpload">

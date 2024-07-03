@@ -18,7 +18,7 @@
 		<!-- Navigation links -->
 
 		<nav
-			class="lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto hidden md:flex"
+			class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base md:ml-auto hidden md:flex"
 		>
 			<div class="dropdown">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
@@ -56,7 +56,7 @@
 			href="/"
 			class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center"
 		>
-			<img src="/logo.svg" class="h-20 w-20" alt="logo" />
+			<img src="/logo.svg" class="h-16 w-16" alt="logo" />
 			<span class="ml-3 text-lg hidden lg:inline-block">Career chakra</span>
 		</a>
 		<!-- Button -->

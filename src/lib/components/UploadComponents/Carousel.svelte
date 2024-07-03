@@ -15,6 +15,9 @@
 	export let arr: JobListing[];
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
+	export let handleBookmark: (slide: JobListing) => void;
+
+	// console.log('arr', arr);
 
 	const carousel = writable<EmblaCarouselType>();
 
@@ -132,7 +135,7 @@
 		<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
 			<div class="embla__container">
 				{#each arr as slide}
-					<JobCard {slide} />
+					<JobCard {slide} {handleBookmark} />
 				{/each}
 			</div>
 		</div>

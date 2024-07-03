@@ -2,10 +2,19 @@
 	import { page } from '$app/stores';
 	import JobDescriptionModal from '$lib/components/BookmarkedJobsComponents/JobDescriptionModal.svelte';
 	import type { JobListing } from '$lib/dummyData';
+	import { fade, fly } from 'svelte/transition';
 
 	export let JobList: JobListing[];
 	export let count: number;
 	export let pages: number;
+
+	let imgElement: HTMLImageElement;
+	$: if (imgElement) {
+		imgElement.onload = () => {
+			imgElement.style.opacity = '1';
+		};
+		imgElement.style.opacity = '0';
+	}
 
 	$: activePage = parseInt($page.url.searchParams.get('page') || '1');
 	$: pageNumbers = [...Array.from({ length: pages }, (_, i) => i + 1)];
@@ -29,13 +38,18 @@
 			hour12: true
 		}).format(new Date(date));
 	}
-	function viewJobDetails(id: any) {
+	function viewJobDetails(id: number) {
 		if (typeof id === 'string') {
-			//@ts-ignore
-			jobListing = JobList.find((job) => job.id === id);
+			const temp = JobList.find((job) => job.id === id);
+			if (temp) jobListing = temp;
 			(document.getElementById('job-description-modal') as HTMLDialogElement).showModal();
-			console.log('job listing', jobListing);
+			// console.log('job listing', jobListing);
 		}
+	}
+
+	function loadImage(e: Event) {
+		const target = e.target as HTMLImageElement;
+		target.style.opacity = '1';
 	}
 </script>
 
@@ -47,8 +61,11 @@
 		</div>
 	{/if}
 	<h3>Bookmarked: {count}</h3>
-	{#each jobListWithHumanReadableDates as job}
-		<div class="flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md">
+	{#each jobListWithHumanReadableDates as job, i}
+		<div
+			class="flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md"
+			transition:fly
+		>
 			<div class="flex justify-between p-4 md:p-6">
 				<div class="flex-1 flex flex-col">
 					<h2 class="text-xl font-bold">
@@ -69,22 +86,14 @@
 					</form>
 				</div>
 				<div class="flex flex-col gap-2">
-					<div
-						class="image-container bg-cover bg-center transition-background-image duration-500 md:max-h-32 w-full max-h-16"
-						style="background-image: url({job?.company_logo});"
-					/>
-					<!-- <img src={job?.company_logo} alt="company logo" class=" md:max-h-32 max-h-16" /> -->
+					{#key job?.company_logo}
+						<img src={job?.company_logo} alt="company logo" class=" md:max-h-32 max-h-16" />
+					{/key}
 					<button class="btn btn-primary md:btn-md btn-sm" on:click={() => viewJobDetails(job.id)}
 						>View</button
 					>
 				</div>
 			</div>
-
-			<!-- <div class="flex flex-wrap gap-2">
-          {#each job.tags as tag}
-            <span class="bg-gray-200 text-gray-500 px-2 py-1 rounded-md">{tag}</span>
-          {/each}
-        </div> -->
 		</div>
 	{/each}
 	<div class="join">
@@ -97,3 +106,11 @@
 	</div>
 	<JobDescriptionModal {jobListing} />
 </div>
+
+<style>
+	.image-container {
+		background-size: cover;
+		background-position: center;
+		transition: background-image 0.5s;
+	}
+</style>

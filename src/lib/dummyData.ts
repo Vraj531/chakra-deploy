@@ -1,5 +1,6 @@
 /* eslint-disable no-irregular-whitespace */
 export type JobListing = {
+	bookmarked?: boolean;
 	title: string;
 	location: string;
 	has_remote: boolean;
