@@ -9,7 +9,6 @@
 
 	import CookieConsent from '$lib/components/LayoutComponents/CookieConsent.svelte';
 	import { page } from '$app/stores';
-	import { dev } from '$app/environment';
 
 	import { onMount } from 'svelte';
 	import AuthModal from '$lib/components/AuthComponents/AuthModal.svelte';

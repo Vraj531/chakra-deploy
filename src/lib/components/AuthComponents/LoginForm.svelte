@@ -16,6 +16,8 @@
 				body: JSON.stringify(data)
 			});
 			console.log('response', await res.json());
+			const modal = document.getElementById('auth-modal') as HTMLDialogElement;
+			modal.close();
 		} catch (error) {
 			console.log('error', error);
 		}

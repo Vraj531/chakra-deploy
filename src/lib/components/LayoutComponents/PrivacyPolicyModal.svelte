@@ -6,7 +6,7 @@
 
 	const handleSubmit = async (e: Event) => {
 		const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
-		// console.log('dat', data);
+		console.log('dat', data);
 		try {
 			if (!data?.user) {
 				Cookie.set('privacy_policy', 'true');
@@ -15,7 +15,7 @@
 				return;
 			}
 			if (formData.privacy_policy === 'on') {
-				const res = await fetch('api/agree-policy', {
+				const res = await fetch('/api/agree-policy', {
 					method: 'POST',
 					body: JSON.stringify({ privacy_policy: true }),
 					headers: {

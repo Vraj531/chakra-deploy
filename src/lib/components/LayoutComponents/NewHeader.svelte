@@ -111,7 +111,7 @@
 					<div class="border-0 py-2 px-6" tabindex="0">
 						{#if !userData?.picture}
 							<div class="chat-image w-10 h-10 rounded-full cursor-pointer bg-amber-500 relative">
-								<p class="absolute top-[18%] left-[33%] text-xl text-black">
+								<p class="absolute top-[18%] left-[32%] text-xl text-white">
 									{userData.name.charAt(0).toLocaleUpperCase()}
 								</p>
 							</div>

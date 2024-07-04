@@ -1,7 +1,11 @@
 <script lang="ts">
-	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	import { goto } from '$app/navigation';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
+
+	let emailError: string = '';
+	let passwordError: string = '';
+	let confirmPasswordError: string = '';
 
 	const handleSubmit = async (e: Event) => {
 		const formData = new FormData(e.target as HTMLFormElement);
@@ -10,10 +14,12 @@
 			if (data.remember2) return;
 			data.email = (data.email as string).toLowerCase();
 			if (validateEmail(data.email as string) === false) {
-				toastStore.alert('Invalid email/Please enter a valid email', { position: 'bottom-end' });
+				emailError = 'Invalid email/Please enter a valid email';
+				// toastStore.alert('Invalid email/Please enter a valid email', { position: 'bottom-end' });
 				return;
-			}
+			} else emailError = '';
 			// if (validatePassword(data.password as string) === false) {
+			// 	passwordError = "Invalid password/Please enter a valid password";
 			// 	toastStore.alert('Invalid password/Please enter a valid password', {
 			// 		position: 'bottom-end'
 			// 	});
@@ -21,21 +27,25 @@
 			// }
 			// console.log('data', data);
 			if (data.password !== data.confirmPassword) {
+				confirmPasswordError = 'Passwords do not match';
 				toastStore.alert('Passwords do not match', { position: 'bottom-end' });
 				return;
 			}
-			// console.log('data', data);
-
-			// console.log('data', window.grecaptcha);
 			data.token = await getRecaptchaToken('SIGNUP');
 			data.expectedAction = 'SIGNUP';
 			// data.token = data['g-recaptcha-response'];
 			console.log('data', data);
-			const res = await fetch('api/signup', {
+			const response = await fetch('api/signup', {
 				method: 'POST',
 				body: JSON.stringify(data)
 			});
-			console.log('response', await res.json());
+			const res = await response.json();
+			if (res.success) {
+				console.log('success');
+				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
+				modal.close();
+				goto('/upload');
+			}
 		} catch (error) {
 			console.log('error', error);
 		}
@@ -53,10 +63,13 @@
 </script>
 
 <form class="p-2 flex flex-col gap-2" on:submit|preventDefault={handleSubmit}>
-	<!-- login form -->
+	<!-- sign-up form -->
 	<label class="form-control w-full">
 		<span class="label-text">Email</span>
 		<input type="text" placeholder="email" class="input input-bordered" name="email" />
+		{#if emailError !== ''}
+			<span class="label-text-alt text-error">{emailError}</span>
+		{/if}
 	</label>
 
 	<input type="text" id="remember2" name="remember2" class="hidden" />
@@ -64,6 +77,9 @@
 	<label class="form-control w-full">
 		<span class="label-text">Password</span>
 		<input type="password" placeholder="password" class="input input-bordered" name="password" />
+		{#if passwordError !== ''}
+			<span class="label-text-alt text-error">{passwordError}</span>
+		{/if}
 	</label>
 	<label class="form-control w-full">
 		<span class="label-text">Confirm Password</span>
@@ -73,6 +89,9 @@
 			class={`input input-bordered input-warning`}
 			name="confirmPassword"
 		/>
+		{#if confirmPasswordError !== ''}
+			<span class="label-text-alt text-error">{confirmPasswordError}</span>
+		{/if}
 	</label>
 
 	<!-- <div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="SIGNUP"></div> -->

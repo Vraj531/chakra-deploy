@@ -6,7 +6,7 @@ import { eq } from 'drizzle-orm';
 
 export const POST = async ({ locals, request }) => {
 	if (!locals.user) {
-		throw error(404, { message: 'Not found' });
+		throw error(404, { message: 'Not found', code: 'NOT_FOUND', id: '' });
 	}
 	const data = await request.json();
 	// console.log('input', data);
@@ -26,6 +26,6 @@ export const POST = async ({ locals, request }) => {
 		});
 	} catch (err) {
 		// console.log(error);
-		return error(500, { message: 'Internal Server Error' });
+		throw error(404, { message: 'Internal server error', code: 'Error', id: '' });
 	}
 };

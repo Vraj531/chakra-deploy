@@ -11,6 +11,7 @@ export const userTable = sqliteTable(
 		provider: text('provider').default('google').notNull(),
 		password: text('password'),
 		agreedToPrivacyPolicy: integer('agreed_to_privacy_policy', { mode: 'boolean' }),
+		isVerified: integer('is_verified', { mode: 'boolean' }),
 		picture: text('picture').notNull().default(''),
 		createdAt: text('timestamp').default(sql`CURRENT_TIMESTAMP`),
 		updatedAt: text('timestamp').default(sql`CURRENT_TIMESTAMP`)
@@ -22,23 +23,35 @@ export const userTable = sqliteTable(
 	}
 );
 
-export const tokenTable = sqliteTable('tokens', {
-	id: text('id').notNull().primaryKey(),
-	token: text('token').notNull(),
-	type: text('type').notNull().default('mail'),
-	expiresAt: integer('expires_at', { mode: 'number' })
-		.notNull()
-		.default(sql`(unixepoch() + 600)`),
-	userId: text('user_id').references(() => userTable.id, { onDelete: 'cascade' })
-});
+export const tokenTable = sqliteTable(
+	'tokens',
+	{
+		id: text('id').notNull().primaryKey(),
+		token: text('token').notNull(),
+		type: text('type').notNull().default('mail'),
+		expiresAt: integer('expires_at', { mode: 'number' })
+			.notNull()
+			.default(sql`(unixepoch() + 600)`),
+		userId: text('user_id').references(() => userTable.id, { onDelete: 'cascade' })
+	},
+	(table) => {
+		return { tokenIndex: index('token_index').on(table.token) };
+	}
+);
 
-export const sessionTable = sqliteTable('sessions', {
-	id: text('id').notNull().primaryKey(),
-	userId: text('user_id')
-		.notNull()
-		.references(() => userTable.id),
-	expiresAt: integer('expires_at').notNull()
-});
+export const sessionTable = sqliteTable(
+	'sessions',
+	{
+		id: text('id').notNull().primaryKey(),
+		userId: text('user_id')
+			.notNull()
+			.references(() => userTable.id),
+		expiresAt: integer('expires_at').notNull()
+	},
+	(table) => {
+		return { userIdIndex: index('user_id_index').on(table.userId) };
+	}
+);
 
 export const userResumeTable = sqliteTable('resumes', {
 	id: text('id').notNull().primaryKey(),
