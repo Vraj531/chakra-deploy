@@ -12,7 +12,7 @@
 			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">✕</button>
 		</form>
 		<div class="container p-2">
-			<div role="tablist" class="tabs tabs-lifted">
+			<div role="tablist" class="tabs tabs-lifted tabs-lg mb-1">
 				<!-- svelte-ignore a11y-missing-attribute -->
 				<button
 					role="tab"
