@@ -1,15 +1,16 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { toastStore } from '$lib/stores/toastStores';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 
-	let emailError: string = '';
-	let passwordError: string = '';
-	let confirmPasswordError: string = '';
+	let emailError = '';
+	let passwordError = '';
+	let confirmPasswordError = '';
+	let status = false;
 
 	const handleSubmit = async (e: Event) => {
 		const formData = new FormData(e.target as HTMLFormElement);
 		const data = Object.fromEntries(formData);
+
 		try {
 			if (data.remember2) return;
 			data.email = (data.email as string).toLowerCase();
@@ -18,19 +19,20 @@
 				// toastStore.alert('Invalid email/Please enter a valid email', { position: 'bottom-end' });
 				return;
 			} else emailError = '';
-			// if (validatePassword(data.password as string) === false) {
-			// 	passwordError = "Invalid password/Please enter a valid password";
-			// 	toastStore.alert('Invalid password/Please enter a valid password', {
-			// 		position: 'bottom-end'
-			// 	});
-			// 	return;
-			// }
+			if (validatePassword(data.password as string) === false) {
+				passwordError = 'Invalid password/Please enter a valid password';
+				// toastStore.alert('Invalid password/Please enter a valid password', {
+				// 	position: 'bottom-end'
+				// });
+				return;
+			}
 			// console.log('data', data);
 			if (data.password !== data.confirmPassword) {
 				confirmPasswordError = 'Passwords do not match';
-				toastStore.alert('Passwords do not match', { position: 'bottom-end' });
+				// toastStore.alert('Passwords do not match', { position: 'bottom-end' });
 				return;
 			}
+			status = true;
 			data.token = await getRecaptchaToken('SIGNUP');
 			data.expectedAction = 'SIGNUP';
 			// data.token = data['g-recaptcha-response'];
@@ -42,11 +44,16 @@
 			const res = await response.json();
 			if (res.success) {
 				console.log('success');
-				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
-				modal.close();
-				goto('/upload');
+				status = true;
+				setTimeout(() => {
+					const modal = document.getElementById('auth-modal') as HTMLDialogElement;
+					modal.close();
+					goto('/upload');
+				}, 3000);
 			}
+			status = false;
 		} catch (error) {
+			status = false;
 			console.log('error', error);
 		}
 	};
@@ -100,6 +107,12 @@
 		data-sitekey="6LfGWgIqAAAAAIJV6ihQg4fiNC54gOOx4AcOK3vU"
 		data-action="LOGIN"
 	></div> -->
+	<div>
+		{#if status}
+			<p class="text-2xl text-green-500">Success</p>
+			<p class="text-xl">A verification mail has been sent to your account</p>
+		{/if}
+	</div>
 
 	<div class="form-control mt-6">
 		<button class="btn btn-primary" type="submit">Login</button>

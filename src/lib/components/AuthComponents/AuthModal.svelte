@@ -1,4 +1,5 @@
 <script lang="ts">
+	import ForgotPassword from '$lib/components/AuthComponents/ForgotPassword.svelte';
 	import SignupForm from '$lib/components/AuthComponents/SignupForm.svelte';
 	import LoginForm from './LoginForm.svelte';
 
@@ -35,7 +36,7 @@
 			<div class:hidden={activeTab !== 1}>
 				<SignupForm />
 			</div>
-			<div class:hidden={activeTab !== 2}>Forgot password</div>
+			<div class:hidden={activeTab !== 2}><ForgotPassword /></div>
 		</div>
 	</div>
 

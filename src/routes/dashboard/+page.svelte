@@ -10,7 +10,7 @@
 </script>
 
 <iframe
-	title="city1"
+	title="dashboard"
 	class="iframe w-full min-h-screen"
 	src="https://app.powerbi.com/view?r=eyJrIjoiNzViYWRjZWUtNTQ4Zi00ZDdmLTgwN2YtZTAwNWQ2NWNiNjRiIiwidCI6IjhkZTViMWQ1LTAwZjctNDliNi1hYTlmLWY2YzQ3ZTZiMzk2NyIsImMiOjJ9"
 	frameborder="0"

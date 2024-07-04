@@ -15,7 +15,7 @@ export const sendVerificationEmail = async (email: string, token: string) => {
 
 // Send an email to reset the user's password
 export const sendPasswordResetEmail = async (email: string, token: string) => {
-	const updatePasswordURL = `${BASE_URL}/auth/password/update-${token}`;
+	const updatePasswordURL = `${BASE_URL}/auth/forgot-password/email-${token}`;
 	const textEmail = `Please visit the link below to change your password for ${APP_NAME}.\n\n
     ${updatePasswordURL} \n\nIf you did not request to change your password, you can disregard this email.`;
 	const htmlEmail = `<p>Please click this <a href="${updatePasswordURL}">link</a> to change your password for ${APP_NAME}.</p>

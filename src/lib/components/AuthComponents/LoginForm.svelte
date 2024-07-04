@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 
@@ -10,14 +11,17 @@
 		try {
 			data.token = await getRecaptchaToken('LOGIN');
 			// data.token = data['g-recaptcha-response'];
-			console.log('data', data);
+			// console.log('data', data);
 			const res = await fetch('api/login', {
 				method: 'POST',
 				body: JSON.stringify(data)
 			});
-			console.log('response', await res.json());
-			const modal = document.getElementById('auth-modal') as HTMLDialogElement;
-			modal.close();
+			const response = await res.json();
+			if (response.success) {
+				goto('/upload');
+				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
+				modal.close();
+			}
 		} catch (error) {
 			console.log('error', error);
 		}
@@ -42,11 +46,11 @@
 	</label>
 
 	<!-- <div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="LOGIN"></div> -->
-	<div
+	<!-- <div
 		class="g-recaptcha"
 		data-sitekey="6LfGWgIqAAAAAIJV6ihQg4fiNC54gOOx4AcOK3vU"
 		data-action="LOGIN"
-	></div>
+	></div> -->
 
 	<div class="form-control mt-6">
 		<button class="btn btn-primary" type="submit">Login</button>
