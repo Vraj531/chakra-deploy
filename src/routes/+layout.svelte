@@ -51,10 +51,10 @@
 		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
 	></script>
 	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
-	{#if !dev}
-		<base href="https://www.careerchakra.com/" />
-	{/if}
-	<meta property="og:url" content="https://www.careerchakra.com" />
+	<!-- {#if !dev} -->
+	<!-- <base href="https://www.careerchakra.com/" /> -->
+	<!-- {/if} -->
+	<!-- <meta property="og:url" content="https://www.careerchakra.com" /> -->
 	<meta property="og:image" content="/chakraImg.png" />
 
 	<meta
@@ -72,7 +72,7 @@
 		content="Discover your next job with Career Chakra. Our AI reads your resume and finds the perfect job opportunities for you."
 	/>
 
-	<meta property="og:url" content="https://www.careerchakra.com" />
+	<!-- <meta property="og:url" content="https://www.careerchakra.com" /> -->
 	<meta name="twitter:card" content="/chakraImg.png" />
 	<meta name="twitter:title" content="Career Chakra - Your AI-Powered Job Matching Service" />
 	<meta
