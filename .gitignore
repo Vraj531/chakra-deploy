@@ -16,4 +16,4 @@ vite.config.ts.timestamp-*
 #db files
 local-dev*
 .vscode
-drizzle
+drizzle/migrations

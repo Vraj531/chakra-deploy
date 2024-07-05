@@ -43,6 +43,34 @@
       "when": 1720099286138,
       "tag": "0005_striped_starfox",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1720184654406,
+      "tag": "0006_jittery_gorgon",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1720187012841,
+      "tag": "0007_fixed_bucky",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1720190684975,
+      "tag": "0008_clever_khan",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1720190783599,
+      "tag": "0009_mushy_wraith",
+      "breakpoints": true
     }
   ]
 }

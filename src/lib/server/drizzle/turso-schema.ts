@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm';
-import { text, sqliteTable, integer, index } from 'drizzle-orm/sqlite-core';
+import { text, sqliteTable, integer, index, unique } from 'drizzle-orm/sqlite-core';
 
 export const userTable = sqliteTable(
 	'users',
@@ -79,9 +79,9 @@ export const bookMarkedJobs = sqliteTable(
 		company_name: text('company_name').notNull(),
 		title: text('title').notNull(),
 
-		user_id: text('user_id')
-			.notNull()
-			.references(() => userTable.id),
+		// user_id: text('user_id')
+		// 	.notNull()
+		// 	.references(() => userTable.id),
 		location: text('location'),
 		has_remote: integer('has_remote', { mode: 'boolean' }),
 		experience: text('experience'),
@@ -100,11 +100,25 @@ export const bookMarkedJobs = sqliteTable(
 	},
 	(table) => {
 		return {
-			userIdIndex: index('user_id_index').on(table.user_id),
 			companyIdIndex: index('company_id').on(table.company_id)
 		};
 	}
 );
 
-export type TNewUser = typeof userTable.$inferInsert;
-export type TUserTable = typeof userTable.$inferSelect;
+export const userBookmarksTable = sqliteTable(
+	'user_bookmarks',
+	{
+		id: text('id').notNull().primaryKey(),
+		bookmarkId: text('bookmark_id').references(() => bookMarkedJobs.id, { onDelete: 'cascade' }),
+		userId: text('user_id').references(() => userTable.id, { onDelete: 'cascade' }),
+		companyId: integer('company_id'),
+		createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`)
+	},
+	(table) => {
+		return {
+			userIdIndex: index('user_id_index').on(table.userId),
+			bookmarkIdIndex: index('bookmark_id_index').on(table.bookmarkId),
+			unq: unique().on(table.userId, table.bookmarkId)
+		};
+	}
+);

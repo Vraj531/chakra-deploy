@@ -64,7 +64,7 @@
 
 		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
 			{#if !userData}
-				<!-- <a
+				<a
 					href="/google"
 					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
@@ -80,8 +80,8 @@
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
 					</svg>
-				</a> -->
-				<button
+				</a>
+				<!-- <button
 					on:click={showAuthModal}
 					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
@@ -97,7 +97,7 @@
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
 					</svg>
-				</button>
+				</button> -->
 			{:else}
 				{#if $state === 'uploaded'}
 					<a

@@ -1,11 +1,9 @@
 import { error, json } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { verifyCaptcha } from '$lib/server/verifyCaptcha';
-import { db } from '$lib/server/drizzle/turso-db';
-import { userTable } from '$lib/server/drizzle/turso-schema';
-import { eq } from 'drizzle-orm';
 import { lucia } from '$lib/server/auth';
 import { verify } from '@node-rs/argon2';
+import { getUserByEmail } from '$lib/server/drizzle/dbModel';
 
 interface RequestBody {
 	email: string;
@@ -24,12 +22,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	if (CaptchaResponse < 0.8) {
 		error(401, { message: 'Unauthorised', id: 'INVALID', code: '401' });
 	}
-	const user = await db.select().from(userTable).where(eq(userTable.email, email));
-	if (!user.length) {
+	const user = await getUserByEmail(email);
+	if (!user) {
 		// user array is empty
 		error(401, { message: 'Invalid email', id: 'INVALID', code: '401' });
 	}
-	const { id, password: hashRes } = user[0];
+	const { id, password: hashRes } = user;
 	if (await verify(hashRes as string, password)) {
 		const session = await lucia.createSession(id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);

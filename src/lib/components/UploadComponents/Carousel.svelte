@@ -112,25 +112,25 @@
 	</div>
 </div>
 
+<div class={`hidden md:block `}>
+	<button
+		class={` btn btn-primary btn-circle p-0 m-0 absolute left-10 lg:left-44 top-96 z-10  ${selected === 0 ? 'hidden' : 'md:block'}`}
+		on:click={previousCard}
+	>
+		<div class="pl-2">
+			{@html ChevronLeftIcon}
+		</div>
+	</button>
+	<button
+		class={`btn btn-primary btn-circle  absolute right-10 lg:right-44 top-96 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+		on:click={nextCard}
+	>
+		<div class="pl-2.5">
+			{@html ChevronRightIcon}
+		</div>
+	</button>
+</div>
 <div class="relative py-4" transition:fade>
-	<div class={`hidden md:block`}>
-		<button
-			class={` btn btn-primary btn-circle p-0 m-0 absolute left-10 lg:left-44 top-36 z-10  ${selected === 0 ? 'hidden' : 'md:block'}`}
-			on:click={previousCard}
-		>
-			<div class="pl-2">
-				{@html ChevronLeftIcon}
-			</div>
-		</button>
-		<button
-			class={`btn btn-primary btn-circle  absolute right-10 lg:right-44 top-36 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
-			on:click={nextCard}
-		>
-			<div class="pl-2.5">
-				{@html ChevronRightIcon}
-			</div>
-		</button>
-	</div>
 	<div class="embla">
 		<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
 			<div class="embla__container">

@@ -24,11 +24,11 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	// let arr: JobListing[] = dummyData;
-	// let backUpData: JobListing[] = dummyData;
-	let arr: JobListing[] = [];
-	let backUpData: JobListing[] = [];
-	let companyIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job.company_id) : [];
+	let arr: JobListing[] = dummyData;
+	let backUpData: JobListing[] = dummyData;
+	// let arr: JobListing[] = [];
+	// let backUpData: JobListing[] = [];
+	let companyIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job.companyId) : [];
 
 	$: {
 		if (companyIds.length > 0 && arr.length > 0) {
@@ -185,8 +185,8 @@
 				})
 			});
 			const data = await res.json();
-			// console.log('data', data);
-			if (data.message === 'success') {
+			if (data.success) {
+				console.log('bookmark', data);
 				arr = arr.map((job) => {
 					if (job.company_id === slide.company_id) {
 						// console.log('bok', job.bookmarked);
@@ -197,7 +197,7 @@
 					}
 					return job;
 				});
-				arr = structuredClone(arr);
+				// arr = structuredClone(arr);
 			}
 		} catch (error) {
 			console.log('error', error);

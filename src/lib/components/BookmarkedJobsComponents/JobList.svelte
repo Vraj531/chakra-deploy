@@ -96,7 +96,7 @@
 			</div>
 		</div>
 	{/each}
-	{#if JobList.length}
+	{#if JobList.length && pageNumbers.length > 1}
 		<div class="join">
 			{#each pageNumbers as pageNum}
 				<a
