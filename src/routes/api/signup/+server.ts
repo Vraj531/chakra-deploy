@@ -32,19 +32,17 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 
 		const existingUser = await checkExistingUserByEmail(email);
 		if (existingUser) {
-			return error(401, {
-				code: '401',
-				id: '401',
+			error(401, {
 				message: `User with email: ${email} already exists`
 			});
 		}
 
 		const newUser = await addEmailUser(email, password);
-		if (!newUser) error(500, { message: 'Error creating account', id: 'INVALID', code: '500' });
+		if (!newUser) error(500, { message: 'Error creating account' });
 		// console.log('new user', newUser);
 
 		const tokenRes = await addToken({ userId: newUser.id, time: { day: 1 } });
-		if (!tokenRes) error(500, { message: 'Error creating token', id: 'INVALID', code: '500' });
+		if (!tokenRes) error(500, { message: 'Error creating token' });
 		// console.log('token table', tokenValue);
 		const emailResponse = await sendVerificationEmail(email, tokenRes.token);
 
@@ -58,7 +56,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 			});
 			return json({ success: true });
 		} else {
-			error(500, { message: 'Error sending email', id: 'INVALID', code: '500' });
+			error(500, { message: 'Error sending email' });
 		}
 	} catch (error) {
 		// console.log('error', error);

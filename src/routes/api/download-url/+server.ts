@@ -3,9 +3,7 @@ import type { RequestHandler } from './$types';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
-import { db } from '$lib/server/drizzle/turso-db';
-import { guestResumeTable, userResumeTable } from '$lib/server/drizzle/turso-schema';
-import { generateIdFromEntropySize } from 'lucia';
+import { addGuestResume, addResume } from '$lib/server/drizzle/dbModel';
 
 const client = new S3Client({
 	region: 'us-east-2',
@@ -29,11 +27,6 @@ interface IResponse {
 
 export const POST: RequestHandler = async (event) => {
 	const { request, locals } = event;
-	// if (!locals.user && (await limiter.isLimited(event))) {
-	// 	throw error(429, {
-	// 		message: 'Too many requests'
-	// 	});
-	// }
 
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
 
@@ -55,27 +48,23 @@ export const POST: RequestHandler = async (event) => {
 	});
 
 	if (downloadUrl) {
-		const id = generateIdFromEntropySize(6);
 		try {
 			// console.log('value sent', {
 			// 	id,
 			// 	email: userEmail
 			// });
 			if (!locals.user) {
-				await db.insert(guestResumeTable).values({
-					id,
-					fileLocation: `${username}/${filename}`,
-					pdfUrl: downloadUrl
-				});
+				await addGuestResume({ filename: `${username}/${filename}`, pdfUrl: downloadUrl });
+				// if(!res)
 			} else {
 				const userid = locals.user.id;
-				await db.insert(userResumeTable).values({
-					id,
+				const res = await addResume({
 					email: userEmail,
 					fileLocation: `${username}/${filename}`,
 					pdfUrl: downloadUrl,
 					userId: userid
 				});
+				if (!res) error(500, { message: 'error adding resume' });
 			}
 
 			// console.log('res', inputText, 'key', `${username}/${filename}`);
@@ -101,5 +90,5 @@ export const POST: RequestHandler = async (event) => {
 			return json(error);
 		}
 	}
-	error(404, { message: 'Not found', code: '404', id: '404' });
+	error(500, { message: 'web service error' });
 };

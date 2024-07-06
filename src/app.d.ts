@@ -22,10 +22,6 @@ declare global {
 			caches: CacheStorage & { default: Cache };
 		}
 		interface Session {}
-		interface Error {
-			code: string;
-			id: string;
-		}
 	}
 }
 

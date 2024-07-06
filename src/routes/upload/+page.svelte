@@ -5,7 +5,6 @@
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData, type JobListing } from '$lib/dummyData';
-	import NewFileUpload from '$lib/components/UploadComponents/NewFileUpload.svelte';
 	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
 	import { toastStore } from '$lib/stores/toastStores';
 	import { state as headerState } from '$lib/stores/headerStore';
@@ -13,10 +12,12 @@
 	import type { PageData } from './$types';
 	import Cookies from 'js-cookie';
 	import GuestPrivacyPolicyModal from '$lib/components/UploadComponents/GuestPrivacyPolicyModal.svelte';
+	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
 
 	export let data: PageData;
+	// $: userAgreedToPrivacyPolicy = data?.user?.agreedToPrivacyPolicy;
 
-	// console.log('company ids', companyIds);
+	// console.log('company ids', data?.user?.agreedToPrivacyPolicy);
 
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
@@ -28,7 +29,7 @@
 	let backUpData: JobListing[] = dummyData;
 	// let arr: JobListing[] = [];
 	// let backUpData: JobListing[] = [];
-	let companyIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job.companyId) : [];
+	const companyIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job?.companyId) : [];
 
 	$: {
 		if (companyIds.length > 0 && arr.length > 0) {
@@ -63,7 +64,12 @@
 	};
 
 	const handlePdfSubmit = async () => {
-		if (!data?.user) {
+		console.log('submitting', Cookies.get('privacy_policy'));
+
+		if (
+			!data?.user ||
+			(!data?.user.agreedToPrivacyPolicy && Cookies.get('privacy_policy') === 'false')
+		) {
 			if (!Cookies.get('privacy_policy')) {
 				console.log('here', Cookies.get('privacy_policy'));
 				Cookies.set('privacy_policy', 'false');
@@ -73,14 +79,15 @@
 				return;
 			}
 		}
-		console.log('submitting');
 
+		// console.log('uploading');
+		// return;
 		if (!file) return;
 		try {
 			//* file upload phase *//
 			state = 'uploading';
 			const presignedUrl = await generatePresignedLink(file, sessionId);
-			// console.log('url', presignedUrl);
+			console.log('url', presignedUrl);
 			if (presignedUrl === 'capped') {
 				state = 'capped';
 				return;
@@ -186,7 +193,6 @@
 			});
 			const data = await res.json();
 			if (data.success) {
-				console.log('bookmark', data);
 				arr = arr.map((job) => {
 					if (job.company_id === slide.company_id) {
 						// console.log('bok', job.bookmarked);
@@ -197,6 +203,11 @@
 					}
 					return job;
 				});
+				// arr = tempArr;
+				// arr = [...arr];
+				console.log('bookmark', data);
+
+				// console.log('arr updated', arr);
 				// arr = structuredClone(arr);
 			}
 		} catch (error) {
@@ -207,12 +218,13 @@
 	};
 </script>
 
-<div class="relative flex-1 flex flex-col items-center">
+<div class="relative flex-1 flex flex-col bg-[#F5F5F4]">
 	{#if state === ''}
-		<NewFileUpload {handleFileInput} {inputText} {handleTextChange} />
+		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
+		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->
 		{#if file}
 			<div
-				class="flex md:mx-auto w-full md:w-1/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
+				class="flex md:mx-auto w-full md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
 			>
 				<p class="text-ellipsis overflow-hidden">
 					{file?.name}
@@ -250,13 +262,13 @@
 		</p>
 		<a class="btn btn-primary mx-auto mt-4" href="/google">Login ? </a>
 	{:else if state === 'error'}
-		<p class="text-2xl text-center mt-16">Something went wrong</p>
+		<p class="text-3xl text-center mt-16">Something went wrong</p>
 		<button class="btn btn-secondary mx-auto mt-4" on:click={() => (state = '')}
 			>Try Again?
 		</button>
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
-	<GuestPrivacyPolicyModal {data} sendFile={handlePdfSubmit} />
+	<GuestPrivacyPolicyModal sendFile={handlePdfSubmit} {data} />
 	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
 	<FilterForm {handleSubmit} /> -->
 </div>

@@ -3,7 +3,7 @@ import { redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { lucia } from '$lib/server/auth';
 import { getCache, setCache } from '$lib/cache';
 
-const TTL = 60000 * 5; //stay live for 5mins
+const TTL = 60000 * (1 / 12); //stay live for 5mins
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = crypto.randomUUID();
@@ -40,7 +40,11 @@ export const handle: Handle = async ({ event, resolve }) => {
 			console.count('using cache');
 		} else {
 			const validationResponse = await lucia.validateSession(sessionId);
-			console.count('using db res');
+			// console.count('using db res');
+			// console.log('user', validationResponse.user?.agreedToPrivacyPolicy);
+			// if (validationResponse.user?.agreedToPrivacyPolicy) {
+			// 	Cookies.set('privacy_policy', 'true');
+			// } else Cookies.set('privacy_policy', 'false');
 			session = validationResponse.session;
 			user = validationResponse.user;
 

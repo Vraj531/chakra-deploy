@@ -1,18 +1,14 @@
 <script lang="ts">
 	import type { JobListing } from '$lib/dummyData';
-	// import sanitizeHtml from 'sanitize-html';
-	import DOMPurify from 'isomorphic-dompurify';
 	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
 	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
+	import DOMPurify from 'isomorphic-dompurify';
 	import { toastStore } from '$lib/stores/toastStores';
 
 	export let slide: JobListing;
 	export let handleBookmark: (slide: JobListing) => void;
-	// console.log('slide', slide);
 
 	$: job_description = DOMPurify.sanitize(slide.job_description);
-
-	// console.log('dom', slide.job_description);
 	$: clearance = slide?.clearance_required ? 'Yes' : 'No';
 
 	// let humanReadable: string;
@@ -64,8 +60,8 @@
 				{#if slide?.company_linkedin_url}
 					<a class="my-0" href={slide.company_linkedin_url} target="_blank"> LinkedIn </a>
 				{/if}
-				{#if slide?.job_posting_url}
-					<div class="flex gap-2">
+				<div class="flex justify-center gap-2 mt-2">
+					{#if slide?.job_posting_url}
 						<a
 							class="btn btn-primary rounded-xl hidden md:flex"
 							href={slide.job_posting_url}
@@ -73,21 +69,20 @@
 						>
 							Apply now
 						</a>
-						<!-- @ts-ignore -->
-						{#if slide?.bookmarked}
-							<button
-								class="btn btn-primary hidden md:flex"
-								on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
-							>
-								{@html BookmarkFilledIcon}
-							</button>
-						{:else}
-							<button class="btn btn-primary hidden md:flex" on:click={() => handleBookmark(slide)}>
-								{@html BookmarkBlankIcon}
-							</button>
-						{/if}
-					</div>
-				{/if}
+					{/if}
+					{#if slide?.bookmarked}
+						<button
+							class="btn btn-primary hidden md:flex"
+							on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
+						>
+							{@html BookmarkFilledIcon}
+						</button>
+					{:else}
+						<button class="btn btn-primary hidden md:flex" on:click={() => handleBookmark(slide)}>
+							{@html BookmarkBlankIcon}
+						</button>
+					{/if}
+				</div>
 			</div>
 
 			<!-- <div class="divider divider-horizontal" /> -->
@@ -160,23 +155,23 @@
 					</a>
 				{/if}
 			</div>
-			{#if slide?.job_posting_url}
-				<div class="w-full flex justify-center gap-2 mt-4">
+			<div class="flex w-full justify-center gap-2 mt-2">
+				{#if slide?.job_posting_url}
 					<a class="btn btn-primary" href={slide.job_posting_url} target="_blank"> Apply now </a>
-					{#if slide?.bookmarked}
-						<button
-							class="btn btn-primary md:flex"
-							on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
-						>
-							{@html BookmarkFilledIcon}
-						</button>
-					{:else}
-						<button class="btn btn-primary" on:click={() => handleBookmark(slide)}>
-							{@html BookmarkBlankIcon}
-						</button>
-					{/if}
-				</div>
-			{/if}
+				{/if}
+				{#if slide?.bookmarked}
+					<button
+						class="btn btn-primary md:hidden"
+						on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
+					>
+						{@html BookmarkFilledIcon}
+					</button>
+				{:else}
+					<button class="btn btn-primary md:hidden" on:click={() => handleBookmark(slide)}>
+						{@html BookmarkBlankIcon}
+					</button>
+				{/if}
+			</div>
 		</div>
 
 		<!-- paste here -->
@@ -193,4 +188,21 @@
 		flex: 0 0 100%;
 		min-width: 0;
 	}
+	/* :root {
+		--shadow: #e7a304;
+		--scrollbarBG: #eee;
+		--thumbBG: #f0f0f0;
+	}
+	::-webkit-scrollbar {
+		width: 16px;
+	}
+	::-webkit-scrollbar-track {
+		background: var(--scrollbarBG);
+	}
+	::-webkit-scrollbar-thumb {
+		background-color: var(--thumbBG);
+		box-shadow:
+			0 -100vh 0 100vh var(--shadow),
+			0 0 15px 5px black;
+	} */
 </style>

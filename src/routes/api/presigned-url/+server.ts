@@ -13,8 +13,8 @@ const client = new S3Client({
 export const POST: RequestHandler = async (event) => {
 	const { request, locals } = event;
 	if (!locals.user && (await limiter.isLimited(event))) {
-		throw error(429, {
-			message: 'Too many requests'
+		error(429, {
+			message: 'capped'
 		});
 	}
 	const res = await request.formData();
@@ -33,6 +33,6 @@ export const POST: RequestHandler = async (event) => {
 		return json({ uploadUrl });
 	} catch (err) {
 		console.log('error', err);
-		throw error(404, { message: 'Not found' });
+		error(404, { message: 'Not found' });
 	}
 };

@@ -14,7 +14,7 @@
 	$: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
 </script>
 
-<div class="flex flex-col md:flex-row items-center gap-4 md:px-12 mt-[6em] w-4/5">
+<div class="flex flex-col md:flex-row items-center gap-4 md:px-12 mt-[6em] w-4/5 mx-auto">
 	<label class="btn hidden md:flex btn-primary mx-auto" for="fileUpload">
 		<input
 			type="file"
@@ -53,6 +53,7 @@
 		display: flex;
 		margin: auto;
 		padding: 0em;
+		width: 100%;
 	}
 
 	pre,

@@ -20,12 +20,12 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	const CaptchaResponse = await verifyCaptcha(token, expectedAction);
 	// console.log('captcha response', CaptchaResponse);
 	if (CaptchaResponse < 0.8) {
-		error(401, { message: 'Unauthorised', id: 'INVALID', code: '401' });
+		error(401, { message: 'Unauthorised' });
 	}
 	const user = await getUserByEmail(email);
 	if (!user) {
 		// user array is empty
-		error(401, { message: 'Invalid email', id: 'INVALID', code: '401' });
+		error(401, { message: 'Invalid email' });
 	}
 	const { id, password: hashRes } = user;
 	if (await verify(hashRes as string, password)) {
@@ -37,5 +37,5 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		});
 		return json({ success: true });
 	}
-	error(401, { message: 'Invalid password', id: 'INVALID', code: '401' });
+	error(401, { message: 'Invalid password' });
 };

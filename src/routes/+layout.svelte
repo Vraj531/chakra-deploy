@@ -12,10 +12,10 @@
 
 	import { onMount } from 'svelte';
 	import AuthModal from '$lib/components/AuthComponents/AuthModal.svelte';
-	import NewHeader from '$lib/components/LayoutComponents/NewHeader.svelte';
-	import NewFooter from '$lib/components/LayoutComponents/NewFooter.svelte';
 	import WebviewModal from '$lib/components/LayoutComponents/WebviewModal.svelte';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	import Header from '$lib/components/LayoutComponents/Header.svelte';
+	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
 
 	export let data: LayoutData;
 
@@ -29,9 +29,9 @@
 
 	onMount(() => {
 		// console.log('first', data.user?.agreedToPrivacyPolicy);
-		if (data.user && !data.user?.agreedToPrivacyPolicy) {
-			(document.getElementById('privacy-policy-modal') as HTMLDialogElement).showModal();
-		}
+		// if (data.user && !data.user?.agreedToPrivacyPolicy) {
+		// 	(document.getElementById('privacy-policy-modal') as HTMLDialogElement).showModal();
+		// }
 		if (query.get('webview') && query.get('webview') === 'true') {
 			//likely will not interfere since users arent allowed to sign in if they are on web view
 			(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
@@ -87,12 +87,12 @@
 	<AuthModal />
 	<Toast />
 	<WebviewModal />
-	<NewHeader userData={data.user} />
+	<Header userData={data.user} />
 
 	{#key data.pathname}
 		<div class="flex-1 flex flex-col" in:fly={transitionIn} out:fly={transitionOut}>
 			<slot />
 		</div>
 	{/key}
-	<NewFooter />
+	<Footer />
 </div>

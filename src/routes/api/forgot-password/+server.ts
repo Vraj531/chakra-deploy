@@ -18,23 +18,23 @@ export const POST: RequestHandler = async ({ request }) => {
 	const CaptchaResponse = 0.8;
 
 	if (CaptchaResponse < 0.8) {
-		error(401, { message: 'Unauthorised', id: 'INVALID', code: '401' });
+		error(401, { message: 'Unauthorised' });
 	}
 
 	const user = await getUserByEmail(email);
 	if (!user) {
-		error(404, { message: 'User not found', id: 'NOT_FOUND', code: '404' });
+		error(404, { message: 'User not found' });
 	}
 
 	const tokenRes = await addToken({ userId: user.id, time: { hours: 2 } });
 	if (!tokenRes) {
-		error(404, { message: 'Error adding token', id: 'TOKEN_ERROR', code: '404' });
+		error(404, { message: 'Error adding token' });
 	}
 	//send email
 	const res = await sendPasswordResetEmail(email, tokenRes.token);
 	if (res?.statusCode === 200) {
 		return json({ success: true });
 	} else {
-		error(500, { message: 'Something went wrong', id: 'INTERNAL_SERVER_ERROR', code: '500' });
+		error(500, { message: 'Something went wrong' });
 	}
 };

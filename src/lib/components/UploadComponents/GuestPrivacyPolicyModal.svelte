@@ -1,9 +1,10 @@
 <script lang="ts">
-	import Cookie from 'js-cookie';
+	import { Cookie } from '$lib/utils/exportCookie';
+
 	import type { PageData } from '../../../routes/$types';
 
 	export let data: PageData;
-	export let sendFile: () => void;
+	export let sendFile: (fromModal: boolean) => void;
 
 	let loading = false;
 
@@ -18,7 +19,7 @@
 				if (!data?.user) {
 					console.log('sending file');
 					Cookie.set('privacy_policy', 'true');
-					sendFile();
+					// await sendFile(true);
 					loading = false;
 					modal.close();
 					return;
@@ -31,10 +32,11 @@
 					}
 				});
 				const json = await res.json();
-				// console.log('form', json);
 				if (json?.userAgreed) {
+					Cookie.set('privacy_policy', 'true');
+					console.log('form', json);
 					loading = false;
-					sendFile();
+					// await sendFile(true);
 					modal.close();
 				}
 			}

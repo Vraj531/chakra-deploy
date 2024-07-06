@@ -2,6 +2,7 @@
 	import { onMount } from 'svelte';
 	import { state } from '../../stores/headerStore';
 	import type { PageData } from '../../../routes/$types';
+	import { goto, invalidate, invalidateAll } from '$app/navigation';
 
 	export let userData: PageData['user'];
 
@@ -18,10 +19,8 @@
 	<div class="container mx-auto flex flex-wrap py-0 px-4 md:px-20 justify-between items-center">
 		<!-- Navigation links -->
 
-		<nav
-			class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base md:ml-auto hidden md:flex"
-		>
-			<div class="dropdown">
+		<nav class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base ml-auto md:flex">
+			<div class="dropdown mt-2 dropdown-end">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div class="border-0 py-2 px-6" tabindex="0">
 					<button class="btn btn-sm btn-primary">
@@ -62,11 +61,19 @@
 		</a>
 		<!-- Button -->
 
-		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0">
+		<div class="lg:w-2/5 inline-flex lg:justify-end ml-5 lg:ml-0 gap-2">
+			{#if $state === 'uploaded'}
+				<a
+					href="/upload"
+					data-sveltekit-reload
+					class="inline-flex btn-sm text-white btn btn-primary border-0 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					>New Upload</a
+				>
+			{/if}
 			{#if !userData}
 				<a
 					href="/google"
-					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded btn-sm"
 				>
 					Login
 					<svg
@@ -99,13 +106,6 @@
 					</svg>
 				</button> -->
 			{:else}
-				{#if $state === 'uploaded'}
-					<a
-						href="/google"
-						class="inline-flex text-white btn btn-primary border-0 items-center my-1 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
-						>New Upload</a
-					>
-				{/if}
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<div class="border-0 py-2 px-6" tabindex="0">

@@ -4,7 +4,7 @@ import { error, json } from '@sveltejs/kit';
 
 export const POST = async ({ locals, request }) => {
 	if (!locals.user) {
-		throw error(404, { message: 'User is not logged in', code: 'NOT_FOUND', id: '' });
+		error(404, { message: 'User is not logged in' });
 	}
 	const data = await request.json();
 	// console.log('input', data);
@@ -14,9 +14,9 @@ export const POST = async ({ locals, request }) => {
 			if (locals.session?.id) invalidateCache(locals.session.id);
 			return json({ userAgreed: true });
 		}
-		error(404, { message: 'user did not agree', code: 'Error', id: '' });
+		error(404, { message: 'user did not agree' });
 	} catch (err) {
 		// console.log(error);
-		error(404, { message: 'Internal server error', code: 'Error', id: '' });
+		error(404, { message: 'Internal server error' });
 	}
 };

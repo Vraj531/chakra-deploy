@@ -37,10 +37,9 @@
 						<span class="badge badge-secondary">{jobListing.has_remote ? 'Remote' : 'On-site'}</span
 						>
 					</h2>
-
-					{#if jobListing?.max_salary && jobListing?.max_salary !== null && jobListing?.min_salary !== null}
+					{#if jobListing?.max_salary !== 'not found'}
 						<p class="my-0">
-							Salary: {jobListing.min_salary.toLocaleString()} - {jobListing.max_salary.toLocaleString()}
+							Salary: {jobListing?.min_salary} - {jobListing?.max_salary}
 							{jobListing.salary_currency}
 						</p>
 					{:else}
@@ -85,11 +84,13 @@
 				<div class="flex flex-col md:w-1/2">
 					{#if jobListing?.company_logo}
 						<a href={jobListing.company_website_url} target="_blank">
-							<img
-								alt="company logo"
-								src={jobListing.company_logo}
-								class="hidden md:block mx-auto my-0 max-h-48 outline outline-slate-200 p-2"
-							/>
+							{#key jobListing?.company_logo}
+								<img
+									alt="company logo"
+									src={jobListing.company_logo}
+									class="hidden md:block mx-auto my-0 max-h-48 outline outline-slate-200 p-2"
+								/>
+							{/key}
 						</a>
 					{/if}
 					<p class="my-0 mx-auto">

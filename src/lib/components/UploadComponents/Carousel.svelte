@@ -82,56 +82,54 @@
 	}
 </script>
 
-<div class="flex w-full mt-4 p-2">
+<div class="flex w-full mt-4">
 	<div class="md:hidden">
-		<button class="btn rounded-lg btn-circle btn-primary" on:click={previousCard}>
+		<button class="btn btn-circle btn-primary" on:click={previousCard}>
 			<div class="pl-0">
 				{@html ChevronLeftIcon}
 			</div>
 		</button>
-		<button class="btn rounded-lg btn-circle btn-primary" on:click={nextCard}>
+		<button class="btn btn-circle btn-primary" on:click={nextCard}>
 			{@html ChevronRightIcon}
 		</button>
 	</div>
-
-	<div class="ml-auto p-2 md:mx-auto">
-		<div class="flex gap-4">
-			<div class="flex items-center">
-				{selected + 1}/{arr.length}
-			</div>
-			<button class=" btn btn-primary" on:click={handleReset}>
-				{@html RestoreIcon}
-				Reset
+	<div class="ml-auto md:mx-auto">
+		<button class=" btn btn-primary" on:click={handleReset}>
+			{@html RestoreIcon}
+			Reset
+		</button>
+		<div class="tooltip tooltip-top" data-tip="filter">
+			<button class=" btn btn-primary" on:click={triggerModal}>
+				{@html FilterIcon}
 			</button>
-			<div class="tooltip tooltip-top" data-tip="filter">
-				<button class=" btn btn-primary" on:click={triggerModal}>
-					{@html FilterIcon}
-				</button>
-			</div>
 		</div>
 	</div>
 </div>
 
-<div class={`hidden md:block `}>
-	<button
-		class={` btn btn-primary btn-circle p-0 m-0 absolute left-10 lg:left-44 top-96 z-10  ${selected === 0 ? 'hidden' : 'md:block'}`}
-		on:click={previousCard}
-	>
-		<div class="pl-2">
-			{@html ChevronLeftIcon}
-		</div>
-	</button>
-	<button
-		class={`btn btn-primary btn-circle  absolute right-10 lg:right-44 top-96 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
-		on:click={nextCard}
-	>
-		<div class="pl-2.5">
-			{@html ChevronRightIcon}
-		</div>
-	</button>
-</div>
 <div class="relative py-4" transition:fade>
+	<div class={`hidden md:block`}>
+		<button
+			class={`left-10 btn btn-primary btn-circle p-0 m-0 absolute top-36 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+			on:click={previousCard}
+		>
+			<!-- <ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} /> -->
+			<div class="pl-2">
+				{@html ChevronLeftIcon}
+			</div>
+		</button>
+		<button
+			class={`btn btn-primary btn-circle absolute right-10 top-36 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+			on:click={nextCard}
+		>
+			<div class="pl-2.5">
+				{@html ChevronRightIcon}
+			</div>
+			<!-- <ChevronRightIcon /> -->
+			<!-- <ChevronRight class="h-9 w-9 pl-3" /> -->
+		</button>
+	</div>
 	<div class="embla">
+		<!-- // @ts-nocheck -->
 		<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
 			<div class="embla__container">
 				{#each arr as slide}
@@ -150,7 +148,7 @@
 						class={`btn md:btn-md btn-xs btn-circle btn-secondary grid place-items-center ${selected === item && 'bg-gradient-to-br from-orange-500 to-orange-300'}`}
 						on:click={select(item)}
 					>
-						{item + 1}
+						{item}
 					</button>
 				{/if}
 			{/each}

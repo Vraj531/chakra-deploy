@@ -16,6 +16,7 @@ export const generatePresignedLink = async (file: File, sessionId: string) => {
 		return val.uploadUrl;
 	}
 	if (res.status === 429) {
+		console.log('res', res);
 		return 'capped';
 	}
 	return 'error';

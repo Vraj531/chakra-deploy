@@ -2,17 +2,26 @@ import type { JobListing } from '$lib/dummyData';
 import { db } from '$lib/server/drizzle/turso-db';
 import {
 	bookMarkedJobs,
+	guestResumeTable,
 	tokenTable,
 	userBookmarksTable,
+	userResumeTable,
 	userTable
 } from '$lib/server/drizzle/turso-schema';
 import { hash } from '@node-rs/argon2';
-import { and, count, eq, inArray } from 'drizzle-orm';
+import { and, count, eq } from 'drizzle-orm';
 import { generateIdFromEntropySize } from 'lucia';
 
 interface IAddToken {
 	userId: string;
 	time: { hours?: number; day?: number };
+}
+
+interface IAddResume {
+	userId: string;
+	email: string;
+	fileLocation: string;
+	pdfUrl: string;
 }
 
 export const checkExistingUserByEmail = async (email: string) => {
@@ -64,6 +73,41 @@ export const addToken = async ({ userId, time: { hours = 24, day = 1 } }: IAddTo
 		.returning();
 	if (!res.length) return null;
 	return res[0];
+};
+
+export const addResume = async ({ email, fileLocation, pdfUrl, userId }: IAddResume) => {
+	const id = generateIdFromEntropySize(16);
+	const res = await db
+		.insert(userResumeTable)
+		.values({
+			id,
+			email,
+			fileLocation,
+			pdfUrl,
+			userId
+		})
+		.returning();
+	return res.length > 0;
+};
+
+export const addGuestResume = async ({
+	filename,
+	pdfUrl
+}: {
+	filename: string;
+	pdfUrl: string;
+}) => {
+	const id = generateIdFromEntropySize(16);
+	const username = 'guest-user';
+	const res = await db
+		.insert(guestResumeTable)
+		.values({
+			id,
+			fileLocation: `${username}/${filename}`,
+			pdfUrl
+		})
+		.returning();
+	return res.length > 0;
 };
 
 export const updateUserPolicy = async (userId: string, privacy_policy: boolean) => {
@@ -127,20 +171,38 @@ export const getUserBookmarks = async (userId: string) => {
 	return await db.select().from(userBookmarksTable).where(eq(userBookmarksTable.userId, userId));
 };
 
-export const getBookmarks = async (userId: string, bookmarkIds: string[], page = 1) => {
+export const getBookmarks = async (userId: string, page = 1) => {
 	const pageSize = 5;
-	// const page = parseInt(url.searchParams.get('page') || '1');
 	const cursor = page - 1;
-
-	// console.log('cursor', cursor);
-
-	// const bookmarkIds = bookmarks.map((bookmark) => bookmark.bookmarkId);
 	// console.log('bookmarkIds', bookmarkIds);
 	const [bookmarkedJobs, totalCountResult] = await db.batch([
 		db
-			.select()
-			.from(bookMarkedJobs)
-			.where(inArray(bookMarkedJobs.id, bookmarkIds as string[]))
+			.select({
+				id: bookMarkedJobs.id,
+				jobId: bookMarkedJobs.jobId,
+				createdAt: bookMarkedJobs.createdAt,
+				published_date: bookMarkedJobs.published_date,
+				company_name: bookMarkedJobs.company_name,
+				title: bookMarkedJobs.title,
+				location: bookMarkedJobs.location,
+				has_remote: bookMarkedJobs.has_remote,
+				experience: bookMarkedJobs.experience,
+				job_posting_url: bookMarkedJobs.job_posting_url,
+				clearance_required: bookMarkedJobs.clearance_required,
+				min_salary: bookMarkedJobs.min_salary,
+				max_salary: bookMarkedJobs.max_salary,
+				salary_currency: bookMarkedJobs.salary_currency,
+				job_type: bookMarkedJobs.job_type,
+				company_logo: bookMarkedJobs.company_logo,
+				company_website_url: bookMarkedJobs.company_website_url,
+				company_linkedin_url: bookMarkedJobs.company_linkedin_url,
+				job_description: bookMarkedJobs.job_description,
+				country_name: bookMarkedJobs.country_name,
+				company_id: bookMarkedJobs.company_id
+			})
+			.from(userBookmarksTable)
+			.innerJoin(bookMarkedJobs, eq(userBookmarksTable.bookmarkId, bookMarkedJobs.id))
+			.where(eq(userBookmarksTable.userId, userId))
 			.offset(cursor * pageSize)
 			.limit(pageSize),
 		db
@@ -149,6 +211,7 @@ export const getBookmarks = async (userId: string, bookmarkIds: string[], page =
 			.where(eq(userBookmarksTable.userId, userId))
 	]);
 	const pages = 1 + Math.floor(totalCountResult[0].count / pageSize);
+	// console.log('first', bookmarkedJobs);
 	return {
 		bookmarkedJobs,
 		totalCountResult: totalCountResult[0].count,
