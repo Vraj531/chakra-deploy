@@ -4,6 +4,7 @@ import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
 import { limiter } from '$lib/server/rateLimiter';
+import { updateUserPolicy } from '$lib/server/drizzle/dbModel';
 
 const client = new S3Client({
 	credentials: { accessKeyId: ACCESS_ID, secretAccessKey: SECRET_KEY },
@@ -16,6 +17,9 @@ export const POST: RequestHandler = async (event) => {
 		error(429, {
 			message: 'capped'
 		});
+	}
+	if (locals.user && locals.session && locals.session.id) {
+		await updateUserPolicy(locals.user.id, true, locals.session?.id);
 	}
 	const res = await request.formData();
 	const filename = res.get('filename') as File;

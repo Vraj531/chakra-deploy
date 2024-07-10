@@ -10,14 +10,28 @@
 	import { state as headerState } from '$lib/stores/headerStore';
 	import { filterObjects } from '$lib/utils/filterData';
 	import type { PageData } from './$types';
-	import Cookies from 'js-cookie';
-	import GuestPrivacyPolicyModal from '$lib/components/UploadComponents/GuestPrivacyPolicyModal.svelte';
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
+	import { onMount, setContext } from 'svelte';
+	import { Cookie } from '$lib/utils/exportCookie';
 
 	export let data: PageData;
+	setContext('user', data.user);
+
+	$: privacyPolicy = Cookie.get('privacy_policy');
+
 	// $: userAgreedToPrivacyPolicy = data?.user?.agreedToPrivacyPolicy;
 
-	// console.log('company ids', data?.user?.agreedToPrivacyPolicy);
+	// console.log('privacy', Cookie.get('privacy_policy'));
+
+	onMount(() => {
+		//user is not logged in and has no policy cookie -> set it
+		if (!data?.user && !Cookie.get('privacy_policy')) {
+			Cookie.set('privacy_policy', 'false', {
+				path: '/',
+				expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365) // 10 years
+			});
+		}
+	});
 
 	let progress = 0;
 	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
@@ -29,12 +43,12 @@
 	let backUpData: JobListing[] = dummyData;
 	// let arr: JobListing[] = [];
 	// let backUpData: JobListing[] = [];
-	const companyIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job?.companyId) : [];
+	const jobIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job?.jobId) : [];
 
 	$: {
-		if (companyIds.length > 0 && arr.length > 0) {
+		if (jobIds.length > 0 && arr.length > 0) {
 			arr = arr.map((job) => {
-				if (companyIds.includes(job.company_id)) {
+				if (jobIds.includes(job.id)) {
 					return {
 						...job,
 						bookmarked: true
@@ -64,22 +78,7 @@
 	};
 
 	const handlePdfSubmit = async () => {
-		console.log('submitting', Cookies.get('privacy_policy'));
-
-		if (
-			!data?.user ||
-			(!data?.user.agreedToPrivacyPolicy && Cookies.get('privacy_policy') === 'false')
-		) {
-			if (!Cookies.get('privacy_policy')) {
-				console.log('here', Cookies.get('privacy_policy'));
-				Cookies.set('privacy_policy', 'false');
-			}
-			if (Cookies.get('privacy_policy') === 'false') {
-				(document.getElementById('guest-privacy-policy-modal') as HTMLDialogElement).showModal();
-				return;
-			}
-		}
-
+		console.log('submitting', Cookie.set('privacy_policy', 'true'));
 		// console.log('uploading');
 		// return;
 		if (!file) return;
@@ -87,7 +86,7 @@
 			//* file upload phase *//
 			state = 'uploading';
 			const presignedUrl = await generatePresignedLink(file, sessionId);
-			console.log('url', presignedUrl);
+			// console.log('url', presignedUrl);
 			if (presignedUrl === 'capped') {
 				state = 'capped';
 				return;
@@ -133,9 +132,18 @@
 				backUpData = fullRes;
 				headerState.setState('uploaded');
 				state = 'success';
-				toastStore.alert(`Found ${arr.length} matches! Swipe to view more`, {
-					position: 'bottom-end'
-				});
+				if (!data.user) {
+					toastStore.alert(
+						`Found ${arr.length} matches! Swipe to view more. Login to get more recommendations`,
+						{
+							position: 'bottom-end'
+						}
+					);
+				} else {
+					toastStore.alert(`Found ${arr.length} matches! Swipe to view more`, {
+						position: 'bottom-end'
+					});
+				}
 				// console.log('user files', arr);
 			} else state = 'error';
 		} catch (error) {
@@ -185,16 +193,22 @@
 	const handleBookmark = async (slide: JobListing) => {
 		// console.log('slide', slide);
 		try {
+			if (!data.user) {
+				toastStore.alert(`Please login to bookmark`, {
+					position: 'bottom-end'
+				});
+				return;
+			}
 			const res = await fetch('api/bookmark', {
 				method: 'POST',
 				body: JSON.stringify({
 					...slide
 				})
 			});
-			const data = await res.json();
-			if (data.success) {
+			const response = await res.json();
+			if (response.success) {
 				arr = arr.map((job) => {
-					if (job.company_id === slide.company_id) {
+					if (job.id === slide.id) {
 						// console.log('bok', job.bookmarked);
 						return {
 							...job,
@@ -205,7 +219,7 @@
 				});
 				// arr = tempArr;
 				// arr = [...arr];
-				console.log('bookmark', data);
+				console.log('bookmark', response);
 
 				// console.log('arr updated', arr);
 				// arr = structuredClone(arr);
@@ -218,13 +232,16 @@
 	};
 </script>
 
-<div class="relative flex-1 flex flex-col bg-[#F5F5F4]">
+<div class="relative flex-1 flex flex-col bg-tranparent">
+	<div class="ripple" style="top: -30rem; left: -30rem;"></div>
+	<div class="ripple" style="top: -45rem; left: -45rem;"></div>
+	<div class="ripple" style="top: -60rem; left: -60rem;"></div>
 	{#if state === ''}
 		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
 		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->
 		{#if file}
 			<div
-				class="flex md:mx-auto w-full md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
+				class="flex mx-auto w-5/6 md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
 			>
 				<p class="text-ellipsis overflow-hidden">
 					{file?.name}
@@ -236,7 +253,27 @@
 					{@html RemoveIcon}
 				</button>
 			</div>
-			<button class="btn btn-primary mx-auto mt-4" on:click={handlePdfSubmit}>Submit</button>
+			<form
+				class="flex flex-col md:mx-auto w-full md:w-2/3 md:p-4 p-2 justify-between items-center mt-4"
+				on:submit|preventDefault={handlePdfSubmit}
+			>
+				{#if privacyPolicy === 'false' || (data?.user && !data?.user?.agreedToPrivacyPolicy)}
+					<div class="form-control">
+						<label class="label cursor-pointer gap-2">
+							<input
+								type="checkbox"
+								name="privacy_policy"
+								class="checkbox checkbox-primary"
+								required
+							/>
+							<span class="label-text link">
+								<a href="/terms-of-service"> I agree to the terms of service and policy </a>
+							</span>
+						</label>
+					</div>
+				{/if}
+				<button class="btn btn-primary mx-auto mt-4" type="submit">Submit</button>
+			</form>
 		{/if}
 	{:else if state === 'uploading'}
 		<div class="flex flex-col mt-44">
@@ -268,7 +305,7 @@
 		</button>
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
-	<GuestPrivacyPolicyModal sendFile={handlePdfSubmit} {data} />
-	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
-	<FilterForm {handleSubmit} /> -->
+	<!-- <GuestPrivacyPolicyModal {data} /> -->
+	<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
+	<FilterForm {handleSubmit} />
 </div>

@@ -1,5 +1,5 @@
 <script lang="ts">
-	export let data: { heading?: string; message?: string; status?: string };
+	// export let data: { heading?: string; message?: string; status?: string };
 	//if data.status is true, render form
 </script>
 

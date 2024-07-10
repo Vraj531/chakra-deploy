@@ -4,6 +4,7 @@
 	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
 	import DOMPurify from 'isomorphic-dompurify';
 	import { toastStore } from '$lib/stores/toastStores';
+	import { addInterestedJobApi } from '$lib/utils/addInterestedJobApi';
 
 	export let slide: JobListing;
 	export let handleBookmark: (slide: JobListing) => void;
@@ -20,6 +21,11 @@
 				hour12: true
 			})
 		: 'Not specified';
+
+	const addAsInterestedJob = async () => {
+		// console.log('slide', slide.id);
+		await addInterestedJobApi(slide.id);
+	};
 </script>
 
 <div class="embla__slide">
@@ -66,6 +72,7 @@
 							class="btn btn-primary rounded-xl hidden md:flex"
 							href={slide.job_posting_url}
 							target="_blank"
+							on:click={addAsInterestedJob}
 						>
 							Apply now
 						</a>
@@ -157,7 +164,14 @@
 			</div>
 			<div class="flex w-full justify-center gap-2 mt-2">
 				{#if slide?.job_posting_url}
-					<a class="btn btn-primary" href={slide.job_posting_url} target="_blank"> Apply now </a>
+					<a
+						class="btn btn-primary"
+						href={slide.job_posting_url}
+						target="_blank"
+						on:click={addAsInterestedJob}
+					>
+						Apply now
+					</a>
 				{/if}
 				{#if slide?.bookmarked}
 					<button

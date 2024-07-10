@@ -9,7 +9,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	if (userAgent) {
 		const webView = detectUserAgent(userAgent);
 		if (webView) {
-			console.log('web view', webView);
+			// console.log('web view', webView);
 			//true, then in webview
 			redirect(302, `/?webview=${webView}`);
 		}

@@ -4,7 +4,7 @@
 	import type { PageData } from '../../../routes/$types';
 
 	export let data: PageData;
-	export let sendFile: (fromModal: boolean) => void;
+	// export let sendFile: (fromModal: boolean) => void;
 
 	let loading = false;
 

@@ -11,13 +11,16 @@
 	import { writable } from 'svelte/store';
 	import { fade } from 'svelte/transition';
 	import JobCard from './JobCard.svelte';
+	import { getContext } from 'svelte';
 
 	export let arr: JobListing[];
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
 	export let handleBookmark: (slide: JobListing) => void;
 
-	// console.log('arr', arr);
+	// const user = getContext('user');
+
+	// console.log('re', user);
 
 	const carousel = writable<EmblaCarouselType>();
 

@@ -129,20 +129,6 @@
 								Discover job opportunities like never before with our AI-powered job search feature.
 								Let advanced algorithms match you with the perfect career.
 							</p>
-							<a href="/" class="mt-3 text-yellow-500 inline-flex items-center"
-								>Learn More
-								<svg
-									fill="none"
-									stroke="currentColor"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									class="w-4 h-4 ml-2"
-									viewBox="0 0 24 24"
-								>
-									<path d="M5 12h14M12 5l7 7-7 7"></path>
-								</svg>
-							</a>
 						</div>
 					</div>
 				</div>
@@ -176,20 +162,6 @@
 								Experience a job search tailored to your unique skills and preferences. Find the
 								perfect job match with our tailor-fit search feature.
 							</p>
-							<a href="/" class="mt-3 text-yellow-500 inline-flex items-center"
-								>Learn More
-								<svg
-									fill="none"
-									stroke="currentColor"
-									stroke-linecap="round"
-									stroke-linejoin="round"
-									stroke-width="2"
-									class="w-4 h-4 ml-2"
-									viewBox="0 0 24 24"
-								>
-									<path d="M5 12h14M12 5l7 7-7 7"></path>
-								</svg>
-							</a>
 						</div>
 					</div>
 				</div>
@@ -363,7 +335,7 @@
 						power of AI-driven job matching!
 					</h1>
 					<a
-						href="/google"
+						href="/upload"
 						class="flex-shrink-0 text-white bg-yellow-500 border-0 py-2 px-8 focus:outline-none hover:bg-yellow-600 rounded text-md mt-10 sm:mt-0 ali"
 						>Get Started</a
 					>

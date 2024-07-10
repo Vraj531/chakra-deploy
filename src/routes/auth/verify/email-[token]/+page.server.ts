@@ -10,7 +10,7 @@ export const load = async ({ params }) => {
 			.select({ userId: tokenTable.userId, expiresAt: tokenTable.expiresAt })
 			.from(tokenTable)
 			.where(eq(tokenTable.token, token));
-		console.log('res', res, token);
+		// console.log('res', res, token);
 		const userId = res[0]?.userId;
 		if (userId) {
 			const expiresAt = res[0]?.expiresAt;

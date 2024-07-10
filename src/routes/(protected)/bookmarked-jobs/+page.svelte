@@ -8,8 +8,8 @@
 	import JobList from '$lib/components/BookmarkedJobsComponents/JobList.svelte';
 
 	export let data: PageData;
-	// console.log('data', data);
 	$: arr = data.bookmarkedJobs as unknown as JobListing[];
+	// console.log('arr', data.bookmarkedJobs.length);
 
 	$: backUpData = data.bookmarkedJobs as unknown as JobListing[];
 

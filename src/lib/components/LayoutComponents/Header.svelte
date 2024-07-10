@@ -1,8 +1,6 @@
 <script lang="ts">
-	import { onMount } from 'svelte';
 	import { state } from '../../stores/headerStore';
 	import type { PageData } from '../../../routes/$types';
-	import { goto, invalidate, invalidateAll } from '$app/navigation';
 
 	export let userData: PageData['user'];
 
@@ -20,7 +18,12 @@
 		<!-- Navigation links -->
 
 		<nav class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base ml-auto md:flex">
-			<div class="dropdown mt-2 dropdown-end">
+			<div class="lg:flex gap-4 hidden">
+				<a href="/job-analysis" class="link link-hover">Job Analysis</a>
+				<a href="/faq" class="link link-hover">FAQ</a>
+				<a href="/upload" class="link link-hover">Find Jobs</a>
+			</div>
+			<div class="dropdown mt-2 dropdown-end md:hidden">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div class="border-0 py-2 px-6" tabindex="0">
 					<button class="btn btn-sm btn-primary">
@@ -42,7 +45,7 @@
 						tabindex="0"
 						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 					>
-						<li><a href="/dashboard">Dashboard</a></li>
+						<li><a href="/job-analysis">Job Analysis</a></li>
 						<li><a href="/terms-of-service">Terms of service</a></li>
 						<li><a href="/privacy-policy">Privacy Policy</a></li>
 						<li><a href="/faq">FAQ</a></li>
@@ -54,9 +57,9 @@
 		<!-- Logo -->
 		<a
 			href="/"
-			class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center"
+			class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center truncate"
 		>
-			<img src="/logo.svg" class="h-16 w-16" alt="logo" />
+			<img src="/logo.svg" class="h-24 w-24" alt="logo" />
 			<span class="ml-3 text-lg hidden lg:inline-block">Career chakra</span>
 		</a>
 		<!-- Button -->
@@ -66,14 +69,14 @@
 				<a
 					href="/upload"
 					data-sveltekit-reload
-					class="inline-flex btn-sm text-white btn btn-primary border-0 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					class="inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 					>New Upload</a
 				>
 			{/if}
 			{#if !userData}
 				<a
 					href="/google"
-					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded btn-sm"
+					class="inline-flex text-white bg-yellow-500 border-0 items-center mt-3 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded btn-sm"
 				>
 					Login
 					<svg

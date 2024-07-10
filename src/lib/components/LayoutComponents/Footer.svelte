@@ -13,10 +13,10 @@
 		</p>
 
 		<nav
-			class="flex lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto lg:hidden pt-5"
+			class="flex lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto lg:mb-5 pt-5"
 		>
-			<a class="mr-5 hover:text-gray-900" href="/">Terms and Conditions</a>
-			<a class="mr-5 hover:text-gray-900" href="/">Support</a>
+			<a class="mr-5 hover:text-gray-900" href="/terms-of-service">Terms of service</a>
+			<a href="mailto:careerchakraai@gmail.com" class="mr-5 hover:text-gray-900">Support</a>
 		</nav>
 
 		<span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">

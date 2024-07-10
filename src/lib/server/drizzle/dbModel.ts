@@ -1,12 +1,14 @@
+import { invalidateCache } from '$lib/cache';
 import type { JobListing } from '$lib/dummyData';
 import { db } from '$lib/server/drizzle/turso-db';
 import {
 	bookMarkedJobs,
 	guestResumeTable,
+	interestedJobsTable,
 	tokenTable,
-	userBookmarksTable,
 	userResumeTable,
-	userTable
+	userTable,
+	userToBookmarkJobs
 } from '$lib/server/drizzle/turso-schema';
 import { hash } from '@node-rs/argon2';
 import { and, count, eq } from 'drizzle-orm';
@@ -110,12 +112,17 @@ export const addGuestResume = async ({
 	return res.length > 0;
 };
 
-export const updateUserPolicy = async (userId: string, privacy_policy: boolean) => {
+export const updateUserPolicy = async (
+	userId: string,
+	privacyPolicy: boolean,
+	sessionId: string
+) => {
 	const res = await db
 		.update(userTable)
-		.set({ agreedToPrivacyPolicy: privacy_policy })
+		.set({ agreedToPrivacyPolicy: privacyPolicy })
 		.where(eq(userTable.id, userId))
 		.returning({ id: userTable.id });
+	invalidateCache(sessionId);
 	if (!res.length) return null;
 	return true;
 };
@@ -126,10 +133,12 @@ export const addBookmark = async (userId: string, req: JobListing) => {
 	try {
 		const bookmarkId = generateIdFromEntropySize(16);
 		//check if the bookmark already exists in the bookmark table
+
 		const res = await db
 			.select({ bookmark_id: bookMarkedJobs.id })
 			.from(bookMarkedJobs)
-			.where(eq(bookMarkedJobs.company_id, req.company_id));
+			.where(eq(bookMarkedJobs.jobId, req.id));
+
 		if (!res.length) {
 			await db.insert(bookMarkedJobs).values({
 				id: bookmarkId,
@@ -145,7 +154,7 @@ export const addBookmark = async (userId: string, req: JobListing) => {
 				job_description: req.job_description,
 				job_posting_url: req.job_posting_url,
 				job_type: req.job_type,
-				jobId: req.id.toString(),
+				jobId: req.id,
 				location: req.location,
 				max_salary: req.max_salary?.toLocaleString() || 'not found',
 				min_salary: req.min_salary?.toLocaleString() || 'not found',
@@ -154,11 +163,10 @@ export const addBookmark = async (userId: string, req: JobListing) => {
 				title: req.title
 			});
 		}
-		await db.insert(userBookmarksTable).values({
-			id: generateIdFromEntropySize(16),
+		await db.insert(userToBookmarkJobs).values({
 			bookmarkId: res[0]?.bookmark_id ? res[0].bookmark_id : bookmarkId,
 			userId: userId,
-			companyId: req.company_id
+			jobId: req.id
 		});
 		return true;
 	} catch (error) {
@@ -168,7 +176,12 @@ export const addBookmark = async (userId: string, req: JobListing) => {
 };
 
 export const getUserBookmarks = async (userId: string) => {
-	return await db.select().from(userBookmarksTable).where(eq(userBookmarksTable.userId, userId));
+	const res = await db
+		.select()
+		.from(userToBookmarkJobs)
+		.where(eq(userToBookmarkJobs.userId, userId));
+	if (!res.length) return null;
+	return res;
 };
 
 export const getBookmarks = async (userId: string, page = 1) => {
@@ -200,31 +213,44 @@ export const getBookmarks = async (userId: string, page = 1) => {
 				country_name: bookMarkedJobs.country_name,
 				company_id: bookMarkedJobs.company_id
 			})
-			.from(userBookmarksTable)
-			.innerJoin(bookMarkedJobs, eq(userBookmarksTable.bookmarkId, bookMarkedJobs.id))
-			.where(eq(userBookmarksTable.userId, userId))
+			.from(userToBookmarkJobs)
+			.innerJoin(bookMarkedJobs, eq(userToBookmarkJobs.bookmarkId, bookMarkedJobs.id))
+			.where(eq(userToBookmarkJobs.userId, userId))
 			.offset(cursor * pageSize)
 			.limit(pageSize),
 		db
 			.select({ count: count() })
-			.from(userBookmarksTable)
-			.where(eq(userBookmarksTable.userId, userId))
+			.from(userToBookmarkJobs)
+			.where(eq(userToBookmarkJobs.userId, userId))
 	]);
 	const pages = 1 + Math.floor(totalCountResult[0].count / pageSize);
+	const pagesArr = [...Array.from({ length: pages }, (_, i) => i + 1)];
 	// console.log('first', bookmarkedJobs);
 	return {
 		bookmarkedJobs,
 		totalCountResult: totalCountResult[0].count,
-		pages
+		pages: pagesArr
 	};
 };
 
 export const deleteUserBookmarks = async (userId: string, bookmarkId: string) => {
 	const res = await db
-		.delete(userBookmarksTable)
+		.delete(userToBookmarkJobs)
 		.where(
-			and(eq(userBookmarksTable.userId, userId), eq(userBookmarksTable.bookmarkId, bookmarkId))
+			and(eq(userToBookmarkJobs.userId, userId), eq(userToBookmarkJobs.bookmarkId, bookmarkId))
 		)
+		.returning();
+	if (!res.length) return null;
+	return true;
+};
+
+export const addInterestedJob = async (userId: string, jobId: string) => {
+	const res = await db
+		.insert(interestedJobsTable)
+		.values({
+			userId: userId,
+			jobId: jobId
+		})
 		.returning();
 	if (!res.length) return null;
 	return true;

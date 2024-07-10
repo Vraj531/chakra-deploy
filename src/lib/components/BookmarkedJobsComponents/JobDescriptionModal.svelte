@@ -4,6 +4,7 @@
 	import { onMount } from 'svelte';
 	import { toastStore } from '$lib/stores/toastStores';
 	import type { ActionData } from '../../../routes/(protected)/bookmarked-jobs/$types';
+	import { addInterestedJobApi } from '$lib/utils/addInterestedJobApi';
 
 	export let jobListing: JobListing | null;
 	let form: ActionData;
@@ -20,6 +21,12 @@
 			toastStore.alert('Bookmark removed', { position: 'top-right' });
 		}
 	});
+
+	const addAsInterestedJob = async () => {
+		// console.log('slide', slide.id);
+		if (!jobListing) return;
+		await addInterestedJobApi(jobListing.id);
+	};
 </script>
 
 <dialog id="job-description-modal" class="modal modal-bottom sm:modal-middle">
@@ -70,6 +77,7 @@
 							class="btn btn-primary my-2 rounded-xl hidden md:flex"
 							href={jobListing.job_posting_url}
 							target="_blank"
+							on:click={addAsInterestedJob}
 						>
 							Apply now
 						</a>
@@ -159,6 +167,7 @@
 							class="btn btn-primary my-2 mx-auto"
 							href={jobListing.job_posting_url}
 							target="_blank"
+							on:click={addAsInterestedJob}
 						>
 							Apply now
 						</a>

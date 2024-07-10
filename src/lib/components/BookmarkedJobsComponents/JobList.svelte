@@ -2,22 +2,23 @@
 	import { page } from '$app/stores';
 	import JobDescriptionModal from '$lib/components/BookmarkedJobsComponents/JobDescriptionModal.svelte';
 	import type { JobListing } from '$lib/dummyData';
-	import { fade, fly } from 'svelte/transition';
+	import { fly } from 'svelte/transition';
 
 	export let JobList: JobListing[];
 	export let count: number;
-	export let pages: number;
+	export let pages: number[];
 
-	let imgElement: HTMLImageElement;
-	$: if (imgElement) {
-		imgElement.onload = () => {
-			imgElement.style.opacity = '1';
-		};
-		imgElement.style.opacity = '0';
-	}
+	// let imgElement: HTMLImageElement;
+
+	// $: if (imgElement) {
+	// 	imgElement.onload = () => {
+	// 		imgElement.style.opacity = '1';
+	// 	};
+	// 	imgElement.style.opacity = '0';
+	// }
 
 	$: activePage = parseInt($page.url.searchParams.get('page') || '1');
-	$: pageNumbers = [...Array.from({ length: pages }, (_, i) => i + 1)];
+	// $: pageNumbers = [...Array.from({ length: pages }, (_, i) => i + 1)];
 
 	let jobListing: JobListing;
 	$: jobListWithHumanReadableDates = !JobList.length
@@ -45,11 +46,6 @@
 			(document.getElementById('job-description-modal') as HTMLDialogElement).showModal();
 			// console.log('job listing', jobListing);
 		}
-	}
-
-	function loadImage(e: Event) {
-		const target = e.target as HTMLImageElement;
-		target.style.opacity = '1';
 	}
 </script>
 
@@ -96,9 +92,9 @@
 			</div>
 		</div>
 	{/each}
-	{#if JobList.length && pageNumbers.length > 1}
+	{#if JobList.length && pages.length > 1}
 		<div class="join">
-			{#each pageNumbers as pageNum}
+			{#each pages as pageNum}
 				<a
 					class={`join-item btn ${activePage === pageNum && 'btn-active'}`}
 					href={`/bookmarked-jobs?page=${pageNum}`}>{Number(pageNum)}</a
