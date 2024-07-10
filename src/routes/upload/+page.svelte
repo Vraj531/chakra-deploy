@@ -232,13 +232,12 @@
 	};
 </script>
 
-<div class="relative flex-1 flex flex-col bg-tranparent">
+<div class="overflow-hidden relative flex-1 flex flex-col bg-tranparent">
 	<div class="ripple" style="top: -30rem; left: -30rem;"></div>
 	<div class="ripple" style="top: -45rem; left: -45rem;"></div>
 	<div class="ripple" style="top: -60rem; left: -60rem;"></div>
 	{#if state === ''}
 		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
-		<!-- <FileUpload {handleFileInput} {inputText} {handleTextChange} /> -->
 		{#if file}
 			<div
 				class="flex mx-auto w-5/6 md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"
@@ -306,6 +305,6 @@
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
 	<!-- <GuestPrivacyPolicyModal {data} /> -->
-	<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
-	<FilterForm {handleSubmit} />
+	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
+	<FilterForm {handleSubmit} /> -->
 </div>

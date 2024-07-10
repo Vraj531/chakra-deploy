@@ -7,8 +7,8 @@
 ></iframe>
 
 <iframe
-	title="job-analysis-board"
-	class="iframe w-full min-h-[290dvh] md:hidden"
+	title="job-analysis-board-mobile"
+	class="iframe w-full min-h-[350dvh] md:hidden"
 	src="https://app.powerbi.com/view?r=eyJrIjoiZDI1YjQ5ZTgtMDdkYy00NzE4LWI5YzUtMjU1NjljMGRkZTkyIiwidCI6IjhkZTViMWQ1LTAwZjctNDliNi1hYTlmLWY2YzQ3ZTZiMzk2NyIsImMiOjJ9"
 	frameborder="0"
 	allowfullscreen={true}

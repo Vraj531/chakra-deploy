@@ -21,7 +21,7 @@
 		Cookies.set('cookie-consent', 'true', { expires: 365 });
 		Cookies.set('show-cookie-consent', 'accepted', { expires: 365 });
 		consent = 'true';
-		showConsent = true;
+		showConsent = false;
 
 		// Initialize analytics or other scripts here
 		initAnalytics();

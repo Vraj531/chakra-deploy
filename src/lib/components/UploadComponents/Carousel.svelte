@@ -12,19 +12,24 @@
 	import { fade } from 'svelte/transition';
 	import JobCard from './JobCard.svelte';
 	import { getContext } from 'svelte';
+	import MoreJobsModal from '$lib/components/UploadComponents/MoreJobsModal.svelte';
 
 	export let arr: JobListing[];
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
 	export let handleBookmark: (slide: JobListing) => void;
 
-	// const user = getContext('user');
+	const user = getContext('user');
 
 	// console.log('re', user);
 
 	const carousel = writable<EmblaCarouselType>();
 
 	let selected: number = 0;
+
+	$: if (selected === arr.length - 1 && !user) {
+		(document.getElementById('more-jobs-modal') as HTMLDialogElement).showModal();
+	}
 
 	function nextCard() {
 		$carousel?.canScrollNext() && $carousel?.scrollNext();
@@ -157,6 +162,7 @@
 			{/each}
 		{/if}
 	</div>
+	<MoreJobsModal />
 </div>
 
 <style>
