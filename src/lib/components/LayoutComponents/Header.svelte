@@ -17,16 +17,16 @@
 	<div class="container mx-auto flex flex-wrap py-0 px-4 md:px-20 justify-between items-center">
 		<!-- Navigation links -->
 
-		<nav class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base ml-auto md:flex">
+		<nav class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base md:flex">
 			<div class="lg:flex gap-4 hidden">
 				<a href="/job-analysis" class="link link-hover">Job Analysis</a>
 				<a href="/faq" class="link link-hover">FAQ</a>
 				<a href="/upload" class="link link-hover">Find Jobs</a>
 			</div>
-			<div class="dropdown mt-2 dropdown-end md:hidden">
+			<div class="dropdown mt-2 md:hidden">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 				<div class="border-0 py-2 px-6" tabindex="0">
-					<button class="btn btn-sm btn-primary">
+					<button class="btn btn-sm btn-primary mt-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
 							fill="none"
@@ -57,7 +57,7 @@
 		<!-- Logo -->
 		<a
 			href="/"
-			class="flex order-first lg:order-none lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center truncate"
+			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center truncate"
 		>
 			<img src="/logo.svg" class="h-24 w-24" alt="logo" />
 			<span class="ml-3 text-lg hidden lg:inline-block">Career chakra</span>
