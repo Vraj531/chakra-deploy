@@ -60,7 +60,7 @@
 			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center truncate"
 		>
 			<img src="/logo.svg" class="h-24 w-24" alt="logo" />
-			<span class="ml-3 text-lg hidden lg:inline-block">Career chakra</span>
+			<span class="ml-3 text-lg hidden lg:inline-block">Career Chakra</span>
 		</a>
 		<!-- Button -->
 
