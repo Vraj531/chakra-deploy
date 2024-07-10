@@ -1,3 +1,41 @@
+<script lang="ts">
+	import { onMount } from 'svelte';
+
+	function resizeIframe() {
+		// console.log('resizing frame', window.innerHeight);
+		const iframe = document.getElementById('job-analysis-board-mobile');
+		// console.log('resizing frame', iframe);
+		if (iframe) {
+			// console.log('idframe', window.innerHeight);
+			iframe.style.height = 2780 + 'px';
+		}
+	}
+
+	// Setup event listeners when the component mounts
+	onMount(() => {
+		const iframe = document.getElementById('job-analysis-board-mobile');
+
+		// Initial resize
+		resizeIframe();
+
+		// Add resize event listener
+		window.addEventListener('resize', resizeIframe);
+
+		// Add load event listener to the iframe
+		if (iframe) {
+			iframe.addEventListener('load', resizeIframe);
+		}
+
+		// Cleanup event listeners when component is destroyed
+		return () => {
+			window.removeEventListener('resize', resizeIframe);
+			if (iframe) {
+				iframe.removeEventListener('load', resizeIframe);
+			}
+		};
+	});
+</script>
+
 <iframe
 	title="job-analysis-board"
 	class="iframe w-full min-h-[290dvh] hidden lg:block"
@@ -7,8 +45,9 @@
 ></iframe>
 
 <iframe
+	id="job-analysis-board-mobile"
 	title="job-analysis-board-mobile"
-	class="iframe w-full min-h-[350dvh] md:hidden"
+	class="iframe max-w-[95%] w-full md:hidden"
 	src="https://app.powerbi.com/view?r=eyJrIjoiZDI1YjQ5ZTgtMDdkYy00NzE4LWI5YzUtMjU1NjljMGRkZTkyIiwidCI6IjhkZTViMWQ1LTAwZjctNDliNi1hYTlmLWY2YzQ3ZTZiMzk2NyIsImMiOjJ9"
 	frameborder="0"
 	allowfullscreen={true}
