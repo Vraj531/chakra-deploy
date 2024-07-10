@@ -36,12 +36,12 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			const userId = generateIdFromEntropySize(16);
 			await db.insert(userTable).values({
 				id: userId,
-				google_id: googleUser.id,
+				providerId: googleUser.id,
+				provider: 'google',
 				email: googleUser.email,
 				name: googleUser.name,
 				picture: googleUser.picture,
-				createdAt: new Date().toISOString(),
-				updatedAt: new Date().toISOString()
+				agreedToPrivacyPolicy: false
 			});
 			const session = await lucia.createSession(userId, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
@@ -58,6 +58,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 				...sessionCookie.attributes
 			});
 		}
+		event.cookies.delete('privacy_policy', { path: '/' });
 		return new Response(null, {
 			status: 302,
 			headers: {
@@ -66,7 +67,7 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		});
 	} catch (e) {
 		// the specific error message depends on the provider
-		console.log('e', e);
+		// console.log('e', e);
 		if (e instanceof OAuth2RequestError) {
 			// invalid code
 			return new Response(null, {

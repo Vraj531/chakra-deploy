@@ -8,14 +8,16 @@ export const generatePresignedLink = async (file: File, sessionId: string) => {
 	formData.append('type', file.type);
 	// formData.append('expiresIn', expiresIn);
 	formData.append('sessionId', sessionId);
-	try {
-		const res = await fetch('/api/presigned-url', { method: 'POST', body: formData });
-		if (res.ok) {
-			const val: ResponseType = await res.json();
-			return val.uploadUrl;
-		}
-	} catch (error) {
-		console.log('error generating links', error);
-		throw new Error('Error!');
+
+	const res = await fetch('api/presigned-url', { method: 'POST', body: formData });
+	// console.log('res', res);
+	if (res.ok) {
+		const val: ResponseType = await res.json();
+		return val.uploadUrl;
 	}
+	if (res.status === 429) {
+		// console.log('res', res);
+		return 'capped';
+	}
+	return 'error';
 };

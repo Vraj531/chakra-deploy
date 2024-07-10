@@ -3,9 +3,7 @@ import type { RequestHandler } from './$types';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
-import { db } from '$lib/server/drizzle/turso-db';
-import { userResumeTable } from '$lib/server/drizzle/turso-schema';
-import { generateIdFromEntropySize } from 'lucia';
+import { addGuestResume, addResume } from '$lib/server/drizzle/dbModel';
 
 const client = new S3Client({
 	region: 'us-east-2',
@@ -27,18 +25,22 @@ interface IResponse {
 	body: string;
 }
 
-export const POST: RequestHandler = async ({ request, locals }) => {
+export const POST: RequestHandler = async (event) => {
+	const { request, locals } = event;
+
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
 
-	if (!locals.user) {
-		return error(404, { message: 'Not found' });
-	}
+	// if (!locals.user) {
+	// 	return error(404, { message: 'Not found' });
+	// }
 
-	const userEmail = locals.user.email.split('@')[0];
-	const userid = locals.user.id;
+	const userEmail = locals.user ? locals.user.email : 'guestuser@gmail.com';
+	const username = !locals.user ? 'guest-user' : locals.user.email.split('@')[0];
+	// console.log('session id log', locals.session?.id);
+
 	const command = new GetObjectCommand({
 		Bucket: 'nikhil-pipeline-storage',
-		Key: `${userEmail}/${filename}`,
+		Key: `${username}/${filename}`,
 		ResponseContentDisposition: `attachment; filename="${filename}"`
 	});
 	const downloadUrl = await getSignedUrl(client, command, {
@@ -46,23 +48,32 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 	});
 
 	if (downloadUrl) {
-		const id = generateIdFromEntropySize(6);
 		try {
-			await db.insert(userResumeTable).values({
-				id,
-				email: locals.user.email,
-				fileLocation: `${userEmail}/${filename}`,
-				pdfUrl: downloadUrl,
-				userId: userid
-			});
+			// console.log('value sent', {
+			// 	id,
+			// 	email: userEmail
+			// });
+			if (!locals.user) {
+				await addGuestResume({ filename: `${username}/${filename}`, pdfUrl: downloadUrl });
+				// if(!res)
+			} else {
+				const userid = locals.user.id;
+				const res = await addResume({
+					email: userEmail,
+					fileLocation: `${username}/${filename}`,
+					pdfUrl: downloadUrl,
+					userId: userid
+				});
+				if (!res) error(500, { message: 'error adding resume' });
+			}
 
-			// console.log('res', inputText, 'key', `${userEmail}/${filename}`);
+			// console.log('res', inputText, 'key', `${username}/${filename}`);
 
 			const res = await fetch(lambdaUrl, {
 				method: 'POST',
 				body: JSON.stringify({
 					additional_text: inputText,
-					pdf_file_location: `s3://nikhil-pipeline-storage/${userEmail}/${filename}`
+					pdf_file_location: `s3://nikhil-pipeline-storage/${username}/${filename}`
 				}),
 				headers: {
 					'Content-Type': 'application/json'
@@ -71,12 +82,17 @@ export const POST: RequestHandler = async ({ request, locals }) => {
 			// console.log('response', await res.json());
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {
-				const body = JSON.parse(fullResponse.body);
+				let body = JSON.parse(fullResponse.body);
+				if (!locals.user) {
+					//return only the first 5 elements
+					body = body.slice(0, 5);
+				}
+				// console.log('body', body);
 				return json(body);
 			} else return json({ error: 'error reading pdf' });
 		} catch (error) {
 			return json(error);
 		}
 	}
-	return error(404, { message: 'Not found' });
+	error(500, { message: 'web service error' });
 };

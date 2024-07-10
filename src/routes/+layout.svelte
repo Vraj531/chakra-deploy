@@ -3,16 +3,19 @@
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import '../app.css';
 	import type { LayoutData } from './$types';
-	import Analytics from '$lib/Analytics.svelte';
-	import PageLoaderProgress from '$lib/components/PageLoaderProgress.svelte';
-	import Toast from '$lib/components/Toast.svelte';
-	import { inject } from '@vercel/analytics';
-	import NewHeader from '$lib/components/NewHeader.svelte';
-	import NewFooter from '$lib/components/NewFooter.svelte';
-	import { dev } from '$app/environment';
+	import Analytics from '$lib/components/Analytics.svelte';
+	import PageLoaderProgress from '$lib/components/LayoutComponents/PageLoaderProgress.svelte';
+	import Toast from '$lib/components/LayoutComponents/Toast.svelte';
+
+	import CookieConsent from '$lib/components/LayoutComponents/CookieConsent.svelte';
 	import { page } from '$app/stores';
+
 	import { onMount } from 'svelte';
-	import WebviewModal from '$lib/components/WebviewModal.svelte';
+	import AuthModal from '$lib/components/AuthComponents/AuthModal.svelte';
+	import WebviewModal from '$lib/components/LayoutComponents/WebviewModal.svelte';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	import Header from '$lib/components/LayoutComponents/Header.svelte';
+	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
 
 	export let data: LayoutData;
 
@@ -23,21 +26,33 @@
 	const y = 10;
 	const transitionIn = { easing: cubicOut, y, duration, delay };
 	const transitionOut = { easing: cubicIn, y: -y, duration };
-	inject({ mode: dev ? 'development' : 'production' });
 
 	onMount(() => {
+		// console.log('first', data.user?.agreedToPrivacyPolicy);
+		// if (data.user && !data.user?.agreedToPrivacyPolicy) {
+		// 	(document.getElementById('privacy-policy-modal') as HTMLDialogElement).showModal();
+		// }
 		if (query.get('webview') && query.get('webview') === 'true') {
+			//likely will not interfere since users arent allowed to sign in if they are on web view
 			(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
 		}
 	});
 </script>
 
 <svelte:head>
+	<!-- this is for tick based recaptcha -->
+	<!-- {#if !dev}
+	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
+	{/if} -->
+
+	<!-- <script
+		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
+	></script> -->
 	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
-	{#if !dev}
-		<base href="https://www.careerchakra.com/" />
-	{/if}
-	<meta property="og:url" content="https://www.careerchakra.com" />
+	<!-- {#if !dev} -->
+	<!-- <base href="https://www.careerchakra.com/" /> -->
+	<!-- {/if} -->
+	<!-- <meta property="og:url" content="https://www.careerchakra.com" /> -->
 	<meta property="og:image" content="/chakraImg.png" />
 
 	<meta
@@ -55,7 +70,7 @@
 		content="Discover your next job with Career Chakra. Our AI reads your resume and finds the perfect job opportunities for you."
 	/>
 
-	<meta property="og:url" content="https://www.careerchakra.com" />
+	<!-- <meta property="og:url" content="https://www.careerchakra.com" /> -->
 	<meta name="twitter:card" content="/chakraImg.png" />
 	<meta name="twitter:title" content="Career Chakra - Your AI-Powered Job Matching Service" />
 	<meta
@@ -68,15 +83,16 @@
 
 <PageLoaderProgress />
 <div class="flex flex-col min-h-screen font-varela">
+	<CookieConsent />
+	<AuthModal />
+	<Toast />
 	<WebviewModal />
-	<!-- <Header userData={data.user} /> -->
-	<NewHeader userData={data.user} />
+	<Header userData={data.user} />
 
 	{#key data.pathname}
 		<div class="flex-1 flex flex-col" in:fly={transitionIn} out:fly={transitionOut}>
 			<slot />
 		</div>
 	{/key}
-	<NewFooter />
-	<Toast />
+	<Footer />
 </div>

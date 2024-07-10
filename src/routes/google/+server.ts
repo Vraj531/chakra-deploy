@@ -9,12 +9,13 @@ export async function GET(event: RequestEvent): Promise<Response> {
 	if (userAgent) {
 		const webView = detectUserAgent(userAgent);
 		if (webView) {
+			// console.log('web view', webView);
 			//true, then in webview
-			throw redirect(302, `/?webview=${webView}`);
+			redirect(302, `/?webview=${webView}`);
 		}
 	}
 	if (event.locals.user) {
-		throw redirect(302, '/upload');
+		redirect(302, '/upload');
 	}
 	const state = generateState();
 	const codeVerfier = generateCodeVerifier();

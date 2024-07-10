@@ -45,7 +45,7 @@ const action: Action<HTMLElement, EmbaOptionsActionType> = (node, options = {}) 
 		destroy: () => {
 			embla.destroy();
 			// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-			// @ts-ignore
+			//@ts-expect-error
 			options?.store?.set(undefined);
 		}
 	};

@@ -7,19 +7,19 @@ const rules = [
 	// 'Mobile Safari/[.0-9]*' // General mobile Safari
 ];
 
-export function detectInAppBrowser() {
-	// const navigator = window.navigator;
-	const userAgent = navigator.userAgent;
-	// const userAgent =
-	// 	'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36';
+// export function detectInAppBrowser() {
+// 	// const navigator = window.navigator;
+// 	const userAgent = navigator.userAgent;
+// 	// const userAgent =
+// 	// 	'Mozilla/5.0 (Linux; Android 10; K) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Mobile Safari/537.36';
 
-	const webviewRegExp = new RegExp('(' + rules.join('|') + ')', 'ig');
+// 	const webviewRegExp = new RegExp('(' + rules.join('|') + ')', 'ig');
 
-	const isWebview = !!userAgent.match(webviewRegExp);
-	// const isWebview = /webview|wv|ip((?!.*Safari)|(?=.*like Safari))/i.test(userAgent);
+// 	const isWebview = !!userAgent.match(webviewRegExp);
+// 	// const isWebview = /webview|wv|ip((?!.*Safari)|(?=.*like Safari))/i.test(userAgent);
 
-	return { userAgent: userAgent, inAppBrowser: isWebview };
-}
+// 	return { userAgent: userAgent, inAppBrowser: isWebview };
+// }
 
 export function detectUserAgent(userAgent: string) {
 	const webviewRegExp = new RegExp('(' + rules.join('|') + ')', 'ig');

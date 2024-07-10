@@ -10,10 +10,11 @@ export const lucia = new Lucia(adapter, {
 	},
 	getUserAttributes: (attributes) => {
 		return {
-			google_id: attributes.google_id,
+			providerId: attributes.providerId,
 			email: attributes.email,
 			name: attributes.name,
-			picture: attributes?.picture || ''
+			picture: attributes?.picture || '',
+			agreedToPrivacyPolicy: attributes.agreedToPrivacyPolicy
 		};
 	}
 });
@@ -26,8 +27,9 @@ declare module 'lucia' {
 }
 
 interface DatabaseUserAttributes {
-	google_id: number;
+	providerId: number;
 	email: string;
 	name: string;
 	picture?: string;
+	agreedToPrivacyPolicy: boolean;
 }
