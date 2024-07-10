@@ -5,7 +5,7 @@
 		</form>
 		<div class="prose mx-auto justify-center text-center">
 			<h4>To view more jobs</h4>
-			<button class="btn btn-primary md:btn-md btn-sm">Login</button>
+			<a href="/google" class="btn btn-primary md:btn-md btn-sm">Login</a>
 		</div>
 		<form method="dialog" class="modal-backdrop">
 			<button class="">close</button>
