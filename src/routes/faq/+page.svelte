@@ -46,41 +46,41 @@
 		into one streamlined data feed.
 	</p>
 
-	<h2>What region does Career Chakra Service cover?</h2>
+	<h2>7. What region does Career Chakra Service cover?</h2>
 	<p>
 		Our primary service is currently within the United States. We're continuously expanding into new
 		regions and will keep our users informed as we grow.
 	</p>
 
-	<h2>How does Career Chakra use my resume?</h2>
+	<h2>8. How does Career Chakra use my resume?</h2>
 	<p>
 		Your resume is used to match you with job listings that suit your skills and experience. We also
 		provide employers with access to your resume to help them find suitable candidates. For more
 		details, please refer to our Privacy Policy.
 	</p>
 
-	<h2>7. Is my personal information secure?</h2>
+	<h2>9. Is my personal information secure?</h2>
 	<p>
 		We take data security very seriously. We implement appropriate technical and organizational
 		measures to protect your data against unauthorized access, alteration, disclosure, or
 		destruction. For more information, please refer to our Privacy Policy.
 	</p>
 
-	<h2>12. How can I contact customer support?</h2>
+	<h2>10. How can I contact customer support?</h2>
 	<p>
 		If you have any questions or need assistance, you can reach out to our customer support team at
 		<a href="mailto:help@careerchakra.com">help@careerchakra.com</a>
 		.
 	</p>
 
-	<h2>13. Are there any prohibited activities on the site?</h2>
+	<h2>11. Are there any prohibited activities on the site?</h2>
 	<p>
 		Yes, users are prohibited from uploading false or misleading information, impersonating others,
 		and engaging in activities that disrupt the site. For a complete list of prohibited activities,
 		please refer to our Terms of Service.
 	</p>
 
-	<h2>2. How do I create an account?</h2>
+	<h2>12. How do I create an account?</h2>
 	<ol>
 		<li>You can create an account by signing in with your Google account.</li>
 		<li>Click on the "Login with Google" button on the homepage.</li>

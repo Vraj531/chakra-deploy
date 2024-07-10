@@ -117,7 +117,7 @@
 <div class="relative py-4" transition:fade>
 	<div class={`hidden md:block`}>
 		<button
-			class={`left-10 btn btn-primary btn-circle p-0 m-0 absolute top-36 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+			class={` btn btn-primary btn-circle p-0 m-0 fixed md:left-48  z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
 			on:click={previousCard}
 		>
 			<!-- <ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} /> -->
@@ -126,7 +126,7 @@
 			</div>
 		</button>
 		<button
-			class={`btn btn-primary btn-circle absolute right-10 top-36 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+			class={`btn btn-primary btn-circle fixed md:right-48  z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
 			on:click={nextCard}
 		>
 			<div class="pl-2.5">
