@@ -25,7 +25,7 @@
 			</div>
 			<div class="dropdown mt-2 md:hidden">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-				<div class="border-0 py-2 px-6" tabindex="0">
+				<div class="border-0 py-2 px-4" tabindex="0">
 					<button class="btn btn-sm btn-primary mt-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -46,9 +46,9 @@
 						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li><a href="/job-analysis">Job Analysis</a></li>
-						<li><a href="/terms-of-service">Terms of service</a></li>
-						<li><a href="/privacy-policy">Privacy Policy</a></li>
 						<li><a href="/faq">FAQ</a></li>
+						<li><a href="/upload">Find Jobs</a></li>
+						<!-- <li><a href="/privacy-policy">Privacy Policy</a></li> -->
 					</ul>
 				</div>
 			</div>
@@ -57,10 +57,10 @@
 		<!-- Logo -->
 		<a
 			href="/"
-			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center truncate"
+			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center ml-10 md:ml-0"
 		>
-			<img src="/logo.svg" class="h-24 w-24" alt="logo" />
-			<span class="ml-3 text-lg hidden lg:inline-block">Career Chakra</span>
+			<img src="/logo.svg" class="h-20 w-20" alt="logo" />
+			<span class=" text-lg hidden lg:inline-block">Career Chakra</span>
 		</a>
 		<!-- Button -->
 
