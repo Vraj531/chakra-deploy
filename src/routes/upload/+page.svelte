@@ -21,8 +21,6 @@
 
 	// $: userAgreedToPrivacyPolicy = data?.user?.agreedToPrivacyPolicy;
 
-	// console.log('privacy', Cookie.get('privacy_policy'));
-
 	onMount(() => {
 		//user is not logged in and has no policy cookie -> set it
 		if (!data?.user && !Cookie.get('privacy_policy')) {
@@ -39,28 +37,29 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	let arr: JobListing[] = dummyData;
-	let backUpData: JobListing[] = dummyData;
-	// let arr: JobListing[] = [];
-	// let backUpData: JobListing[] = [];
-	const jobIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((job) => job?.jobId) : [];
+	// let arr: JobListing[] = dummyData;
+	// let backUpData: JobListing[] = dummyData;
+	let arr: JobListing[] = [];
+	let backUpData: JobListing[] = [];
+	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs : [];
+	// console.log('data', jobIds);
 
-	$: {
-		if (jobIds.length > 0 && arr.length > 0) {
-			arr = arr.map((job) => {
-				if (jobIds.includes(job.id)) {
-					return {
-						...job,
-						bookmarked: true
-					};
-				}
-				return {
-					...job,
-					bookmarked: false
-				};
-			});
-		}
-	}
+	// $: {
+	// 	if (data.bookmarkedJobs && data.bookmarkedJobs.length > 0 && arr.length > 0) {
+	// 		arr = arr.map((job) => {
+	// 			if (data.bookmarkedJobs.includes(job.id)) {
+	// 				return {
+	// 					...job,
+	// 					bookmarked: true
+	// 				};
+	// 			}
+	// 			return {
+	// 				...job,
+	// 				bookmarked: false
+	// 			};
+	// 		});
+	// 	}
+	// }
 	// let arr: JobListing[] = [];
 	// let backUpData: JobListing[] = [];
 
@@ -128,8 +127,11 @@
 			// console.log('body', fullRes);
 			// fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
 			if (Array.isArray(fullRes)) {
-				arr = fullRes;
-				backUpData = fullRes;
+				const jobs = fullRes.map((job) =>
+					jobIds.includes(job.id) ? { ...job, bookmarked: true } : { ...job, bookmarked: false }
+				);
+				arr = jobs;
+				backUpData = jobs;
 				headerState.setState('uploaded');
 				state = 'success';
 				if (!data.user) {
@@ -217,6 +219,7 @@
 					}
 					return job;
 				});
+				jobIds = [...jobIds, slide.id];
 				// arr = tempArr;
 				// arr = [...arr];
 				console.log('bookmark', response);

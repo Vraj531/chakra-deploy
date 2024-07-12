@@ -184,6 +184,15 @@ export const getUserBookmarks = async (userId: string) => {
 	return res;
 };
 
+export const getBookmarkedJobIds = async (userId: string) => {
+	const res = await db
+		.select({ jobId: userToBookmarkJobs.jobId })
+		.from(userToBookmarkJobs)
+		.where(eq(userToBookmarkJobs.userId, userId));
+	if (!res.length) return null;
+	return res.map((item) => item.jobId);
+};
+
 export const getBookmarks = async (userId: string, page = 1) => {
 	const pageSize = 5;
 	const cursor = page - 1;
