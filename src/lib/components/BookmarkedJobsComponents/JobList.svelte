@@ -77,7 +77,7 @@
 				<form action="?/remove" method="post" class="flex flex-col gap-2">
 					<input type="hidden" name="id" value={job.id} />
 					<div
-						class="top-2 right-2 absolute tooltip tooltip-primary tooltip-left"
+						class="top-1 right-1 absolute tooltip tooltip-primary tooltip-left"
 						data-tip="Remove bookmark"
 					>
 						<button class="btn btn-square btn-outline btn-xs" type="submit">
