@@ -80,7 +80,7 @@
 						class="top-2 right-2 absolute tooltip tooltip-primary tooltip-left"
 						data-tip="Remove bookmark"
 					>
-						<button class="btn btn-square btn-outline btn-sm" type="submit">
+						<button class="btn btn-square btn-outline btn-xs" type="submit">
 							<svg
 								xmlns="http://www.w3.org/2000/svg"
 								class="h-6 w-6"
