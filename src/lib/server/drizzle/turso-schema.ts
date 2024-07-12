@@ -68,7 +68,7 @@ export const bookMarkedJobs = sqliteTable(
 	'bookmarked_jobs',
 	{
 		id: text('id').notNull().primaryKey(),
-		jobId: integer('job_id').notNull(),
+		jobId: integer('job_id').notNull().unique(),
 		createdAt: text('created_at').default(sql`CURRENT_TIMESTAMP`),
 		published_date: text('published_date').notNull(),
 		company_name: text('company_name').notNull(),
