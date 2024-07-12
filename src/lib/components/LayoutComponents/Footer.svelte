@@ -17,6 +17,7 @@
 		>
 			<a class="mr-5 hover:text-gray-900" href="/terms-of-service">Terms of service</a>
 			<a href="mailto:careerchakraai@gmail.com" class="mr-5 hover:text-gray-900">Support</a>
+			<a href="/privacy-policy" class="mr-5 hover:text-gray-900">Privacy Policy</a>
 		</nav>
 
 		<span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
