@@ -1,9 +1,9 @@
-import { building } from '$app/environment';
+import { building, dev } from '$app/environment';
 import { redirect, type Handle, type HandleServerError } from '@sveltejs/kit';
 import { lucia } from '$lib/server/auth';
 import { getCache, setCache } from '$lib/cache';
 
-const TTL = 60000 * (1 / 12); //stay live for 5seconds
+const TTL = 1000 * 60 * (dev ? 1 / 12 : 5); //stay live for 5seconds || 5mins
 
 export const handleError: HandleServerError = async ({ error, event }) => {
 	const errorId = crypto.randomUUID();
