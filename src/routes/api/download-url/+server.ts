@@ -2,15 +2,14 @@ import { json, error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
+import { ACCESS_ID, LAMBDA_URL, SECRET_KEY } from '$env/static/private';
 import { addGuestResume, addResume } from '$lib/server/drizzle/dbModel';
+import { downloadLimiter } from '$lib/server/rateLimiter';
 
 const client = new S3Client({
 	region: 'us-east-2',
 	credentials: { accessKeyId: ACCESS_ID, secretAccessKey: SECRET_KEY }
 });
-
-const lambdaUrl = 'https://6dekrm05x2.execute-api.us-east-2.amazonaws.com/user_request';
 
 interface RequestFileProp {
 	s3Url: string;
@@ -26,13 +25,12 @@ interface IResponse {
 }
 
 export const POST: RequestHandler = async (event) => {
+	if (!event.locals.user && (await downloadLimiter.isLimited(event))) {
+		return error(401, { message: 'Unauthorized' });
+	}
 	const { request, locals } = event;
 
 	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
-
-	// if (!locals.user) {
-	// 	return error(404, { message: 'Not found' });
-	// }
 
 	const userEmail = locals.user ? locals.user.email : 'guestuser@gmail.com';
 	const username = !locals.user ? 'guest-user' : locals.user.email.split('@')[0];
@@ -69,7 +67,7 @@ export const POST: RequestHandler = async (event) => {
 
 			// console.log('res', inputText, 'key', `${username}/${filename}`);
 
-			const res = await fetch(lambdaUrl, {
+			const res = await fetch(LAMBDA_URL, {
 				method: 'POST',
 				body: JSON.stringify({
 					additional_text: inputText,

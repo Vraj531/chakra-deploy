@@ -48,7 +48,7 @@
 	id="job-analysis-board-mobile"
 	title="job-analysis-board-mobile"
 	class="iframe max-w-[95%] w-full md:hidden"
-	src="https://app.powerbi.com/view?r=eyJrIjoiZDI1YjQ5ZTgtMDdkYy00NzE4LWI5YzUtMjU1NjljMGRkZTkyIiwidCI6IjhkZTViMWQ1LTAwZjctNDliNi1hYTlmLWY2YzQ3ZTZiMzk2NyIsImMiOjJ9"
+	src="https://app.powerbi.com/view?r=eyJrIjoiYTdlN2ExOTAtYzE5OC00ZmViLWE5YzItMTNkZGM3Mjk1ZjhkIiwidCI6IjhkZTViMWQ1LTAwZjctNDliNi1hYTlmLWY2YzQ3ZTZiMzk2NyIsImMiOjJ9"
 	frameborder="0"
 	allowfullscreen={true}
 ></iframe>

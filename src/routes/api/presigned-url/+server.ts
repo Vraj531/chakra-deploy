@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { PutObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
-import { limiter } from '$lib/server/rateLimiter';
+import { uploadLimiter } from '$lib/server/rateLimiter';
 import { updateUserPolicy } from '$lib/server/drizzle/dbModel';
 
 const client = new S3Client({
@@ -13,7 +13,7 @@ const client = new S3Client({
 
 export const POST: RequestHandler = async (event) => {
 	const { request, locals } = event;
-	if (!locals.user && (await limiter.isLimited(event))) {
+	if (!locals.user && (await uploadLimiter.isLimited(event))) {
 		error(429, {
 			message: 'capped'
 		});
