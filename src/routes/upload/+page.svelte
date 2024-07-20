@@ -239,6 +239,7 @@
 	<div class="ripple" style="top: -30rem; left: -30rem;"></div>
 	<div class="ripple" style="top: -45rem; left: -45rem;"></div>
 	<div class="ripple" style="top: -60rem; left: -60rem;"></div>
+
 	{#if state === ''}
 		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
 		{#if file}
@@ -269,7 +270,7 @@
 								required
 							/>
 							<span class="label-text link">
-								<a href="/terms-of-service"> I agree to the terms of service and policy </a>
+								<a href="/terms-of-service">I read and agree with the terms and conditions. </a>
 							</span>
 						</label>
 					</div>
@@ -280,7 +281,12 @@
 	{:else if state === 'uploading'}
 		<div class="flex flex-col mt-44">
 			<progress class="progress progress-warning w-2/3 mx-auto flex" value={progress} max="100" />
-			<p class="mx-auto text-ellipsis overflow-hidden text-lg">Uploading {file?.name}</p>
+			<p
+				class="mx-6 md:max-w-screen-lg md:mx-auto text-center text-ellipsis overflow-hidden text-lg"
+			>
+				<strong>Uploading - </strong>
+				{file?.name}
+			</p>
 		</div>
 	{:else if state === 'analysing'}
 		<img src="/logo1.svg" alt="analysing" class="animate-bounce w-52 h-52 mx-auto mt-12" />

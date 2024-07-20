@@ -1,0 +1,1 @@
+CREATE UNIQUE INDEX `bookmarked_jobs_job_id_unique` ON `bookmarked_jobs` (`job_id`);

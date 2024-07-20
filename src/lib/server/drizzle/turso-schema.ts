@@ -133,6 +133,11 @@ export const interestedJobsTable = sqliteTable(
 	})
 );
 
+export const dailyResumeUploadsTable = sqliteTable('daily_resume_uploads', {
+	date: text('date').primaryKey(),
+	count: integer('count').default(0)
+});
+
 // import { sql } from 'drizzle-orm';
 // import { text, sqliteTable, integer, index, unique } from 'drizzle-orm/sqlite-core';
 
