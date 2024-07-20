@@ -69,7 +69,7 @@
 				<a
 					href="/upload"
 					data-sveltekit-reload
-					class="inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					class="hidden md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 					>New Upload</a
 				>
 			{/if}
@@ -159,4 +159,14 @@
 			{/if}
 		</div>
 	</div>
+	{#if $state === 'uploaded'}
+		<div class="md:hidden w-full flex">
+			<a
+				href="/upload"
+				data-sveltekit-reload
+				class="inline-flex mx-auto btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+				>New Upload</a
+			>
+		</div>
+	{/if}
 </header>

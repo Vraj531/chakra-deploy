@@ -80,12 +80,12 @@ export const POST: RequestHandler = async (event) => {
 			// console.log('response', await res.json());
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {
-				let body = JSON.parse(fullResponse.body);
-				if (!locals.user) {
-					//return only the first 5 elements
-					body = body.slice(0, 5);
-				}
-				// console.log('body', body);
+				const body = JSON.parse(fullResponse.body);
+				// if (!locals.user) {
+				// 	//return only the first 5 elements
+				// 	body = body.slice(0, 5);
+				// }
+				console.log('body', body.length);
 				return json(body);
 			} else return json({ error: 'error reading pdf' });
 		} catch (error) {
