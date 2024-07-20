@@ -7,6 +7,7 @@ export const load: PageServerLoad = async ({ locals }) => {
 	}
 	try {
 		// const userBookmarks = await getUserBookmarks(locals.user.id);
+
 		const userBookmarks = await getBookmarkedJobIds(locals.user.id);
 		if (!userBookmarks) {
 			return { loggedIn: true, bookmarkedJobs: [], total: 0 };

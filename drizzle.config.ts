@@ -9,7 +9,7 @@ if (!process.env.TURSO_DB) {
 
 export default {
 	schema: 'src/lib/server/drizzle/turso-schema.ts',
-	out: './drizzle/migrations',
+	out: './drizzle/prod/migrations',
 	driver: 'turso',
 	dialect: 'sqlite',
 	dbCredentials: {

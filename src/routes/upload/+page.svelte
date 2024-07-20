@@ -270,7 +270,7 @@
 								required
 							/>
 							<span class="label-text link">
-								<a href="/terms-of-service"> I agree to terms of service and policy </a>
+								<a href="/terms-of-service">I read and agree with the terms and conditions. </a>
 							</span>
 						</label>
 					</div>
