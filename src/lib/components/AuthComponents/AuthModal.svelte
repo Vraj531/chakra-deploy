@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import ForgotPassword from '$lib/components/AuthComponents/ForgotPassword.svelte';
 	import SignupForm from '$lib/components/AuthComponents/SignupForm.svelte';
 	import LoginForm from './LoginForm.svelte';
@@ -6,6 +7,11 @@
 	let activeTab = 0;
 </script>
 
+<svelte:head>
+	<script
+		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
+	></script>
+</svelte:head>
 <dialog id="auth-modal" class="modal modal-bottom sm:modal-middle">
 	<div class="modal-box">
 		<form method="dialog">

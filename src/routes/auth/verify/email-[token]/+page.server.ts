@@ -16,10 +16,10 @@ export const load = async ({ params }) => {
 			const expiresAt = res[0]?.expiresAt;
 			const currentDate = Date.now();
 			if (expiresAt < currentDate) {
-				return { header: 'Verification status', message: 'Token has expired!' };
+				return { heading: 'Verification status', message: 'Token has expired!' };
 			}
 			await db.update(userTable).set({ isVerified: true }).where(eq(userTable.id, userId));
-			return { header: 'Verification status', message: 'User has been verified successfully!' };
+			return { heading: 'Verification status', message: 'User has been verified successfully!' };
 		}
 	} catch (error) {
 		return fail(500, { error });

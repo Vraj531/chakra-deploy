@@ -2,6 +2,7 @@ import { error, json, type RequestHandler } from '@sveltejs/kit';
 import { lucia } from '$lib/server/auth';
 import { sendVerificationEmail } from '$lib/config/emailMessages';
 import { addEmailUser, addToken, checkExistingUserByEmail } from '$lib/server/drizzle/dbModel';
+import { verifyCaptcha } from '$lib/server/verifyCaptcha';
 
 interface RequestBody {
 	email: string;
@@ -15,13 +16,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		const {
 			email,
 			password,
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			expectedAction = 'LOGIN',
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			token
 		} = (await request.json()) as RequestBody;
-		// const captchaResponse = await verifyCaptcha(token, expectedAction);
-		const captchaResponse = 0.9;
+		const captchaResponse = await verifyCaptcha(token, expectedAction);
+		// const captchaResponse = 0.9;
 
 		if (captchaResponse < 0.8) {
 			return json({

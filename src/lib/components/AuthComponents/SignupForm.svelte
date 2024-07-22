@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
+	import GoogleIcon from '$lib/assets/icons/google.svg?raw';
 
 	let emailError = '';
 	let passwordError = '';
@@ -36,7 +38,7 @@
 			data.token = await getRecaptchaToken('SIGNUP');
 			data.expectedAction = 'SIGNUP';
 			// data.token = data['g-recaptcha-response'];
-			console.log('data', data);
+			// console.log('data', data);
 			const response = await fetch('api/signup', {
 				method: 'POST',
 				body: JSON.stringify(data)
@@ -101,12 +103,7 @@
 		{/if}
 	</label>
 
-	<!-- <div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="SIGNUP"></div> -->
-	<!-- <div
-		class="g-recaptcha"
-		data-sitekey="6LfGWgIqAAAAAIJV6ihQg4fiNC54gOOx4AcOK3vU"
-		data-action="LOGIN"
-	></div> -->
+	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="SIGNUP"></div>
 	<div>
 		{#if status}
 			<p class="text-2xl text-green-500">Success</p>
@@ -117,4 +114,10 @@
 	<div class="form-control mt-6">
 		<button class="btn btn-primary" type="submit">Login</button>
 	</div>
+	<div class="divider">OR</div>
+
+	<a class="btn btn-outline" type="submit" href="google">
+		{@html GoogleIcon}
+		Google</a
+	>
 </form>

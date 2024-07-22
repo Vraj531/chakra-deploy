@@ -27,8 +27,11 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		// user array is empty
 		error(401, { message: 'Invalid email' });
 	}
+	if (!user?.password) {
+		error(401, { message: 'Password not set' });
+	}
 	const { id, password: hashRes } = user;
-	if (await verify(hashRes as string, password)) {
+	if (await verify(hashRes, password)) {
 		const session = await lucia.createSession(id, {});
 		const sessionCookie = lucia.createSessionCookie(session.id);
 		cookies.set(sessionCookie.name, sessionCookie.value, {

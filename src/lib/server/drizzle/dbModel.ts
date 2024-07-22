@@ -194,7 +194,7 @@ export const getBookmarkedJobIds = async (userId: string) => {
 };
 
 export const getBookmarks = async (userId: string, page = 1) => {
-	const pageSize = 5;
+	const pageSize = 5; //give control to user to set the page size
 	const cursor = page - 1;
 	// console.log('bookmarkIds', bookmarkIds);
 	const [bookmarkedJobs, totalCountResult] = await db.batch([

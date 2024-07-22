@@ -1,5 +1,6 @@
 import { sendPasswordResetEmail } from '$lib/config/emailMessages';
 import { addToken, getUserByEmail } from '$lib/server/drizzle/dbModel';
+import { verifyCaptcha } from '$lib/server/verifyCaptcha';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
 interface RequestBody {
@@ -11,11 +12,11 @@ interface RequestBody {
 export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { email, expectedAction = 'LOGIN', token } = body as RequestBody;
+	const { email, expectedAction = 'FORGOT_PASSWORD', token } = body as RequestBody;
 	// console.log('request', body);
 
-	// const CaptchaResponse = await verifyCaptcha(token, expectedAction);
-	const CaptchaResponse = 0.8;
+	const CaptchaResponse = await verifyCaptcha(token, expectedAction);
+	// const CaptchaResponse = 0.8;
 
 	if (CaptchaResponse < 0.8) {
 		error(401, { message: 'Unauthorised' });
@@ -23,7 +24,7 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	const user = await getUserByEmail(email);
 	if (!user) {
-		error(404, { message: 'User not found' });
+		error(404, { message: 'Invalid email' });
 	}
 
 	const tokenRes = await addToken({ userId: user.id, time: { hours: 2 } });

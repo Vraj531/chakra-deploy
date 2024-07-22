@@ -1,6 +1,8 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
+	import GoogleIcon from '$lib/assets/icons/google.svg?raw';
 
 	export let toForgotPassword: () => void;
 
@@ -84,12 +86,7 @@
 		{/if}
 	</label>
 
-	<!-- <div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="LOGIN"></div> -->
-	<!-- <div
-		class="g-recaptcha"
-		data-sitekey="6LfGWgIqAAAAAIJV6ihQg4fiNC54gOOx4AcOK3vU"
-		data-action="LOGIN"
-	></div> -->
+	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="LOGIN"></div>
 
 	<div class="form-control mt-6">
 		<button class="btn btn-primary" type="submit" disabled={status}>
@@ -99,4 +96,10 @@
 			Login</button
 		>
 	</div>
+	<div class="divider">OR</div>
+
+	<a class="btn btn-outline" type="submit" href="google">
+		{@html GoogleIcon}
+		Google</a
+	>
 </form>

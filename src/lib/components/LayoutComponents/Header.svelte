@@ -74,7 +74,7 @@
 				>
 			{/if}
 			{#if !userData}
-				<a
+				<!-- <a
 					href="/google"
 					class="inline-flex text-white bg-yellow-500 border-0 items-center mt-3 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded btn-sm"
 				>
@@ -90,8 +90,8 @@
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
 					</svg>
-				</a>
-				<!-- <button
+				</a> -->
+				<button
 					on:click={showAuthModal}
 					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
@@ -107,7 +107,7 @@
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
 					</svg>
-				</button> -->
+				</button>
 			{:else}
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->

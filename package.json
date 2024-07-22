@@ -9,11 +9,12 @@
 		"dev:db": "drizzle-kit studio --config=dev-drizzle.config.ts",
 		"dev:generate": "drizzle-kit generate --config=dev-drizzle.config.ts",
 		"dev:migrate": "drizzle-kit migrate --config=dev-drizzle.config.ts",
-		"dev:drop": "drizzle-kit drop --config=dev-drizzle.config.ts",
+		"dev:db:drop": "drizzle-kit drop --config=dev-drizzle.config.ts",
 		"dev:push": "drizzle-kit push --config=dev-drizzle.config.ts",
 		"prod:db:push": "drizzle-kit push --config=drizzle.config.ts",
 		"prod:generate": "drizzle-kit generate --config=drizzle.config.ts",
 		"prod:migrate": "drizzle-kit migrate --config=drizzle.config.ts",
+		"prod:db:drop": "drizzle-kit drop --config=drizzle.config.ts",
 		"prod:db": "drizzle-kit studio --config=drizzle.config.ts",
 		"check": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json",
 		"check:watch": "svelte-kit sync && svelte-check --tsconfig ./tsconfig.json --watch"
