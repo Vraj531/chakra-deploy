@@ -40,7 +40,7 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		if (!newUser) error(500, { message: 'Error creating account' });
 		// console.log('new user', newUser);
 
-		const tokenRes = await addToken({ userId: newUser.id, time: { day: 1 } });
+		const tokenRes = await addToken({ userId: newUser.id, time: { day: 1, hours: 24 } });
 		if (!tokenRes) error(500, { message: 'Error creating token' });
 		// console.log('token table', tokenValue);
 		const emailResponse = await sendVerificationEmail(email, tokenRes.token);

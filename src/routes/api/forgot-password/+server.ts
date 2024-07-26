@@ -1,5 +1,5 @@
 import { sendPasswordResetEmail } from '$lib/config/emailMessages';
-import { addToken, getUserByEmail } from '$lib/server/drizzle/dbModel';
+import { addToken, getUserByEmail, getUserByToken } from '$lib/server/drizzle/dbModel';
 import { verifyCaptcha } from '$lib/server/verifyCaptcha';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
@@ -11,7 +11,6 @@ interface RequestBody {
 
 export const POST: RequestHandler = async ({ request }) => {
 	const body = await request.json();
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { email, expectedAction = 'FORGOT_PASSWORD', token } = body as RequestBody;
 	// console.log('request', body);
 
@@ -27,15 +26,22 @@ export const POST: RequestHandler = async ({ request }) => {
 		error(404, { message: 'Invalid email' });
 	}
 
-	const tokenRes = await addToken({ userId: user.id, time: { hours: 2 } });
+	//timer check to avoid spamming
+	const tokenRow = await getUserByToken(user.id);
+	if (tokenRow?.expiresAt !== undefined && tokenRow.expiresAt - 1000 * 60 * 7 > Date.now()) {
+		error(401, { message: 'Please wait for 30 seconds' });
+	}
+
+	//add token to db
+	const tokenRes = await addToken({ userId: user.id, time: { minutes: 10 } });
 	if (!tokenRes) {
 		error(404, { message: 'Error adding token' });
 	}
-	//send email
+
+	//send email via ses
 	const res = await sendPasswordResetEmail(email, tokenRes.token);
 	if (res?.statusCode === 200) {
 		return json({ success: true });
-	} else {
-		error(500, { message: 'Something went wrong' });
 	}
+	error(500, { message: 'Failed to send email' });
 };

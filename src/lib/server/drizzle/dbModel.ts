@@ -11,12 +11,12 @@ import {
 	userToBookmarkJobs
 } from '$lib/server/drizzle/turso-schema';
 import { hash } from '@node-rs/argon2';
-import { and, count, eq, sql } from 'drizzle-orm';
+import { and, count, desc, eq, sql } from 'drizzle-orm';
 import { generateIdFromEntropySize } from 'lucia';
 
 interface IAddToken {
 	userId: string;
-	time: { hours?: number; day?: number };
+	time: { hours?: number; day?: number; minutes?: number; seconds?: number };
 }
 
 interface IAddResume {
@@ -60,10 +60,13 @@ export const addEmailUser = async (email: string, password: string) => {
 	return res[0];
 };
 
-export const addToken = async ({ userId, time: { hours = 24, day = 1 } }: IAddToken) => {
+export const addToken = async ({
+	userId,
+	time: { hours = 1, day = 1, minutes = 60, seconds = 60 }
+}: IAddToken) => {
 	const id = generateIdFromEntropySize(16);
 	const tokenValue = generateIdFromEntropySize(10);
-	const expiresAt = Date.now() + 1000 * 60 * 60 * hours * day; // 2 hours
+	const expiresAt = Date.now() + 1000 * seconds * minutes * hours * day;
 	const res = await db
 		.insert(tokenTable)
 		.values({
@@ -127,8 +130,6 @@ export const updateUserPolicy = async (
 	return true;
 };
 
-//given the nature of bookmark table, multiple users can bookmark the same job,
-//so it makes sense to create another table that references the bookmark table
 export const addBookmark = async (userId: string, req: JobListing) => {
 	try {
 		const bookmarkId = generateIdFromEntropySize(16);
@@ -274,4 +275,57 @@ export const updateDailyUploadCount = async () => {
     ON CONFLICT(date)
     DO UPDATE SET count = count + 1
   `);
+};
+
+export const verifyUser = async (userId: string, token: string) => {
+	const res = await db.batch([
+		db
+			.update(userTable)
+			.set({ isVerified: true })
+			.where(eq(userTable.id, userId))
+			.returning({ verified: userTable.isVerified }),
+		db.delete(tokenTable).where(eq(tokenTable.token, token))
+	]);
+	if (!res.length) return null;
+	return true;
+};
+
+export const updatePassword = async (userId: string, password: string, token: string) => {
+	const hashedPassword = await hash(password);
+	const res = await db.batch([
+		db
+			.update(userTable)
+			.set({ password: hashedPassword })
+			.where(eq(userTable.id, userId))
+			.returning({ userId: userTable.id }),
+		db.delete(tokenTable).where(eq(tokenTable.token, token))
+	]);
+	return res[0].length > 0;
+};
+
+export const deleteToken = async (trx = db, token: string) => {
+	const res = await trx.delete(tokenTable).where(eq(tokenTable.token, token)).returning();
+	if (!res.length) return null;
+	return true;
+};
+
+export const getUserIdFromToken = async (token: string) => {
+	const res = await db
+		.select({ userId: tokenTable.userId, expiresAt: tokenTable.expiresAt })
+		.from(tokenTable)
+		.where(eq(tokenTable.token, token));
+
+	if (!res.length) return null;
+	return res[0];
+};
+
+export const getUserByToken = async (userId: string) => {
+	const res = await db
+		.select()
+		.from(tokenTable)
+		.where(eq(tokenTable.userId, userId))
+		.orderBy(desc(tokenTable.expiresAt))
+		.limit(1);
+	if (!res.length) return null;
+	return res[0];
 };
