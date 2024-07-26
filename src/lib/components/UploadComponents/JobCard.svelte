@@ -7,7 +7,9 @@
 	import { addInterestedJobApi } from '$lib/utils/addInterestedJobApi';
 
 	export let slide: JobListing;
-	export let handleBookmark: (slide: JobListing) => void;
+	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;
+
+	let loading = false;
 
 	$: job_description = DOMPurify.sanitize(slide.job_description);
 	$: clearance = slide?.clearance_required ? 'Yes' : 'No';
@@ -25,6 +27,20 @@
 	const addAsInterestedJob = async () => {
 		// console.log('slide', slide.id);
 		await addInterestedJobApi(slide.id);
+	};
+
+	const addBookmark = async () => {
+		console.log('loading', loading);
+		loading = true;
+		try {
+			const res = await handleBookmark(slide);
+			if (res) {
+				loading = false;
+			}
+		} catch (error) {
+			loading = false;
+			console.log(error);
+		}
 	};
 </script>
 
@@ -85,8 +101,16 @@
 							{@html BookmarkFilledIcon}
 						</button>
 					{:else}
-						<button class="btn btn-primary hidden md:flex" on:click={() => handleBookmark(slide)}>
-							{@html BookmarkBlankIcon}
+						<button
+							class="btn btn-primary hidden md:flex"
+							on:click={addBookmark}
+							disabled={loading}
+						>
+							{#if loading}
+								<span class="loading loading-spinner"></span>
+							{:else}
+								{@html BookmarkBlankIcon}
+							{/if}
 						</button>
 					{/if}
 				</div>
@@ -181,8 +205,12 @@
 						{@html BookmarkFilledIcon}
 					</button>
 				{:else}
-					<button class="btn btn-primary md:hidden" on:click={() => handleBookmark(slide)}>
-						{@html BookmarkBlankIcon}
+					<button class="btn btn-primary md:hidden" on:click={addBookmark} disabled={loading}>
+						{#if loading}
+							<span class="loading loading-spinner"></span>
+						{:else}
+							{@html BookmarkBlankIcon}
+						{/if}
 					</button>
 				{/if}
 			</div>

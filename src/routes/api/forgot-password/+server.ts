@@ -28,7 +28,14 @@ export const POST: RequestHandler = async ({ request }) => {
 
 	//timer check to avoid spamming
 	const tokenRow = await getUserByToken(user.id);
-	if (tokenRow?.expiresAt !== undefined && tokenRow.expiresAt - 1000 * 60 * 7 > Date.now()) {
+	const expirationTime = tokenRow?.expiresAt !== undefined ? tokenRow.expiresAt : 0;
+	const lastTokenTime = expirationTime - 10 * 60 * 1000; // Subtract 10 minutes from expiration time
+	const currentTime = Date.now();
+	const waitTime = lastTokenTime + 30 * 1000; // Add 30 seconds to the last token time
+
+	// console.log('lastTokenTime', lastTokenTime, 'currentTime', currentTime, 'waitTime', waitTime);
+
+	if (currentTime < waitTime) {
 		error(401, { message: 'Please wait for 30 seconds' });
 	}
 

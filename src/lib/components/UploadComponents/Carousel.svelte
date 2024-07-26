@@ -17,7 +17,7 @@
 	export let arr: JobListing[];
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
-	export let handleBookmark: (slide: JobListing) => void;
+	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;
 
 	const user = getContext('user');
 

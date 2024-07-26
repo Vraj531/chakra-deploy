@@ -192,14 +192,14 @@
 		arr = backUpData;
 	};
 
-	const handleBookmark = async (slide: JobListing) => {
+	const handleBookmark = async (slide: JobListing): Promise<Boolean> => {
 		// console.log('slide', slide);
 		try {
 			if (!data.user) {
 				toastStore.alert(`Please login to bookmark`, {
 					position: 'bottom-end'
 				});
-				return;
+				return false;
 			}
 			const res = await fetch('api/bookmark', {
 				method: 'POST',
@@ -220,18 +220,14 @@
 					return job;
 				});
 				jobIds = [...jobIds, slide.id];
-				// arr = tempArr;
-				// arr = [...arr];
-				console.log('bookmark', response);
-
-				// console.log('arr updated', arr);
-				// arr = structuredClone(arr);
+				// console.log('bookmark', response);
+				return true;
 			}
+			return false;
 		} catch (error) {
 			console.log('error', error);
+			return false;
 		}
-
-		// console.log('data', data);
 	};
 </script>
 

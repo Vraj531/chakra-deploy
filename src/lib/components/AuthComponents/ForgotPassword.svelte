@@ -4,7 +4,20 @@
 
 	let emailError = '';
 	let emailSuccess = '';
-	let status = false;
+	let status: 'sendingMail' | 'counterInProgress' | '' = '';
+	let timer = 0;
+	const countdownTime = 30;
+
+	function startTimer() {
+		const interval = setInterval(() => {
+			if (timer > 0) {
+				timer--;
+			} else {
+				status = '';
+				clearInterval(interval);
+			}
+		}, 1000);
+	}
 
 	const handleSubmit = async (e: Event) => {
 		const formData = new FormData(e.target as HTMLFormElement);
@@ -14,10 +27,14 @@
 			data.email = (data.email as string).toLowerCase();
 			if (validateEmail(data.email as string) === false) {
 				emailError = 'Invalid email/Please enter a valid email';
+				emailSuccess = '';
 				return;
-			} else emailError = '';
+			} else {
+				emailError = '';
+				emailSuccess = '';
+			}
 			// console.log('data', data);
-			status = true;
+			status = 'sendingMail';
 			data.token = await getRecaptchaToken('FORGOT_PASSWORD');
 			// data.expectedAction = 'FORGOT_PASSWORD';
 			// data.token = data['g-recaptcha-response'];
@@ -29,19 +46,19 @@
 			const res = await response.json();
 			if (res.success) {
 				console.log('success');
-				status = false;
+				status = 'counterInProgress';
+				// status = '';
 				emailSuccess = "If the email exists in our database, we'll send you a reset link.";
+				timer = countdownTime;
+				startTimer();
 				return;
-				// setTimeout(() => {
-				// 	const modal = document.getElementById('auth-modal') as HTMLDialogElement;
-				// 	modal.close();
-				// 	goto('/upload');
-				// }, 3000);
 			}
-			emailError = 'Email does not exist.';
-			status = false;
+			// console.log('res', res);
+			emailError = res.message;
+			emailSuccess = '';
+			status = '';
 		} catch (error) {
-			status = false;
+			status = '';
 			console.log('error', error);
 		}
 	};
@@ -67,11 +84,20 @@
 	<input type="text" id="required" name="remember2" class="hidden" />
 	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="FORGOT_PASSWORD"></div>
 	<div class="form-control mt-6">
-		<button class="btn btn-primary" type="submit" disabled={status}>
-			{#if status}
+		<button
+			class="btn btn-primary"
+			type="submit"
+			disabled={status === 'sendingMail' || status === 'counterInProgress'}
+		>
+			{#if status === 'sendingMail'}
 				<span class="loading loading-spinner"></span>
 			{/if}
-			Send Reset Link</button
-		>
+			{#if status === 'counterInProgress'}
+				Wait {timer}s
+			{/if}
+			{#if status === ''}
+				Send Reset Link
+			{/if}
+		</button>
 	</div>
 </form>

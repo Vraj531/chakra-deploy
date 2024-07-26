@@ -51,6 +51,12 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			});
 			// console.log('existing user', existingUser);
 		} else {
+			if (existingUser.provider !== 'google') {
+				// return message to user to login with process that they signed up with
+				return new Response(null, {
+					status: 400
+				});
+			}
 			const session = await lucia.createSession(existingUser.id, {});
 			const sessionCookie = lucia.createSessionCookie(session.id);
 			event.cookies.set(sessionCookie.name, sessionCookie.value, {
