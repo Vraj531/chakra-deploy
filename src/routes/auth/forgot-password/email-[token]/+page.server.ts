@@ -11,6 +11,7 @@ export const actions = {
 			error(500, { message: 'Token not found!' });
 		}
 		// password validation
+		// console.log('password', formData, password);
 		const validationResult = validatePassword(password);
 		if (typeof password !== 'string') {
 			error(500, { message: 'Password is not a string' });

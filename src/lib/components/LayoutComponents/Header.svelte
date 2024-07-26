@@ -74,26 +74,9 @@
 				>
 			{/if}
 			{#if !userData}
-				<!-- <a
-					href="/google"
-					class="inline-flex text-white bg-yellow-500 border-0 items-center mt-3 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded btn-sm"
-				>
-					Login
-					<svg
-						fill="none"
-						stroke="currentColor"
-						stroke-linecap="round"
-						stroke-linejoin="round"
-						stroke-width="2"
-						class="w-4 h-4 ml-1"
-						viewBox="0 0 24 24"
-					>
-						<path d="M5 12h14M12 5l7 7-7 7"></path>
-					</svg>
-				</a> -->
 				<button
 					on:click={showAuthModal}
-					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
 					Login
 					<svg

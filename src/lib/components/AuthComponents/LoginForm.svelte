@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
+	import { goto, invalidateAll } from '$app/navigation';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 	import GoogleIcon from '$lib/assets/icons/google.svg?raw';
@@ -42,7 +42,7 @@
 				return;
 			}
 			if (res.status === 200) {
-				goto('/upload');
+				invalidateAll();
 				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
 				modal.close();
 			}
@@ -88,6 +88,11 @@
 
 	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="LOGIN"></div>
 
+	<p class="text-xs">
+		This site is protected by reCAPTCHA and the Google
+		<a href="https://policies.google.com/privacy" class="link">Privacy Policy</a> and
+		<a href="https://policies.google.com/terms" class="link">Terms of Service</a> apply.
+	</p>
 	<div class="form-control mt-6">
 		<button class="btn btn-primary" type="submit" disabled={status}>
 			{#if status}

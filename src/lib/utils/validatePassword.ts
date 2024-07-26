@@ -1,13 +1,14 @@
 export function validatePassword(password: FormDataEntryValue | null) {
 	// Check password length
-	if (!password) {
-		return 'Password not found!';
+	if (!password || password === '') {
+		return 'Password field is empty!';
 	}
 	if (typeof password !== 'string') {
 		return 'Password must be a string';
 	}
-	if (password.length !== 8) {
-		return 'Password must be 8 characters long';
+
+	if (password.length < 6) {
+		return 'Password length must be greater than 6 characters';
 	}
 
 	// Add more checks here, e.g.,

@@ -137,6 +137,6 @@ pre::-webkit-scrollbar-thumb {
 	animation-delay: 1.6s;
 }
 
-.mktoCaptchaDisclaimer a {
-	color: #000000;
+.grecaptcha-badge {
+	visibility: hidden !important;
 }

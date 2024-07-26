@@ -49,6 +49,7 @@
 	// 	console.log('carousel', selected);
 	// }
 
+	//TODO: show proper index values
 	let displayValues = [...Array(arr.length).keys()];
 
 	$: {
@@ -117,7 +118,7 @@
 <div class="relative py-4" transition:fade>
 	<div class={`hidden md:block`}>
 		<button
-			class={` btn btn-primary btn-circle p-0 m-0 fixed md:left-48  z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+			class={` btn btn-primary btn-circle p-0 m-0 fixed left-48 mt-12 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
 			on:click={previousCard}
 		>
 			<!-- <ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} /> -->
@@ -126,7 +127,7 @@
 			</div>
 		</button>
 		<button
-			class={`btn btn-primary btn-circle fixed md:right-48  z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+			class={`btn btn-primary btn-circle fixed right-48 mt-12 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
 			on:click={nextCard}
 		>
 			<div class="pl-2.5">
@@ -156,7 +157,7 @@
 						class={`btn md:btn-md btn-xs btn-circle btn-secondary grid place-items-center ${selected === item && 'bg-gradient-to-br from-orange-500 to-orange-300'}`}
 						on:click={select(item)}
 					>
-						{item}
+						{item + 1}
 					</button>
 				{/if}
 			{/each}

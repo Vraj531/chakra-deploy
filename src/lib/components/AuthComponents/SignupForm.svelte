@@ -8,10 +8,15 @@
 	let passwordError = '';
 	let confirmPasswordError = '';
 	let status = false;
+	let loading = false;
 
 	const handleSubmit = async (e: Event) => {
 		const formData = new FormData(e.target as HTMLFormElement);
 		const data = Object.fromEntries(formData);
+
+		emailError = '';
+		passwordError = '';
+		confirmPasswordError = '';
 
 		try {
 			if (data.remember2) return;
@@ -34,7 +39,7 @@
 				// toastStore.alert('Passwords do not match', { position: 'bottom-end' });
 				return;
 			}
-			status = true;
+			loading = true;
 			data.token = await getRecaptchaToken('SIGNUP');
 			data.expectedAction = 'SIGNUP';
 			// data.token = data['g-recaptcha-response'];
@@ -43,19 +48,25 @@
 				method: 'POST',
 				body: JSON.stringify(data)
 			});
+			console.log('response', response);
 			const res = await response.json();
-			if (res.success) {
+			if (response.ok) {
 				console.log('success');
 				status = true;
-				setTimeout(() => {
-					const modal = document.getElementById('auth-modal') as HTMLDialogElement;
-					modal.close();
-					goto('/upload');
-				}, 3000);
+				// setTimeout(() => {
+				// 	const modal = document.getElementById('auth-modal') as HTMLDialogElement;
+				// 	modal.close();
+				// 	goto('/upload');
+				// }, 3000);
+			} else {
+				status = false;
+				// console.log('res', res);
+				emailError = res.message;
 			}
-			status = false;
+			loading = false;
 		} catch (error) {
 			status = false;
+			loading = false;
 			console.log('error', error);
 		}
 	};
@@ -97,6 +108,7 @@
 			placeholder="password"
 			class={`input input-bordered input-warning`}
 			name="confirmPassword"
+			autocomplete="off"
 		/>
 		{#if confirmPasswordError !== ''}
 			<span class="label-text-alt text-error">{confirmPasswordError}</span>
@@ -111,8 +123,18 @@
 		{/if}
 	</div>
 
+	<p class="text-xs">
+		This site is protected by reCAPTCHA and the Google
+		<a href="https://policies.google.com/privacy" class="link">Privacy Policy</a> and
+		<a href="https://policies.google.com/terms" class="link">Terms of Service</a> apply.
+	</p>
 	<div class="form-control mt-6">
-		<button class="btn btn-primary" type="submit">Login</button>
+		<button class="btn btn-primary" type="submit" disabled={loading}>
+			{#if loading}
+				<span class="loading loading-spinner"></span>
+			{/if}
+			Sign Up</button
+		>
 	</div>
 	<div class="divider">OR</div>
 
