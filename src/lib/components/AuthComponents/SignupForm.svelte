@@ -48,7 +48,7 @@
 				method: 'POST',
 				body: JSON.stringify(data)
 			});
-			console.log('response', response);
+			// console.log('response', response);
 			const res = await response.json();
 			if (response.ok) {
 				console.log('success');

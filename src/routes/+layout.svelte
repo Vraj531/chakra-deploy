@@ -79,7 +79,7 @@
 	/>
 	<meta name="twitter:image" content="/chakraImg.png" />
 </svelte:head>
-<Analytics />
+<!-- <Analytics /> -->
 
 <PageLoaderProgress />
 <div class="flex flex-col min-h-screen font-varela">

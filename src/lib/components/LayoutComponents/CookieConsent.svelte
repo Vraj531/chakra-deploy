@@ -3,8 +3,8 @@
 	import Cookies from 'js-cookie';
 	import { inject } from '@vercel/analytics';
 	import { dev } from '$app/environment';
-	import { PUBLIC_MEASUREMENT_ID } from '$env/static/public';
-	import { page } from '$app/stores';
+	// import { PUBLIC_MEASUREMENT_ID } from '$env/static/public';
+	// import { page } from '$app/stores';
 
 	let consent = Cookies.get('cookie-consent');
 	let showConsent = false;
@@ -34,26 +34,26 @@
 		showConsent = false;
 	}
 
-	function initGoogleAnalytics() {
-		const script = document.createElement('script');
-		script.src = `https://www.googletagmanager.com/gtag/js?id=${PUBLIC_MEASUREMENT_ID}`;
-		script.async = true;
-		document.head.appendChild(script);
+	// function initGoogleAnalytics() {
+	// 	const script = document.createElement('script');
+	// 	script.src = `https://www.googletagmanager.com/gtag/js?id=${PUBLIC_MEASUREMENT_ID}`;
+	// 	script.async = true;
+	// 	document.head.appendChild(script);
 
-		script.onload = () => {
-			// @ts-ignore
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				// @ts-ignore
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			gtag('config', PUBLIC_MEASUREMENT_ID, {
-				page_path: $page.url.pathname, // Set initial page path
-				send_page_view: true // Ensure initial page view is sent
-			});
-		};
-	}
+	// 	script.onload = () => {
+	// 		// @ts-ignore
+	// 		window.dataLayer = window.dataLayer || [];
+	// 		function gtag() {
+	// 			// @ts-ignore
+	// 			dataLayer.push(arguments);
+	// 		}
+	// 		gtag('js', new Date());
+	// 		gtag('config', PUBLIC_MEASUREMENT_ID, {
+	// 			page_path: $page.url.pathname, // Set initial page path
+	// 			send_page_view: true // Ensure initial page view is sent
+	// 		});
+	// 	};
+	// }
 
 	function initVercelAnalytics() {
 		inject({ mode: dev ? 'development' : 'production' });
