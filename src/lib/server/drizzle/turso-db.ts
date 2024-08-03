@@ -7,8 +7,8 @@ import { dev } from '$app/environment';
 
 const turso = createClient({
 	url: dev ? 'http://127.0.0.1:8080' : TURSO_DB,
-	authToken: TURSO_TOKEN
 	// url: TURSO_DB,
+	authToken: TURSO_TOKEN
 	// url: 'http://127.0.0.1:8080'
 });
 

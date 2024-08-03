@@ -46,6 +46,8 @@ export const POST: RequestHandler = async ({ request }) => {
 	// console.log('token table', tokenValue);
 	const emailResponse = await sendVerificationEmail(email, tokenRes.token);
 
+	console.log('email response', emailResponse);
+
 	if (emailResponse?.statusCode === 200) {
 		//* should the user be signed up?
 		// const session = await lucia.createSession(newUser.id, {});

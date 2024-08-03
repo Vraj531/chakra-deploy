@@ -36,8 +36,9 @@
 				body: JSON.stringify(data)
 			});
 			if (res.status === 401) {
-				console.log('res', res);
-				passwordError = 'Invalid email or password';
+				// console.log('res', res);
+				const resData = await res.json();
+				passwordError = resData.message;
 				status = false;
 				return;
 			}
