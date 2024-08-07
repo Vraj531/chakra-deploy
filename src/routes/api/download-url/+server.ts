@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, LAMBDA_URL, SECRET_KEY } from '$env/static/private';
-import { addGuestResume, addResume } from '$lib/server/drizzle/dbModel';
+import { addGuestResume, addResume, updateDailyUploadCount } from '$lib/server/drizzle/dbModel';
 import { downloadLimiter } from '$lib/server/rateLimiter';
 
 const client = new S3Client({
@@ -77,15 +77,16 @@ export const POST: RequestHandler = async (event) => {
 					'Content-Type': 'application/json'
 				}
 			});
+			await updateDailyUploadCount();
 			// console.log('response', await res.json());
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {
-				let body = JSON.parse(fullResponse.body);
-				if (!locals.user) {
-					//return only the first 5 elements
-					body = body.slice(0, 5);
-				}
-				// console.log('body', body);
+				const body = JSON.parse(fullResponse.body);
+				// if (!locals.user) {
+				// 	//return only the first 5 elements
+				// 	body = body.slice(0, 5);
+				// }
+				console.log('body', body.length);
 				return json(body);
 			} else return json({ error: 'error reading pdf' });
 		} catch (error) {
