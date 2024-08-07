@@ -44,7 +44,7 @@
 			data-aos="fade-up"
 			src="/nvidia_inception.webp"
 			alt="nvidia-inception"
-			class="max-w-40 mx-auto py-5"
+			class="max-w-40 mx-auto pb-10"
 		/>
 	</section>
 
