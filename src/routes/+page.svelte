@@ -40,7 +40,12 @@
 				/>
 			</div>
 		</div>
-		<img src="/nvidia_inception.webp" alt="nvidia-inception" class="max-w-40 mx-auto py-5" />
+		<img
+			data-aos="fade-up"
+			src="/nvidia_inception.webp"
+			alt="nvidia-inception"
+			class="max-w-40 mx-auto py-5"
+		/>
 	</section>
 
 	<section
