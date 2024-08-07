@@ -9,7 +9,7 @@
 <body>
 	<section class="bg-white text-gray-600 body-font relative overflow-hidden">
 		<div
-			class="container mx-auto flex lg:px-20 md:px-10 px-5 pt-5 pb-20 md:flex-row flex-col items-center"
+			class="container mx-auto flex lg:px-20 md:px-10 px-5 py-5 md:flex-row flex-col items-center"
 		>
 			<div
 				data-aos="fade-right"
@@ -40,6 +40,7 @@
 				/>
 			</div>
 		</div>
+		<img src="/nvidia_inception.webp" alt="nvidia-inception" class="max-w-40 mx-auto py-5" />
 	</section>
 
 	<section
