@@ -13,6 +13,7 @@
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
 	import { onMount, setContext } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
+	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
 
 	export let data: PageData;
 	setContext('user', data.user);
@@ -113,6 +114,7 @@
 			state = 'analysing';
 			const res = await fetch('api/download-url', {
 				method: 'POST',
+				signal: AbortSignal.timeout(30000),
 				body: JSON.stringify({
 					filename: file.name,
 					inputText,
@@ -310,6 +312,7 @@
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
 	<!-- <GuestPrivacyPolicyModal {data} /> -->
+	<!-- <ListComponent /> -->
 	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
 	<FilterForm {handleSubmit} /> -->
 </div>

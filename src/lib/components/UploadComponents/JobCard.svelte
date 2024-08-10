@@ -45,7 +45,7 @@
 </script>
 
 <div class="embla__slide">
-	<div class="bg-white shadow-md rounded-2xl max-w-4xl w-full mx-auto p-6 md:flex">
+	<div class="bg-white shadow-xl rounded-2xl max-w-4xl w-full mx-auto p-6 md:flex">
 		<!-- paste here -->
 		<div class="p-2 md:flex justify-center gap-4 w-full hidden">
 			<div class="flex flex-col prose md:w-1/2">
