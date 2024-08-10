@@ -125,8 +125,10 @@
 </div>
 
 <div class="md:flex">
-	<ListComponent {arr} {selected} selectIndex={select} {selectJobIndex} />
-	<div class="relative py-4 md:w-[67%]" transition:fade>
+	<div class="hidden md:flex flex-col gap-2 w-[40%] max-h-[150vh] overflow-y-auto mx-2 mt-8">
+		<ListComponent {arr} {selected} selectIndex={select} {selectJobIndex} />
+	</div>
+	<div class="relative py-4 md:w-[60%]" transition:fade>
 		<!-- <div class={`hidden md:block`}>
 			<button
 				class={` btn btn-primary btn-circle p-0 m-0 fixed left-48 mt-12 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
@@ -156,7 +158,7 @@
 				</div>
 			</div>
 		</div>
-		<div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
+		<!-- <div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
 			{#if displayValues !== undefined}
 				{#each displayValues as item, index}
 					{#if item === '...'}
@@ -171,7 +173,7 @@
 					{/if}
 				{/each}
 			{/if}
-		</div>
+		</div> -->
 	</div>
 </div>
 <MoreJobsModal />
