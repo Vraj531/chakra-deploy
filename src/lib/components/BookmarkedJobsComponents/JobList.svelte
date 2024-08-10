@@ -1,6 +1,5 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import TrashSvg from '$lib/assets/icons/trash.svg?raw';
 	import JobDescriptionModal from '$lib/components/BookmarkedJobsComponents/JobDescriptionModal.svelte';
 	import type { JobListing } from '$lib/dummyData';
 	import { fly } from 'svelte/transition';
@@ -58,7 +57,7 @@
 		</div>
 	{/if}
 	<h3>Bookmarked: {count}</h3>
-	{#each jobListWithHumanReadableDates as job, i}
+	{#each jobListWithHumanReadableDates as job}
 		<div
 			class="flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md relative"
 			transition:fly

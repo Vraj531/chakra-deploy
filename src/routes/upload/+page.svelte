@@ -13,7 +13,6 @@
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
 	import { onMount, setContext } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
-	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
 
 	export let data: PageData;
 	setContext('user', data.user);
@@ -78,7 +77,7 @@
 	};
 
 	const handlePdfSubmit = async () => {
-		console.log('submitting', Cookie.set('privacy_policy', 'true'));
+		// console.log('submitting', Cookie.set('privacy_policy', 'true'));
 		// console.log('uploading');
 		// return;
 		if (!file) return;
