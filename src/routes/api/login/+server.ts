@@ -27,15 +27,21 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 		// user array is empty
 		error(401, { message: 'Invalid email' });
 	}
-	const { id, password: hashRes } = user;
-	if (await verify(hashRes as string, password)) {
-		const session = await lucia.createSession(id, {});
-		const sessionCookie = lucia.createSessionCookie(session.id);
-		cookies.set(sessionCookie.name, sessionCookie.value, {
-			path: '/',
-			...sessionCookie.attributes
-		});
-		return json({ success: true });
+	if (!user?.password) {
+		error(401, { message: 'Password not found' });
 	}
-	error(401, { message: 'Invalid password' });
+	const { id, password: hashRes, isVerified } = user;
+
+	const verifyRes = await verify(hashRes, password);
+	if (!verifyRes) error(401, { message: 'Invalid password' });
+
+	if (!isVerified) error(401, { message: 'Email not verified, Please check your inbox.' });
+
+	const session = await lucia.createSession(id, {});
+	const sessionCookie = lucia.createSessionCookie(session.id);
+	cookies.set(sessionCookie.name, sessionCookie.value, {
+		path: '/',
+		...sessionCookie.attributes
+	});
+	return json({ success: true });
 };

@@ -1,7 +1,8 @@
+import { dev } from '$app/environment';
 import sendEmail from '$lib/server/sendmail';
 
-const BASE_URL = 'http://localhost:5173';
-const APP_NAME = 'My App';
+const BASE_URL = dev ? 'http://localhost:5173' : 'https://www.careerchakra.com';
+const APP_NAME = 'Career Chakra';
 
 export const sendVerificationEmail = async (email: string, token: string) => {
 	const verifyEmailURL = `${BASE_URL}/auth/verify/email-${token}`;

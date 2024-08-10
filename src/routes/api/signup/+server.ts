@@ -1,7 +1,7 @@
 import { error, json, type RequestHandler } from '@sveltejs/kit';
-import { lucia } from '$lib/server/auth';
 import { sendVerificationEmail } from '$lib/config/emailMessages';
 import { addEmailUser, addToken, checkExistingUserByEmail } from '$lib/server/drizzle/dbModel';
+import { validatePassword } from '$lib/utils/validatePassword';
 
 interface RequestBody {
 	email: string;
@@ -10,57 +10,54 @@ interface RequestBody {
 	token: string;
 }
 
-export const POST: RequestHandler = async ({ request, cookies }) => {
-	try {
-		const {
-			email,
-			password,
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			expectedAction = 'LOGIN',
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			token
-		} = (await request.json()) as RequestBody;
-		// const captchaResponse = await verifyCaptcha(token, expectedAction);
-		const captchaResponse = 0.9;
+export const POST: RequestHandler = async ({ request }) => {
+	// try {
+	const {
+		email,
+		password,
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		expectedAction = 'LOGIN',
+		// eslint-disable-next-line @typescript-eslint/no-unused-vars
+		token
+	} = (await request.json()) as RequestBody;
+	// const captchaResponse = await verifyCaptcha(token, expectedAction);
+	const captchaResponse = 0.9;
+	console.log('captchaResponse', captchaResponse);
 
-		if (captchaResponse < 0.8) {
-			return json({
-				status: 401,
-				body: 'ReCaptcha Failed to authorize on server, please try again'
-			});
-		}
+	if (captchaResponse < 0.8) {
+		error(401, { message: 'ReCaptcha Failed to authorize user, please try again' });
+	}
+	const existingUser = await checkExistingUserByEmail(email);
+	// console.log('existing user', existingUser);
+	if (existingUser) error(401, { message: `User with email: ${email} already exists` });
 
-		const existingUser = await checkExistingUserByEmail(email);
-		if (existingUser) {
-			error(401, {
-				message: `User with email: ${email} already exists`
-			});
-		}
+	const validationResult = validatePassword(password);
 
-		const newUser = await addEmailUser(email, password);
-		if (!newUser) error(500, { message: 'Error creating account' });
-		// console.log('new user', newUser);
+	if (typeof password !== 'string') error(500, { message: 'Password is not a string' });
+	if (typeof validationResult === 'string') error(500, { message: validationResult });
+	// console.log('entering user');
 
-		const tokenRes = await addToken({ userId: newUser.id, time: { day: 1 } });
-		if (!tokenRes) error(500, { message: 'Error creating token' });
-		// console.log('token table', tokenValue);
-		const emailResponse = await sendVerificationEmail(email, tokenRes.token);
+	const newUser = await addEmailUser(email, password);
+	if (!newUser) error(500, { message: 'Error creating account' });
+	// console.log('new user', newUser);
 
-		// const emailResponse = { statusCode: 200 };
-		if (emailResponse?.statusCode === 200) {
-			const session = await lucia.createSession(newUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '/',
-				...sessionCookie.attributes
-			});
-			return json({ success: true });
-		} else {
-			error(500, { message: 'Error sending email' });
-		}
-	} catch (error) {
-		// console.log('error', error);
-		if (error instanceof Error && 'message' in error) return json({ message: error.message });
-		return json({ message: 'fail' });
+	const tokenRes = await addToken({ userId: newUser.id, time: { day: 1, hours: 24 } });
+	if (!tokenRes) error(500, { message: 'Error creating token' });
+	// console.log('token table', tokenValue);
+	const emailResponse = await sendVerificationEmail(email, tokenRes.token);
+
+	console.log('email response', emailResponse);
+
+	if (emailResponse?.statusCode === 200) {
+		//* should the user be signed up?
+		// const session = await lucia.createSession(newUser.id, {});
+		// const sessionCookie = lucia.createSessionCookie(session.id);
+		// cookies.set(sessionCookie.name, sessionCookie.value, {
+		// 	path: '/',
+		// 	...sessionCookie.attributes
+		// });
+		return json({ success: true });
+	} else {
+		error(500, { message: 'Error sending email' });
 	}
 };

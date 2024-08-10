@@ -13,6 +13,7 @@
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
 	import { onMount, setContext } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
+	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
 
 	export let data: PageData;
 	setContext('user', data.user);
@@ -113,6 +114,7 @@
 			state = 'analysing';
 			const res = await fetch('api/download-url', {
 				method: 'POST',
+				signal: AbortSignal.timeout(30000),
 				body: JSON.stringify({
 					filename: file.name,
 					inputText,
@@ -192,14 +194,14 @@
 		arr = backUpData;
 	};
 
-	const handleBookmark = async (slide: JobListing) => {
+	const handleBookmark = async (slide: JobListing): Promise<Boolean> => {
 		// console.log('slide', slide);
 		try {
 			if (!data.user) {
 				toastStore.alert(`Please login to bookmark`, {
 					position: 'bottom-end'
 				});
-				return;
+				return false;
 			}
 			const res = await fetch('api/bookmark', {
 				method: 'POST',
@@ -220,18 +222,14 @@
 					return job;
 				});
 				jobIds = [...jobIds, slide.id];
-				// arr = tempArr;
-				// arr = [...arr];
-				console.log('bookmark', response);
-
-				// console.log('arr updated', arr);
-				// arr = structuredClone(arr);
+				// console.log('bookmark', response);
+				return true;
 			}
+			return false;
 		} catch (error) {
 			console.log('error', error);
+			return false;
 		}
-
-		// console.log('data', data);
 	};
 </script>
 
@@ -314,6 +312,7 @@
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
 	<!-- <GuestPrivacyPolicyModal {data} /> -->
+	<!-- <ListComponent /> -->
 	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
 	<FilterForm {handleSubmit} /> -->
 </div>

@@ -1,15 +1,22 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
+	import GoogleIcon from '$lib/assets/icons/google.svg?raw';
 
 	let emailError = '';
 	let passwordError = '';
 	let confirmPasswordError = '';
 	let status = false;
+	let loading = false;
 
 	const handleSubmit = async (e: Event) => {
 		const formData = new FormData(e.target as HTMLFormElement);
 		const data = Object.fromEntries(formData);
+
+		emailError = '';
+		passwordError = '';
+		confirmPasswordError = '';
 
 		try {
 			if (data.remember2) return;
@@ -32,28 +39,34 @@
 				// toastStore.alert('Passwords do not match', { position: 'bottom-end' });
 				return;
 			}
-			status = true;
+			loading = true;
 			data.token = await getRecaptchaToken('SIGNUP');
 			data.expectedAction = 'SIGNUP';
 			// data.token = data['g-recaptcha-response'];
-			console.log('data', data);
+			// console.log('data', data);
 			const response = await fetch('api/signup', {
 				method: 'POST',
 				body: JSON.stringify(data)
 			});
+			// console.log('response', response);
 			const res = await response.json();
-			if (res.success) {
+			if (response.ok) {
 				console.log('success');
 				status = true;
-				setTimeout(() => {
-					const modal = document.getElementById('auth-modal') as HTMLDialogElement;
-					modal.close();
-					goto('/upload');
-				}, 3000);
+				// setTimeout(() => {
+				// 	const modal = document.getElementById('auth-modal') as HTMLDialogElement;
+				// 	modal.close();
+				// 	goto('/upload');
+				// }, 3000);
+			} else {
+				status = false;
+				// console.log('res', res);
+				emailError = res.message;
 			}
-			status = false;
+			loading = false;
 		} catch (error) {
 			status = false;
+			loading = false;
 			console.log('error', error);
 		}
 	};
@@ -95,18 +108,14 @@
 			placeholder="password"
 			class={`input input-bordered input-warning`}
 			name="confirmPassword"
+			autocomplete="off"
 		/>
 		{#if confirmPasswordError !== ''}
 			<span class="label-text-alt text-error">{confirmPasswordError}</span>
 		{/if}
 	</label>
 
-	<!-- <div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="SIGNUP"></div> -->
-	<!-- <div
-		class="g-recaptcha"
-		data-sitekey="6LfGWgIqAAAAAIJV6ihQg4fiNC54gOOx4AcOK3vU"
-		data-action="LOGIN"
-	></div> -->
+	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="SIGNUP"></div>
 	<div>
 		{#if status}
 			<p class="text-2xl text-green-500">Success</p>
@@ -114,7 +123,23 @@
 		{/if}
 	</div>
 
+	<p class="text-xs">
+		This site is protected by reCAPTCHA and the Google
+		<a href="https://policies.google.com/privacy" class="link">Privacy Policy</a> and
+		<a href="https://policies.google.com/terms" class="link">Terms of Service</a> apply.
+	</p>
 	<div class="form-control mt-6">
-		<button class="btn btn-primary" type="submit">Login</button>
+		<button class="btn btn-primary" type="submit" disabled={loading}>
+			{#if loading}
+				<span class="loading loading-spinner"></span>
+			{/if}
+			Sign Up</button
+		>
 	</div>
+	<div class="divider">OR</div>
+
+	<a class="btn btn-outline" type="submit" href="google">
+		{@html GoogleIcon}
+		Google</a
+	>
 </form>

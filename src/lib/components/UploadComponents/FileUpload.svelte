@@ -30,7 +30,11 @@
 		<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +
 				'\n'}</pre>
 
-		<textarea placeholder="Add additional skills" bind:value={inputText} class="rounded-lg w-full"
+		<textarea
+			placeholder="Add additional skills"
+			bind:value={inputText}
+			class="rounded-lg w-full"
+			id="skills"
 		></textarea>
 	</div>
 	<label class="btn flex md:hidden btn-primary mx-auto" for="fileUpload">

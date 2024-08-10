@@ -13,11 +13,13 @@
 	import JobCard from './JobCard.svelte';
 	import { getContext } from 'svelte';
 	import MoreJobsModal from '$lib/components/UploadComponents/MoreJobsModal.svelte';
+	import { list } from 'postcss';
+	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
 
 	export let arr: JobListing[];
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
-	export let handleBookmark: (slide: JobListing) => void;
+	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;
 
 	const user = getContext('user');
 
@@ -38,6 +40,7 @@
 		$carousel?.canScrollPrev() && $carousel?.scrollPrev();
 	}
 	const select = (index: number | string) => () => {
+		console.log('selected', index);
 		if (typeof index === 'number') $carousel?.scrollTo(index);
 	};
 
@@ -45,11 +48,18 @@
 		selected = $carousel?.selectedScrollSnap();
 	};
 
+	const selectJobIndex = (index: number | string) => {
+		console.log(' i was called from another component');
+		if (typeof index === 'number') $carousel?.scrollTo(index);
+	};
+
 	// $: {
 	// 	console.log('carousel', selected);
 	// }
 
+	//TODO: show proper index values
 	let displayValues = [...Array(arr.length).keys()];
+	let listValues = [...Array(arr.length).keys()];
 
 	$: {
 		// Only update displayValues based on arr.length and selected index
@@ -106,7 +116,7 @@
 			{@html RestoreIcon}
 			Reset
 		</button>
-		<div class="tooltip tooltip-top" data-tip="filter">
+		<div class="tooltip tooltip-right tooltip-primary" data-tip="filter">
 			<button class=" btn btn-primary" on:click={triggerModal}>
 				{@html FilterIcon}
 			</button>
@@ -114,64 +124,59 @@
 	</div>
 </div>
 
-<div class="relative py-4" transition:fade>
-	<div class={`hidden md:block`}>
-		<button
-			class={` btn btn-primary btn-circle p-0 m-0 fixed md:left-48  z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
-			on:click={previousCard}
-		>
-			<!-- <ChevronLeft class="h-8 w-8 pl-2" on:click={previousCard} /> -->
-			<div class="pl-2">
-				{@html ChevronLeftIcon}
-			</div>
-		</button>
-		<button
-			class={`btn btn-primary btn-circle fixed md:right-48  z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
-			on:click={nextCard}
-		>
-			<div class="pl-2.5">
-				{@html ChevronRightIcon}
-			</div>
-			<!-- <ChevronRightIcon /> -->
-			<!-- <ChevronRight class="h-9 w-9 pl-3" /> -->
-		</button>
-	</div>
-	<div class="embla">
-		<!-- // @ts-nocheck -->
-		<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
-			<div class="embla__container">
-				{#each arr as slide}
-					<JobCard {slide} {handleBookmark} />
-				{/each}
+<div class="md:flex">
+	<ListComponent {arr} {selected} selectIndex={select} {selectJobIndex} />
+	<div class="relative py-4 md:w-[67%]" transition:fade>
+		<!-- <div class={`hidden md:block`}>
+			<button
+				class={` btn btn-primary btn-circle p-0 m-0 fixed left-48 mt-12 z-10 ${selected === 0 ? 'hidden' : 'md:block'}`}
+				on:click={previousCard}
+			>
+				<div class="pl-2">
+					{@html ChevronLeftIcon}
+				</div>
+			</button>
+			<button
+				class={`btn btn-primary btn-circle fixed right-48 mt-12 z-10 ${selected === arr.length - 1 ? 'hidden' : 'md:block'}`}
+				on:click={nextCard}
+			>
+				<div class="pl-2.5">
+					{@html ChevronRightIcon}
+				</div>
+			</button>
+		</div> -->
+
+		<div class="embla">
+			<!-- // @ts-nocheck -->
+			<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
+				<div class="embla__container">
+					{#each arr as slide}
+						<JobCard {slide} {handleBookmark} />
+					{/each}
+				</div>
 			</div>
 		</div>
+		<div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
+			{#if displayValues !== undefined}
+				{#each displayValues as item, index}
+					{#if item === '...'}
+						<p>...</p>
+					{:else}
+						<button
+							class={`btn md:btn-md btn-xs btn-circle btn-secondary grid place-items-center ${selected === item && 'bg-gradient-to-br from-orange-500 to-orange-300'}`}
+							on:click={select(item)}
+						>
+							{item + 1}
+						</button>
+					{/if}
+				{/each}
+			{/if}
+		</div>
 	</div>
-	<div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
-		{#if displayValues !== undefined}
-			{#each displayValues as item, index}
-				{#if item === '...'}
-					<p>...</p>
-				{:else}
-					<button
-						class={`btn md:btn-md btn-xs btn-circle btn-secondary grid place-items-center ${selected === item && 'bg-gradient-to-br from-orange-500 to-orange-300'}`}
-						on:click={select(item)}
-					>
-						{item}
-					</button>
-				{/if}
-			{/each}
-		{/if}
-	</div>
-	<MoreJobsModal />
 </div>
+<MoreJobsModal />
 
 <style>
-	.pagination button {
-		margin: 0 2px;
-	}
-	.pagination .active {
-		font-weight: bold;
-	}
 	.embla {
 		overflow: hidden;
 		position: relative;

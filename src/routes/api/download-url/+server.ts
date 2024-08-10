@@ -69,6 +69,7 @@ export const POST: RequestHandler = async (event) => {
 
 			const res = await fetch(LAMBDA_URL, {
 				method: 'POST',
+				signal: AbortSignal.timeout(25000),
 				body: JSON.stringify({
 					additional_text: inputText,
 					pdf_file_location: `s3://nikhil-pipeline-storage/${username}/${filename}`
@@ -81,12 +82,12 @@ export const POST: RequestHandler = async (event) => {
 			// console.log('response', await res.json());
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {
-				const body = JSON.parse(fullResponse.body);
-				// if (!locals.user) {
-				// 	//return only the first 5 elements
-				// 	body = body.slice(0, 5);
-				// }
-				console.log('body', body.length);
+				let body = JSON.parse(fullResponse.body);
+				if (!locals.user) {
+					//return only the first 5 elements
+					body = body.slice(0, 5);
+				}
+				// console.log('body', body.length);
 				return json(body);
 			} else return json({ error: 'error reading pdf' });
 		} catch (error) {

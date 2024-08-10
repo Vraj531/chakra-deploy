@@ -76,7 +76,7 @@
 			{#if !userData}
 				<a
 					href="/google"
-					class="inline-flex text-white bg-yellow-500 border-0 items-center mt-3 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded btn-sm"
+					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
 					Login
 					<svg
@@ -93,7 +93,7 @@
 				</a>
 				<!-- <button
 					on:click={showAuthModal}
-					class="inline-flex text-white bg-yellow-500 border-0 items-center py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
 					Login
 					<svg

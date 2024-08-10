@@ -1,31 +1,42 @@
-import { db } from '$lib/server/drizzle/turso-db.js';
-import { tokenTable, userTable } from '$lib/server/drizzle/turso-schema.js';
-import { fail } from '@sveltejs/kit';
-import { eq } from 'drizzle-orm';
+import { getUserIdFromToken, updatePassword } from '$lib/server/drizzle/dbModel.js';
+import { validatePassword } from '$lib/utils/validatePassword.js';
+import { error, type Actions } from '@sveltejs/kit';
 
-export const load = async ({ params }) => {
-	try {
+export const actions = {
+	default: async ({ request, params }) => {
 		const token = params.token;
-		const res = await db
-			.select({ userId: tokenTable.userId, expiresAt: tokenTable.expiresAt })
-			.from(tokenTable)
-			.where(eq(tokenTable.token, token));
-		// console.log('res', res, token);
-		const userId = res[0]?.userId;
-		if (userId) {
-			const expiresAt = res[0]?.expiresAt;
-			const currentDate = Date.now();
-			if (expiresAt < currentDate) {
-				return { status: true, header: 'Verification status', message: 'Token has expired!' };
-			}
-			await db.update(userTable).set({ isVerified: true }).where(eq(userTable.id, userId));
-			return {
-				status: true,
-				header: 'Verification status',
-				message: 'User has been verified successfully!'
-			};
+		const formData = await request.formData();
+		const password = formData.get('password');
+		if (!token) {
+			error(500, { message: 'Token not found!' });
 		}
-	} catch (error) {
-		return fail(500, { error });
+		// password validation
+		// console.log('password', formData, password);
+		const validationResult = validatePassword(password);
+		if (typeof password !== 'string') {
+			error(500, { message: 'Password is not a string' });
+		}
+		if (typeof validationResult === 'string') {
+			error(500, { message: validationResult });
+		}
+		// Get user id from token
+		const tokenRes = await getUserIdFromToken(token);
+		if (!tokenRes) {
+			error(401, { message: 'Invalid token!' });
+		}
+
+		//check if expired
+		if (tokenRes.expiresAt < Date.now()) {
+			error(500, { message: 'Token has expired!' });
+		}
+		// Update user password
+		const updateRes = await updatePassword(tokenRes.userId as string, password, token);
+		if (!updateRes) {
+			error(500, { message: 'Password update failed!' });
+		}
+		return {
+			status: true,
+			message: 'Password has been updated successfully!'
+		};
 	}
-};
+} satisfies Actions;

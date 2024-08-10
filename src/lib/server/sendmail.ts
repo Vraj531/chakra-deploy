@@ -3,8 +3,9 @@ import * as aws from '@aws-sdk/client-ses';
 
 import { EMAIL_ACCESS_ID, EMAIL_SECRET_KEY } from '$env/static/private';
 
-const FROM_EMAIL = 'gouravdeb@gmail.com';
-//import { z } from "zod";
+// const FROM_EMAIL = 'gouravdeb@gmail.com';
+const FROM_EMAIL = 'help@careerchakra.com';
+
 export default async function sendEmail(
 	email: string,
 	subject: string,
@@ -12,8 +13,10 @@ export default async function sendEmail(
 	bodyText?: string
 ) {
 	const ses = new aws.SES({
-		apiVersion: '2010-12-01',
-		region: 'ap-south-1',
+		// apiVersion: '2010-12-01',
+		apiVersion: '2012-10-17',
+		// region: 'ap-south-1',
+		region: 'us-east-2',
 		credentials: {
 			accessKeyId: EMAIL_ACCESS_ID || '',
 			secretAccessKey: EMAIL_SECRET_KEY || ''
@@ -27,47 +30,29 @@ export default async function sendEmail(
 
 	try {
 		if (!bodyText) {
-			transporter.sendMail(
-				{
-					from: FROM_EMAIL,
-					to: email,
-					subject: subject,
-					html: bodyHtml
-				},
-				(err) => {
-					if (err) {
-						throw new Error(`Error sending email: ${JSON.stringify(err)}`);
-					}
-				}
-			);
+			await transporter.sendMail({
+				from: FROM_EMAIL,
+				to: email,
+				subject: subject,
+				html: bodyHtml
+			});
 		} else if (!bodyHtml) {
-			transporter.sendMail(
-				{
-					from: FROM_EMAIL,
-					to: email,
-					subject: subject,
-					text: bodyText
-				},
-				(err) => {
-					if (err) {
-						throw new Error(`Error sending email: ${JSON.stringify(err)}`);
-					}
-				}
-			);
+			await transporter.sendMail({
+				from: FROM_EMAIL,
+				to: email,
+				subject: subject,
+				text: bodyText
+			});
 		} else {
-			transporter.sendMail(
+			await transporter.sendMail(
 				{
 					from: FROM_EMAIL,
 					to: email,
 					subject: subject,
 					html: bodyHtml,
 					text: bodyText
-				},
-				(err) => {
-					if (err) {
-						throw new Error(`Error sending email: ${JSON.stringify(err)}`);
-					}
 				}
+				// (err, info) => cb(err, info)
 			);
 		}
 		console.log('E-mail sent successfully!');
@@ -76,6 +61,7 @@ export default async function sendEmail(
 			message: 'E-mail sent successfully.'
 		};
 	} catch (error) {
-		console.log(`Error sending email: ${JSON.stringify(error)}`);
+		// console.log(`Error sending email: ${JSON.stringify(error)}`);
+		return { statusCode: 500, message: `Error sending email: ${JSON.stringify(error)}` };
 	}
 }
