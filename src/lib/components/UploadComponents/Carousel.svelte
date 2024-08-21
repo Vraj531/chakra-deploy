@@ -188,61 +188,63 @@
 			</div>
 		</div>
 
-		{#each jobListWithHumanReadableDates as job}
-			<div
-				class="md:hidden flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md relative"
-				transition:fly
-			>
-				<div class="flex justify-between md:px-6 md:pt-6 px-4 pt-4">
-					<div class="flex-1 flex flex-col">
-						<h2 class="text-xl font-bold">
-							{job.title}
-							<span class="badge badge-secondary">{job.has_remote ? 'Remote' : 'On-site'}</span>
-						</h2>
-						<p class="text-gray-500">{job.company_name}</p>
-						<p class="text-gray-500">{job.location}</p>
-						<p class="text-gray-500">{job.job_type}</p>
-						<p class="text-gray-500">{job.published_date}</p>
-					</div>
-					<form action="?/remove" method="post" class="flex flex-col gap-2">
-						<input type="hidden" name="id" value={job.id} />
-						<div
-							class="top-1 right-1 absolute tooltip tooltip-primary tooltip-left"
-							data-tip="Remove bookmark"
-						>
-							<button class="btn btn-square btn-outline btn-xs" type="submit">
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									class="h-6 w-6"
-									fill="none"
-									viewBox="0 0 24 24"
-									stroke="currentColor"
-								>
-									<path
-										stroke-linecap="round"
-										stroke-linejoin="round"
-										stroke-width="2"
-										d="M6 18L18 6M6 6l12 12"
-									/>
-								</svg>
-							</button>
-						</div>
-						{#key job?.company_logo}
-							<img
-								src={job?.company_logo}
-								alt="company logo"
-								class="md:mt-0 mt-6 md:max-h-32 max-h-20"
-								transition:fly
-							/>
-						{/key}
-					</form>
-				</div>
-				<button
-					class="btn btn-primary md:btn-md btn-wide mx-auto mb-4"
-					on:click={() => viewJobDetails(job.id)}>View</button
+		<div class="px-4 mt-2">
+			{#each jobListWithHumanReadableDates as job}
+				<div
+					class="md:hidden flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md relative"
+					transition:fly
 				>
-			</div>
-		{/each}
+					<div class="flex justify-between md:px-6 md:pt-6 px-4 pt-4">
+						<div class="flex-1 flex flex-col">
+							<h2 class="text-xl font-bold">
+								{job.title}
+								<span class="badge badge-secondary">{job.has_remote ? 'Remote' : 'On-site'}</span>
+							</h2>
+							<p class="text-gray-500">{job.company_name}</p>
+							<p class="text-gray-500">{job.location}</p>
+							<p class="text-gray-500">{job.job_type}</p>
+							<p class="text-gray-500">{job.published_date}</p>
+						</div>
+						<form action="?/remove" method="post" class="flex flex-col gap-2">
+							<input type="hidden" name="id" value={job.id} />
+							<div
+								class="top-1 right-1 absolute tooltip tooltip-primary tooltip-left"
+								data-tip="Remove bookmark"
+							>
+								<button class="btn btn-square btn-outline btn-xs" type="submit">
+									<svg
+										xmlns="http://www.w3.org/2000/svg"
+										class="h-6 w-6"
+										fill="none"
+										viewBox="0 0 24 24"
+										stroke="currentColor"
+									>
+										<path
+											stroke-linecap="round"
+											stroke-linejoin="round"
+											stroke-width="2"
+											d="M6 18L18 6M6 6l12 12"
+										/>
+									</svg>
+								</button>
+							</div>
+							{#key job?.company_logo}
+								<img
+									src={job?.company_logo}
+									alt="company logo"
+									class="md:mt-0 mt-6 md:max-h-32 max-h-20"
+									transition:fly
+								/>
+							{/key}
+						</form>
+					</div>
+					<button
+						class="btn btn-primary md:btn-md btn-wide mx-auto mb-4"
+						on:click={() => viewJobDetails(job.id)}>View</button
+					>
+				</div>
+			{/each}
+		</div>
 		<!-- <div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
 			{#if displayValues !== undefined}
 				{#each displayValues as item, index}
