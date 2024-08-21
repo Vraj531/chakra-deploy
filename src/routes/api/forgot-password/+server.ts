@@ -1,5 +1,5 @@
 import { sendPasswordResetEmail } from '$lib/config/emailMessages';
-import { addToken, getUserByEmail, getUserByToken } from '$lib/server/drizzle/dbModel';
+import { addToken, getUserByEmail } from '$lib/server/drizzle/dbModel';
 import { verifyCaptcha } from '$lib/server/verifyCaptcha';
 import { error, json, type RequestHandler } from '@sveltejs/kit';
 
@@ -27,17 +27,19 @@ export const POST: RequestHandler = async ({ request }) => {
 	}
 
 	//timer check to avoid spamming
-	const tokenRow = await getUserByToken(user.id);
-	const expirationTime = tokenRow?.expiresAt !== undefined ? tokenRow.expiresAt : 0;
-	const lastTokenTime = expirationTime - 10 * 60 * 1000; // Subtract 10 minutes from expiration time
-	const currentTime = Date.now();
-	const waitTime = lastTokenTime + 30 * 1000; // Add 30 seconds to the last token time
+	// const tokenRow = await getUserByToken(user.id);
+	// if (tokenRow?.expiresAt) {
+	// 	const expirationTime = tokenRow?.expiresAt !== undefined ? tokenRow.expiresAt : 0;
+	// 	const lastTokenTime = expirationTime - 10 * 60 * 1000; // Subtract 10 minutes from expiration time
+	// 	const currentTime = Date.now();
+	// 	const waitTime = lastTokenTime + 30 * 1000; // Add 30 seconds to the last token time
 
-	// console.log('lastTokenTime', lastTokenTime, 'currentTime', currentTime, 'waitTime', waitTime);
+	// 	console.log('lastTokenTime', lastTokenTime, 'currentTime', currentTime, 'waitTime', waitTime);
 
-	if (currentTime < waitTime) {
-		error(401, { message: 'Please wait for 30 seconds' });
-	}
+	// 	if (currentTime < waitTime) {
+	// 		error(401, { message: 'Please wait for 30 seconds' });
+	// 	}
+	// }
 
 	//add token to db
 	const tokenRes = await addToken({ userId: user.id, time: { minutes: 10 } });
@@ -50,5 +52,6 @@ export const POST: RequestHandler = async ({ request }) => {
 	if (res?.statusCode === 200) {
 		return json({ success: true });
 	}
+	console.log('mail error', res);
 	error(500, { message: 'Failed to send email' });
 };

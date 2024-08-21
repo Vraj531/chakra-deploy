@@ -37,10 +37,10 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	// let arr: JobListing[] = dummyData;
-	// let backUpData: JobListing[] = dummyData;
-	let arr: JobListing[] = [];
-	let backUpData: JobListing[] = [];
+	let arr: JobListing[] = dummyData;
+	let backUpData: JobListing[] = dummyData;
+	// let arr: JobListing[] = [];
+	// let backUpData: JobListing[] = [];
 	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs : [];
 	// console.log('data', jobIds);
 
@@ -103,6 +103,7 @@
 				}
 			});
 
+			//note: failing in this step
 			// console.log(
 			// 	'file uploaded',
 			// 	uploadResponse?.config?.url && uploadResponse.config.url.split('?')[0]
@@ -312,6 +313,6 @@
 	{/if}
 	<!-- <GuestPrivacyPolicyModal {data} /> -->
 	<!-- <ListComponent /> -->
-	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
-	<FilterForm {handleSubmit} /> -->
+	<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
+	<FilterForm {handleSubmit} />
 </div>

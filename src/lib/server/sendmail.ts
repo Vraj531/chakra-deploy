@@ -13,16 +13,13 @@ export default async function sendEmail(
 	bodyText?: string
 ) {
 	const ses = new aws.SES({
-		// apiVersion: '2010-12-01',
 		apiVersion: '2012-10-17',
-		// region: 'ap-south-1',
-		region: 'us-east-2',
+		region: 'us-west-2',
 		credentials: {
-			accessKeyId: EMAIL_ACCESS_ID || '',
-			secretAccessKey: EMAIL_SECRET_KEY || ''
+			accessKeyId: EMAIL_ACCESS_ID,
+			secretAccessKey: EMAIL_SECRET_KEY
 		}
 	});
-
 	// create Nodemailer SES transporter
 	const transporter = nodemailer.createTransport({
 		SES: { ses, aws }
@@ -55,7 +52,7 @@ export default async function sendEmail(
 				// (err, info) => cb(err, info)
 			);
 		}
-		console.log('E-mail sent successfully!');
+		// console.log('E-mail sent successfully!');
 		return {
 			statusCode: 200,
 			message: 'E-mail sent successfully.'

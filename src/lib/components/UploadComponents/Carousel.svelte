@@ -9,12 +9,13 @@
 	import RestoreIcon from '$lib/assets/icons/RestoreIcon.svg?raw';
 	import type { JobListing } from '$lib/dummyData';
 	import { writable } from 'svelte/store';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import JobCard from './JobCard.svelte';
 	import { getContext } from 'svelte';
 	import MoreJobsModal from '$lib/components/UploadComponents/MoreJobsModal.svelte';
 	import { list } from 'postcss';
 	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
+	import JobDescriptionModal from '$lib/components/BookmarkedJobsComponents/JobDescriptionModal.svelte';
 
 	export let arr: JobListing[];
 	export let triggerModal: () => void;
@@ -28,6 +29,7 @@
 	const carousel = writable<EmblaCarouselType>();
 
 	let selected: number = 0;
+	let jobListing: JobListing;
 
 	$: if (selected === arr.length - 1 && !user) {
 		(document.getElementById('more-jobs-modal') as HTMLDialogElement).showModal();
@@ -98,6 +100,33 @@
 			];
 		}
 	}
+
+	$: jobListWithHumanReadableDates = !arr.length
+		? []
+		: arr.map((job) => ({
+				...job,
+				published_date: humanReadable(job.published_date)
+			}));
+
+	function humanReadable(date: string) {
+		if (!date) return 'Not specified';
+
+		return new Intl.DateTimeFormat('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+			hour12: true
+		}).format(new Date(date));
+	}
+	function viewJobDetails(id: number) {
+		// if (typeof id === 'string') {
+		console.log('id', id);
+		const temp = jobListWithHumanReadableDates.find((job) => job.id === id);
+		if (temp) jobListing = temp;
+		(document.getElementById('job-description-modal') as HTMLDialogElement).showModal();
+		// console.log('job listing', jobListing);
+		// }
+	}
 </script>
 
 <div class="flex w-full mt-4">
@@ -148,7 +177,7 @@
 			</button>
 		</div> -->
 
-		<div class="embla">
+		<div class="embla md:block hidden">
 			<!-- // @ts-nocheck -->
 			<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
 				<div class="embla__container">
@@ -158,6 +187,62 @@
 				</div>
 			</div>
 		</div>
+
+		{#each jobListWithHumanReadableDates as job}
+			<div
+				class="md:hidden flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md relative"
+				transition:fly
+			>
+				<div class="flex justify-between md:px-6 md:pt-6 px-4 pt-4">
+					<div class="flex-1 flex flex-col">
+						<h2 class="text-xl font-bold">
+							{job.title}
+							<span class="badge badge-secondary">{job.has_remote ? 'Remote' : 'On-site'}</span>
+						</h2>
+						<p class="text-gray-500">{job.company_name}</p>
+						<p class="text-gray-500">{job.location}</p>
+						<p class="text-gray-500">{job.job_type}</p>
+						<p class="text-gray-500">{job.published_date}</p>
+					</div>
+					<form action="?/remove" method="post" class="flex flex-col gap-2">
+						<input type="hidden" name="id" value={job.id} />
+						<div
+							class="top-1 right-1 absolute tooltip tooltip-primary tooltip-left"
+							data-tip="Remove bookmark"
+						>
+							<button class="btn btn-square btn-outline btn-xs" type="submit">
+								<svg
+									xmlns="http://www.w3.org/2000/svg"
+									class="h-6 w-6"
+									fill="none"
+									viewBox="0 0 24 24"
+									stroke="currentColor"
+								>
+									<path
+										stroke-linecap="round"
+										stroke-linejoin="round"
+										stroke-width="2"
+										d="M6 18L18 6M6 6l12 12"
+									/>
+								</svg>
+							</button>
+						</div>
+						{#key job?.company_logo}
+							<img
+								src={job?.company_logo}
+								alt="company logo"
+								class="md:mt-0 mt-6 md:max-h-32 max-h-20"
+								transition:fly
+							/>
+						{/key}
+					</form>
+				</div>
+				<button
+					class="btn btn-primary md:btn-md btn-wide mx-auto mb-4"
+					on:click={() => viewJobDetails(job.id)}>View</button
+				>
+			</div>
+		{/each}
 		<!-- <div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
 			{#if displayValues !== undefined}
 				{#each displayValues as item, index}
@@ -176,6 +261,7 @@
 		</div> -->
 	</div>
 </div>
+<JobDescriptionModal {jobListing} />
 <MoreJobsModal />
 
 <style>

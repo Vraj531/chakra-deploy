@@ -29,7 +29,7 @@ export const POST: RequestHandler = async (event) => {
 	//inserts into the s3 bucket
 	try {
 		const command = new PutObjectCommand({
-			Bucket: 'nikhil-pipeline-storage',
+			Bucket: 'career-chakra-resumes',
 			Key: `${username}/${filename}`,
 			ContentType: type as string
 		});
