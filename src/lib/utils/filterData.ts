@@ -3,7 +3,7 @@ export function filterObjects<T extends object, U extends Partial<T>>(data: T[],
 		// Check if all filter conditions are met for the current object
 		return Object.entries(filter).every(([key, value]) => {
 			// If the filter value is an empty string, include objects with or without that property
-			// console.log('key', key, value);
+			console.log('key', key, value);
 			if (value === '' || value === null) {
 				return true;
 			}

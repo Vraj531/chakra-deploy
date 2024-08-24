@@ -13,6 +13,7 @@
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
 	import { onMount, setContext } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
+	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
 
 	export let data: PageData;
 	setContext('user', data.user);
@@ -37,10 +38,10 @@
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
-	let arr: JobListing[] = dummyData;
-	let backUpData: JobListing[] = dummyData;
-	// let arr: JobListing[] = [];
-	// let backUpData: JobListing[] = [];
+	// let arr: JobListing[] = dummyData;
+	// let backUpData: JobListing[] = dummyData;
+	let arr: JobListing[] = [];
+	let backUpData: JobListing[] = [];
 	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs : [];
 	// console.log('data', jobIds);
 
@@ -165,25 +166,26 @@
 		(document.getElementById('filter-modal') as HTMLDialogElement).showModal();
 	};
 
-	const handleSubmit = (e: SubmitEvent) => {
+	const handleFilterSubmit = (e: SubmitEvent) => {
 		e.preventDefault();
 		if (!e.target) return;
 		const formData = new FormData(e.target as HTMLFormElement);
 		const filterForm = Object.fromEntries(formData);
-		// console.log('e', filterForm);
+		console.log('e', filterForm);
 		const newFilter = {
 			clearance_required: filterForm.clearance === 'true' ? true : false,
 			has_remote: filterForm.has_remote === 'true' ? true : false,
 			experience: filterForm.experience.toString(),
 			min_salary: filterForm.min_salary.toString()
 		};
-		// console.log('new filter', newFilter);
+		console.log('new filter', newFilter);
 		const filteredData = filterObjects(backUpData, newFilter);
-		// console.log('filtered data', filteredData);
+		console.log('filtered data', filteredData);
 		if (!filteredData.length) {
 			toastStore.alert(`Found ${filteredData.length} matches! Please reset`, {
 				position: 'bottom-end'
 			});
+			(document.getElementById('reset-joblist-modal') as HTMLDialogElement).showModal();
 		} else toastStore.alert(`Found ${filteredData.length} matches!`, { position: 'bottom-end' });
 
 		arr = filteredData;
@@ -192,6 +194,11 @@
 
 	const handleReset = () => {
 		arr = backUpData;
+	};
+
+	const resetJobList = () => {
+		arr = backUpData;
+		(document.getElementById('reset-joblist-modal') as HTMLDialogElement).close();
 	};
 
 	const handleBookmark = async (slide: JobListing): Promise<Boolean> => {
@@ -290,15 +297,15 @@
 		<img src="/logo1.svg" alt="analysing" class="animate-bounce w-52 h-52 mx-auto mt-12" />
 		<p class="text-center text-2xl font-bold animate-pulse">Analysing...</p>
 	{:else if state === 'success'}
-		{#if !arr.length}
+		<!-- {#if !arr.length}
 			<p class="text-3xl text-center mt-16">No matches found</p>
 			<button class="btn btn-secondary mx-auto mt-2" on:click={() => (state = '')}
 				>Try Again?</button
 			>
-		{:else}
-			<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
-			<FilterForm {handleSubmit} />
-		{/if}
+		{:else} -->
+		<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
+		<!-- <FilterForm {handleSubmit} /> -->
+		<!-- {/if} -->
 	{:else if state === 'capped'}
 		<p class="text-2xl text-center mt-16">
 			You have reached your daily limit of 5 files. Login to get access to more.
@@ -313,6 +320,7 @@
 	{/if}
 	<!-- <GuestPrivacyPolicyModal {data} /> -->
 	<!-- <ListComponent /> -->
-	<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
-	<FilterForm {handleSubmit} />
+	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} /> -->
+	<FilterForm handleSubmit={handleFilterSubmit} />
+	<ResetJoblistModal {resetJobList} />
 </div>

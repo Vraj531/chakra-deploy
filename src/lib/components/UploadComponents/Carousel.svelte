@@ -130,16 +130,18 @@
 </script>
 
 <div class="flex w-full mt-4">
-	<div class="md:hidden">
-		<button class="btn btn-circle btn-primary" on:click={previousCard}>
-			<div class="pl-0">
-				{@html ChevronLeftIcon}
-			</div>
-		</button>
-		<button class="btn btn-circle btn-primary" on:click={nextCard}>
-			{@html ChevronRightIcon}
-		</button>
-	</div>
+	{#if arr.length > 0}
+		<div class="md:hidden">
+			<button class="btn btn-circle btn-primary" on:click={previousCard}>
+				<div class="pl-0">
+					{@html ChevronLeftIcon}
+				</div>
+			</button>
+			<button class="btn btn-circle btn-primary" on:click={nextCard}>
+				{@html ChevronRightIcon}
+			</button>
+		</div>
+	{/if}
 	<div class="ml-auto md:mx-auto">
 		<button class=" btn btn-primary" on:click={handleReset}>
 			{@html RestoreIcon}
@@ -155,7 +157,7 @@
 
 <div class="md:flex">
 	<div class="hidden md:flex flex-col gap-2 w-[40%] max-h-[150vh] overflow-y-auto mx-2 mt-8">
-		<ListComponent {arr} {selected} selectIndex={select} {selectJobIndex} />
+		<ListComponent {arr} {selected} {selectJobIndex} />
 	</div>
 	<div class="relative py-4 md:w-[60%]" transition:fade>
 		<!-- <div class={`hidden md:block`}>
@@ -205,29 +207,7 @@
 							<p class="text-gray-500">{job.job_type}</p>
 							<p class="text-gray-500">{job.published_date}</p>
 						</div>
-						<form action="?/remove" method="post" class="flex flex-col gap-2">
-							<input type="hidden" name="id" value={job.id} />
-							<div
-								class="top-1 right-1 absolute tooltip tooltip-primary tooltip-left"
-								data-tip="Remove bookmark"
-							>
-								<button class="btn btn-square btn-outline btn-xs" type="submit">
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										class="h-6 w-6"
-										fill="none"
-										viewBox="0 0 24 24"
-										stroke="currentColor"
-									>
-										<path
-											stroke-linecap="round"
-											stroke-linejoin="round"
-											stroke-width="2"
-											d="M6 18L18 6M6 6l12 12"
-										/>
-									</svg>
-								</button>
-							</div>
+						<div class="flex flex-col gap-2">
 							{#key job?.company_logo}
 								<img
 									src={job?.company_logo}
@@ -236,7 +216,7 @@
 									transition:fly
 								/>
 							{/key}
-						</form>
+						</div>
 					</div>
 					<button
 						class="btn btn-primary md:btn-md btn-wide mx-auto mb-4"

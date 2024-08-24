@@ -15,7 +15,6 @@
 				...job,
 				published_date: humanReadable(job.published_date)
 			}));
-	console.log('job list', user);
 
 	function humanReadable(date: string) {
 		if (!date) return 'Not specified';
