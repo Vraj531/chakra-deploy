@@ -96,7 +96,8 @@
 					{#if slide?.bookmarked}
 						<button
 							class="btn btn-primary hidden md:flex"
-							on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
+							on:click={addBookmark}
+							disabled={loading}
 						>
 							{@html BookmarkFilledIcon}
 						</button>
@@ -198,10 +199,7 @@
 					</a>
 				{/if}
 				{#if slide?.bookmarked}
-					<button
-						class="btn btn-primary md:hidden"
-						on:click={() => toastStore.alert('Bookmark exists', { position: 'bottom-end' })}
-					>
+					<button class="btn btn-primary md:hidden" on:click={addBookmark} disabled={loading}>
 						{@html BookmarkFilledIcon}
 					</button>
 				{:else}

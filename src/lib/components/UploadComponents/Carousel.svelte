@@ -2,6 +2,8 @@
 	//@ts-nocheck
 	import type { EmblaCarouselType } from 'embla-carousel';
 	import embla from '$lib/index';
+	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
+	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
 
 	import ChevronLeftIcon from '$lib/assets/icons/ChevronLeftIcon.svg?raw';
 	import ChevronRightIcon from '$lib/assets/icons/ChevronRightIcon.svg?raw';
@@ -16,15 +18,20 @@
 	import { list } from 'postcss';
 	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
 	import JobDescriptionModal from '$lib/components/BookmarkedJobsComponents/JobDescriptionModal.svelte';
+	import { toastStore } from '$lib/stores/toastStores';
+	import type { uploadPageState } from '$lib/constants';
+	import BookmarkComponent from '$lib/components/UploadComponents/BookmarkComponent.svelte';
 
 	export let arr: JobListing[];
+	export let state: uploadPageState;
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
 	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;
 
 	const user = getContext('user');
+	let loading = false;
 
-	// console.log('re', user);
+	// console.log('re', arr);
 
 	const carousel = writable<EmblaCarouselType>();
 
@@ -142,17 +149,19 @@
 			</button>
 		</div>
 	{/if}
-	<div class="ml-auto md:mx-auto">
-		<button class=" btn btn-primary" on:click={handleReset}>
-			{@html RestoreIcon}
-			Reset
-		</button>
-		<div class="tooltip tooltip-right tooltip-primary" data-tip="filter">
-			<button class=" btn btn-primary" on:click={triggerModal}>
-				{@html FilterIcon}
+	{#if state === 'success'}
+		<div class="ml-auto md:mx-auto">
+			<button class=" btn btn-primary" on:click={handleReset}>
+				{@html RestoreIcon}
+				Reset
 			</button>
+			<div class="tooltip tooltip-right tooltip-primary" data-tip="filter">
+				<button class=" btn btn-primary" on:click={triggerModal}>
+					{@html FilterIcon}
+				</button>
+			</div>
 		</div>
-	</div>
+	{/if}
 </div>
 
 <div class="md:flex">
@@ -218,10 +227,10 @@
 							{/key}
 						</div>
 					</div>
-					<button
-						class="btn btn-primary md:btn-md btn-wide mx-auto mb-4"
-						on:click={() => viewJobDetails(job.id)}>View</button
-					>
+					<div class="flex mx-auto">
+						<button class="btn btn-primary" on:click={() => viewJobDetails(job.id)}>View</button>
+						<BookmarkComponent {job} {handleBookmark} />
+					</div>
 				</div>
 			{/each}
 		</div>

@@ -14,6 +14,7 @@
 	import { onMount, setContext } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
 	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
+	import type { uploadPageState } from '$lib/constants';
 
 	export let data: PageData;
 	setContext('user', data.user);
@@ -33,7 +34,7 @@
 	});
 
 	let progress = 0;
-	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
+	let state: uploadPageState = '';
 	let inputText = '';
 	let file: File | null;
 
@@ -42,7 +43,8 @@
 	// let backUpData: JobListing[] = dummyData;
 	let arr: JobListing[] = [];
 	let backUpData: JobListing[] = [];
-	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs : [];
+	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((item) => item.jobId) : [];
+	// let bookmarkIds = data.bookmarkedJobs ? data.bookmarkedJobs.map(item => (item.bookmarkId)) : [];
 	// console.log('data', jobIds);
 
 	// $: {
@@ -133,19 +135,17 @@
 				const jobs = fullRes.map((job) =>
 					jobIds.includes(job.id) ? { ...job, bookmarked: true } : { ...job, bookmarked: false }
 				);
+
 				arr = jobs;
 				backUpData = jobs;
 				headerState.setState('uploaded');
 				state = 'success';
 				if (!data.user) {
-					toastStore.alert(
-						`Found ${arr.length} matches! Swipe to view more. Login to get more recommendations`,
-						{
-							position: 'bottom-end'
-						}
-					);
+					toastStore.alert(`Found ${arr.length} matches! Login to get more recommendations`, {
+						position: 'bottom-end'
+					});
 				} else {
-					toastStore.alert(`Found ${arr.length} matches! Swipe to view more`, {
+					toastStore.alert(`Found ${arr.length} matches!`, {
 						position: 'bottom-end'
 					});
 				}
@@ -210,27 +210,54 @@
 				});
 				return false;
 			}
-			const res = await fetch('api/bookmark', {
-				method: 'POST',
-				body: JSON.stringify({
-					...slide
-				})
-			});
-			const response = await res.json();
-			if (response.success) {
-				arr = arr.map((job) => {
-					if (job.id === slide.id) {
-						// console.log('bok', job.bookmarked);
-						return {
-							...job,
-							bookmarked: true
-						};
-					}
-					return job;
+			if (slide.bookmarked) {
+				const bookmarkId = data.bookmarkedJobs?.find((item) => item.jobId === slide.id)?.bookmarkId;
+				const res = await fetch('api/bookmark', {
+					method: 'DELETE',
+					body: JSON.stringify({
+						id: bookmarkId
+					})
 				});
-				jobIds = [...jobIds, slide.id];
-				// console.log('bookmark', response);
-				return true;
+				const response = await res.json();
+				// console.log('res', response);
+				if (response.success) {
+					arr = arr.map((job) => {
+						if (job.id === slide.id) {
+							// console.log('bok', job.bookmarked);
+							return {
+								...job,
+								bookmarked: false
+							};
+						}
+						return job;
+					});
+					jobIds = jobIds.filter((id) => id !== slide.id);
+					// console.log('bookmark', response);
+					return true;
+				}
+			} else {
+				const res = await fetch('api/bookmark', {
+					method: 'POST',
+					body: JSON.stringify({
+						...slide
+					})
+				});
+				const response = await res.json();
+				if (response.success) {
+					arr = arr.map((job) => {
+						if (job.id === slide.id) {
+							// console.log('bok', job.bookmarked);
+							return {
+								...job,
+								bookmarked: true
+							};
+						}
+						return job;
+					});
+					jobIds = [...jobIds, slide.id];
+					// console.log('bookmark', response);
+					return true;
+				}
 			}
 			return false;
 		} catch (error) {
@@ -303,7 +330,7 @@
 				>Try Again?</button
 			>
 		{:else} -->
-		<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
+		<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} {state} />
 		<!-- <FilterForm {handleSubmit} /> -->
 		<!-- {/if} -->
 	{:else if state === 'capped'}
@@ -320,7 +347,7 @@
 	{/if}
 	<!-- <GuestPrivacyPolicyModal {data} /> -->
 	<!-- <ListComponent /> -->
-	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} /> -->
+	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} {state} /> -->
 	<FilterForm handleSubmit={handleFilterSubmit} />
 	<ResetJoblistModal {resetJobList} />
 </div>
