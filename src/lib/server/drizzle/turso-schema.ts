@@ -116,7 +116,8 @@ export const userToBookmarkJobs = sqliteTable(
 	(table) => {
 		return {
 			pk: primaryKey({ columns: [table.userId, table.bookmarkId] }),
-			userIdBookmarkIdIndex: index('user_id_bookmark_id_index').on(table.userId)
+			userIdBookmarkIdIndex: index('user_id_bookmark_id_index').on(table.userId),
+			jobIdIndex: index('job_id_index').on(table.jobId)
 		};
 	}
 );
