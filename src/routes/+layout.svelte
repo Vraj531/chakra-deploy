@@ -40,6 +40,10 @@
 </script>
 
 <svelte:head>
+	<script
+		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
+	></script>
+
 	<!-- this is for tick based recaptcha -->
 	<!-- {#if !dev}
 	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
