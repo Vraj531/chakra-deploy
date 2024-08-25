@@ -227,7 +227,7 @@
 							{/key}
 						</div>
 					</div>
-					<div class="flex mx-auto">
+					<div class="flex mx-auto gap-2 p-2 pb-4">
 						<button class="btn btn-primary" on:click={() => viewJobDetails(job.id)}>View</button>
 						<BookmarkComponent {job} {handleBookmark} />
 					</div>

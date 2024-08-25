@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { toastStore } from '$lib/stores/toastStores';
 	import { getContext } from 'svelte';
 	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
 	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
@@ -13,7 +12,7 @@
 	let loading = false;
 
 	const addBookmark = async (job: JobListing) => {
-		console.log('loading', loading);
+		// console.log('loading', loading);
 		loading = true;
 		try {
 			const res = await handleBookmark(job);
