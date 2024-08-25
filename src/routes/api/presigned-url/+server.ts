@@ -5,6 +5,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, SECRET_KEY } from '$env/static/private';
 import { uploadLimiter } from '$lib/server/rateLimiter';
 import { updateUserPolicy } from '$lib/server/drizzle/dbModel';
+import { BUCKET } from '$lib/constants';
 
 const client = new S3Client({
 	credentials: { accessKeyId: ACCESS_ID, secretAccessKey: SECRET_KEY },
@@ -29,7 +30,7 @@ export const POST: RequestHandler = async (event) => {
 	//inserts into the s3 bucket
 	try {
 		const command = new PutObjectCommand({
-			Bucket: 'career-chakra-resumes',
+			Bucket: BUCKET,
 			Key: `${username}/${filename}`,
 			ContentType: type as string
 		});

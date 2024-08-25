@@ -5,6 +5,7 @@ import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, LAMBDA_URL, SECRET_KEY } from '$env/static/private';
 import { addGuestResume, addResume, updateDailyUploadCount } from '$lib/server/drizzle/dbModel';
 import { downloadLimiter } from '$lib/server/rateLimiter';
+import { BUCKET } from '$lib/constants';
 
 const client = new S3Client({
 	region: 'us-east-2',
@@ -37,7 +38,7 @@ export const POST: RequestHandler = async (event) => {
 	// console.log('session id log', locals.session?.id);
 
 	const command = new GetObjectCommand({
-		Bucket: 'career-chakra-resumes',
+		Bucket: BUCKET,
 		Key: `${username}/${filename}`,
 		ResponseContentDisposition: `attachment; filename="${filename}"`
 	});
@@ -72,7 +73,7 @@ export const POST: RequestHandler = async (event) => {
 				signal: AbortSignal.timeout(25000),
 				body: JSON.stringify({
 					additional_text: inputText,
-					pdf_file_location: `s3://career-chakra-resumes/${username}/${filename}`
+					pdf_file_location: `s3://${BUCKET}/${username}/${filename}`
 				}),
 				headers: {
 					'Content-Type': 'application/json'
