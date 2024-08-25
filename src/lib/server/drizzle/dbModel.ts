@@ -187,11 +187,11 @@ export const getUserBookmarks = async (userId: string) => {
 
 export const getBookmarkedJobIds = async (userId: string) => {
 	const res = await db
-		.select({ jobId: userToBookmarkJobs.jobId, bookmarkId: userToBookmarkJobs.bookmarkId })
+		.select({ jobId: userToBookmarkJobs.jobId })
 		.from(userToBookmarkJobs)
 		.where(eq(userToBookmarkJobs.userId, userId));
 	if (!res.length) return null;
-	return res;
+	return res.map((item) => item.jobId);
 };
 
 export const getBookmarks = async (userId: string, page = 1) => {
@@ -256,6 +256,20 @@ export const deleteUserBookmarks = async (userId: string, bookmarkId: string) =>
 	} catch (error) {
 		console.log('error', error);
 		return false;
+	}
+};
+
+export const deleteBookmark = async (userId: string, jobId: number) => {
+	try {
+		const res = await db
+			.delete(userToBookmarkJobs)
+			.where(and(eq(userToBookmarkJobs.userId, userId), eq(userToBookmarkJobs.jobId, jobId)))
+			.returning();
+		if (!res.length) return null;
+		return true;
+	} catch (error) {
+		console.log('error', error);
+		return null;
 	}
 };
 

@@ -1,6 +1,6 @@
 import { error, json } from '@sveltejs/kit';
 import type { JobListing } from '$lib/dummyData';
-import { addBookmark, deleteUserBookmarks } from '$lib/server/drizzle/dbModel.js';
+import { addBookmark, deleteBookmark } from '$lib/server/drizzle/dbModel.js';
 
 export const POST = async ({ locals, request }) => {
 	if (!locals.user) {
@@ -27,7 +27,9 @@ export const DELETE = async ({ locals, request }) => {
 	const req = (await request.json()) as { id: string };
 
 	try {
-		const res = await deleteUserBookmarks(locals.user.id, req.id);
+		if (!req.id) error(500, { message: 'error deleting bookmark' });
+		const id = Number(req.id);
+		const res = await deleteBookmark(locals.user.id, id);
 		if (res) return json({ success: true, message: 'bookmark deleted successfully' });
 		error(500, { message: 'error deleting bookmark' });
 		// console.log('req', res);

@@ -43,28 +43,8 @@
 	// let backUpData: JobListing[] = dummyData;
 	let arr: JobListing[] = [];
 	let backUpData: JobListing[] = [];
-	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs.map((item) => item.jobId) : [];
-	// let bookmarkIds = data.bookmarkedJobs ? data.bookmarkedJobs.map(item => (item.bookmarkId)) : [];
+	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs : [];
 	// console.log('data', jobIds);
-
-	// $: {
-	// 	if (data.bookmarkedJobs && data.bookmarkedJobs.length > 0 && arr.length > 0) {
-	// 		arr = arr.map((job) => {
-	// 			if (data.bookmarkedJobs.includes(job.id)) {
-	// 				return {
-	// 					...job,
-	// 					bookmarked: true
-	// 				};
-	// 			}
-	// 			return {
-	// 				...job,
-	// 				bookmarked: false
-	// 			};
-	// 		});
-	// 	}
-	// }
-	// let arr: JobListing[] = [];
-	// let backUpData: JobListing[] = [];
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -130,7 +110,6 @@
 			//*
 			const fullRes = (await res.json()) as JobListing[];
 			// console.log('body', fullRes);
-			// fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
 			if (Array.isArray(fullRes)) {
 				const jobs = fullRes.map((job) =>
 					jobIds.includes(job.id) ? { ...job, bookmarked: true } : { ...job, bookmarked: false }
@@ -211,11 +190,11 @@
 				return false;
 			}
 			if (slide.bookmarked) {
-				const bookmarkId = data.bookmarkedJobs?.find((item) => item.jobId === slide.id)?.bookmarkId;
+				// console.log('bookmark id', bookmarkId);
 				const res = await fetch('api/bookmark', {
 					method: 'DELETE',
 					body: JSON.stringify({
-						id: bookmarkId
+						id: slide.id
 					})
 				});
 				const response = await res.json();
