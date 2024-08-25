@@ -1,4 +1,5 @@
 <script lang="ts">
+	import { goto } from '$app/navigation';
 	import { page } from '$app/stores';
 	import JobDescriptionModal from '$lib/components/BookmarkedJobsComponents/JobDescriptionModal.svelte';
 	import type { JobListing } from '$lib/dummyData';
@@ -46,6 +47,10 @@
 			(document.getElementById('job-description-modal') as HTMLDialogElement).showModal();
 			// console.log('job listing', jobListing);
 		}
+	}
+
+	function navigateToPage(pageNum: number) {
+		goto(`/bookmarked-jobs?page=${pageNum}`);
 	}
 </script>
 
@@ -115,9 +120,9 @@
 	{#if JobList.length && pages.length > 1}
 		<div class="join">
 			{#each pages as pageNum}
-				<a
+				<button
 					class={`join-item btn ${activePage === pageNum && 'btn-active'}`}
-					href={`/bookmarked-jobs?page=${pageNum}`}>{Number(pageNum)}</a
+					on:click={() => navigateToPage(pageNum)}>{Number(pageNum)}</button
 				>
 			{/each}
 		</div>

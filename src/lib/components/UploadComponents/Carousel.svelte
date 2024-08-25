@@ -2,6 +2,8 @@
 	//@ts-nocheck
 	import type { EmblaCarouselType } from 'embla-carousel';
 	import embla from '$lib/index';
+	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
+	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
 
 	import ChevronLeftIcon from '$lib/assets/icons/ChevronLeftIcon.svg?raw';
 	import ChevronRightIcon from '$lib/assets/icons/ChevronRightIcon.svg?raw';
@@ -9,25 +11,32 @@
 	import RestoreIcon from '$lib/assets/icons/RestoreIcon.svg?raw';
 	import type { JobListing } from '$lib/dummyData';
 	import { writable } from 'svelte/store';
-	import { fade } from 'svelte/transition';
+	import { fade, fly } from 'svelte/transition';
 	import JobCard from './JobCard.svelte';
 	import { getContext } from 'svelte';
 	import MoreJobsModal from '$lib/components/UploadComponents/MoreJobsModal.svelte';
 	import { list } from 'postcss';
 	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
+	import JobDescriptionModal from '$lib/components/BookmarkedJobsComponents/JobDescriptionModal.svelte';
+	import { toastStore } from '$lib/stores/toastStores';
+	import type { uploadPageState } from '$lib/constants';
+	import BookmarkComponent from '$lib/components/UploadComponents/BookmarkComponent.svelte';
 
 	export let arr: JobListing[];
+	export let state: uploadPageState;
 	export let triggerModal: () => void;
 	export let handleReset: () => void;
 	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;
 
 	const user = getContext('user');
+	let loading = false;
 
-	// console.log('re', user);
+	// console.log('re', arr);
 
 	const carousel = writable<EmblaCarouselType>();
 
 	let selected: number = 0;
+	let jobListing: JobListing;
 
 	$: if (selected === arr.length - 1 && !user) {
 		(document.getElementById('more-jobs-modal') as HTMLDialogElement).showModal();
@@ -98,35 +107,66 @@
 			];
 		}
 	}
+
+	$: jobListWithHumanReadableDates = !arr.length
+		? []
+		: arr.map((job) => ({
+				...job,
+				published_date: humanReadable(job.published_date)
+			}));
+
+	function humanReadable(date: string) {
+		if (!date) return 'Not specified';
+
+		return new Intl.DateTimeFormat('en-US', {
+			year: 'numeric',
+			month: 'long',
+			day: 'numeric',
+			hour12: true
+		}).format(new Date(date));
+	}
+	function viewJobDetails(id: number) {
+		// if (typeof id === 'string') {
+		console.log('id', id);
+		const temp = jobListWithHumanReadableDates.find((job) => job.id === id);
+		if (temp) jobListing = temp;
+		(document.getElementById('job-description-modal') as HTMLDialogElement).showModal();
+		// console.log('job listing', jobListing);
+		// }
+	}
 </script>
 
 <div class="flex w-full mt-4">
-	<div class="md:hidden">
-		<button class="btn btn-circle btn-primary" on:click={previousCard}>
-			<div class="pl-0">
-				{@html ChevronLeftIcon}
-			</div>
-		</button>
-		<button class="btn btn-circle btn-primary" on:click={nextCard}>
-			{@html ChevronRightIcon}
-		</button>
-	</div>
-	<div class="ml-auto md:mx-auto">
-		<button class=" btn btn-primary" on:click={handleReset}>
-			{@html RestoreIcon}
-			Reset
-		</button>
-		<div class="tooltip tooltip-right tooltip-primary" data-tip="filter">
-			<button class=" btn btn-primary" on:click={triggerModal}>
-				{@html FilterIcon}
+	{#if arr.length > 0}
+		<div class="md:hidden">
+			<button class="btn btn-circle btn-primary" on:click={previousCard}>
+				<div class="pl-0">
+					{@html ChevronLeftIcon}
+				</div>
+			</button>
+			<button class="btn btn-circle btn-primary" on:click={nextCard}>
+				{@html ChevronRightIcon}
 			</button>
 		</div>
-	</div>
+	{/if}
+	{#if state === 'success'}
+		<div class="ml-auto md:mx-auto">
+			<button class=" btn btn-primary" on:click={handleReset}>
+				{@html RestoreIcon}
+				Reset
+			</button>
+			<div class="tooltip tooltip-right tooltip-primary" data-tip="filter">
+				<button class=" btn btn-primary" on:click={triggerModal}>
+					{@html FilterIcon}
+				</button>
+			</div>
+		</div>
+	{/if}
 </div>
 
 <div class="md:flex">
 	<div class="hidden md:flex flex-col gap-2 w-[40%] max-h-[150vh] overflow-y-auto mx-2 mt-8">
-		<ListComponent {arr} {selected} selectIndex={select} {selectJobIndex} />
+		<ListComponent {arr} {selected} {selectJobIndex} />
 	</div>
 	<div class="relative py-4 md:w-[60%]" transition:fade>
 		<!-- <div class={`hidden md:block`}>
@@ -148,7 +188,7 @@
 			</button>
 		</div> -->
 
-		<div class="embla">
+		<div class="embla md:block hidden">
 			<!-- // @ts-nocheck -->
 			<div class="embla__viewport" use:embla={{ store: carousel }} on:e-select={onSelect}>
 				<div class="embla__container">
@@ -157,6 +197,42 @@
 					{/each}
 				</div>
 			</div>
+		</div>
+
+		<div class="px-4 mt-2">
+			{#each jobListWithHumanReadableDates as job}
+				<div
+					class="md:hidden flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md relative"
+					transition:fly
+				>
+					<div class="flex justify-between md:px-6 md:pt-6 px-4 pt-4">
+						<div class="flex-1 flex flex-col">
+							<h2 class="text-xl font-bold">
+								{job.title}
+								<span class="badge badge-secondary">{job.has_remote ? 'Remote' : 'On-site'}</span>
+							</h2>
+							<p class="text-gray-500">{job.company_name}</p>
+							<p class="text-gray-500">{job.location}</p>
+							<p class="text-gray-500">{job.job_type}</p>
+							<p class="text-gray-500">{job.published_date}</p>
+						</div>
+						<div class="flex flex-col gap-2">
+							{#key job?.company_logo}
+								<img
+									src={job?.company_logo}
+									alt="company logo"
+									class="md:mt-0 mt-6 md:max-h-32 max-h-20"
+									transition:fly
+								/>
+							{/key}
+						</div>
+					</div>
+					<div class="flex mx-auto gap-2 p-2 pb-4">
+						<button class="btn btn-primary" on:click={() => viewJobDetails(job.id)}>View</button>
+						<BookmarkComponent {job} {handleBookmark} />
+					</div>
+				</div>
+			{/each}
 		</div>
 		<!-- <div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
 			{#if displayValues !== undefined}
@@ -176,6 +252,7 @@
 		</div> -->
 	</div>
 </div>
+<JobDescriptionModal {jobListing} />
 <MoreJobsModal />
 
 <style>

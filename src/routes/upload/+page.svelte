@@ -13,6 +13,8 @@
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
 	import { onMount, setContext } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
+	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
+	import type { uploadPageState } from '$lib/constants';
 
 	export let data: PageData;
 	setContext('user', data.user);
@@ -32,7 +34,7 @@
 	});
 
 	let progress = 0;
-	let state: '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped' = '';
+	let state: uploadPageState = '';
 	let inputText = '';
 	let file: File | null;
 
@@ -43,25 +45,6 @@
 	let backUpData: JobListing[] = [];
 	let jobIds = data.bookmarkedJobs ? data.bookmarkedJobs : [];
 	// console.log('data', jobIds);
-
-	// $: {
-	// 	if (data.bookmarkedJobs && data.bookmarkedJobs.length > 0 && arr.length > 0) {
-	// 		arr = arr.map((job) => {
-	// 			if (data.bookmarkedJobs.includes(job.id)) {
-	// 				return {
-	// 					...job,
-	// 					bookmarked: true
-	// 				};
-	// 			}
-	// 			return {
-	// 				...job,
-	// 				bookmarked: false
-	// 			};
-	// 		});
-	// 	}
-	// }
-	// let arr: JobListing[] = [];
-	// let backUpData: JobListing[] = [];
 
 	const handleFileInput = async (e: Event | DragEvent) => {
 		e.preventDefault();
@@ -103,6 +86,7 @@
 				}
 			});
 
+			//note: failing in this step
 			// console.log(
 			// 	'file uploaded',
 			// 	uploadResponse?.config?.url && uploadResponse.config.url.split('?')[0]
@@ -126,24 +110,21 @@
 			//*
 			const fullRes = (await res.json()) as JobListing[];
 			// console.log('body', fullRes);
-			// fullRes.sort((a, b) => Date.parse(b.published_date) - Date.parse(a.published_date));
 			if (Array.isArray(fullRes)) {
 				const jobs = fullRes.map((job) =>
 					jobIds.includes(job.id) ? { ...job, bookmarked: true } : { ...job, bookmarked: false }
 				);
+
 				arr = jobs;
 				backUpData = jobs;
 				headerState.setState('uploaded');
 				state = 'success';
 				if (!data.user) {
-					toastStore.alert(
-						`Found ${arr.length} matches! Swipe to view more. Login to get more recommendations`,
-						{
-							position: 'bottom-end'
-						}
-					);
+					toastStore.alert(`Found ${arr.length} matches! Login to get more recommendations`, {
+						position: 'bottom-end'
+					});
 				} else {
-					toastStore.alert(`Found ${arr.length} matches! Swipe to view more`, {
+					toastStore.alert(`Found ${arr.length} matches!`, {
 						position: 'bottom-end'
 					});
 				}
@@ -164,25 +145,26 @@
 		(document.getElementById('filter-modal') as HTMLDialogElement).showModal();
 	};
 
-	const handleSubmit = (e: SubmitEvent) => {
+	const handleFilterSubmit = (e: SubmitEvent) => {
 		e.preventDefault();
 		if (!e.target) return;
 		const formData = new FormData(e.target as HTMLFormElement);
 		const filterForm = Object.fromEntries(formData);
-		// console.log('e', filterForm);
+		console.log('e', filterForm);
 		const newFilter = {
 			clearance_required: filterForm.clearance === 'true' ? true : false,
 			has_remote: filterForm.has_remote === 'true' ? true : false,
 			experience: filterForm.experience.toString(),
 			min_salary: filterForm.min_salary.toString()
 		};
-		// console.log('new filter', newFilter);
+		console.log('new filter', newFilter);
 		const filteredData = filterObjects(backUpData, newFilter);
-		// console.log('filtered data', filteredData);
+		console.log('filtered data', filteredData);
 		if (!filteredData.length) {
 			toastStore.alert(`Found ${filteredData.length} matches! Please reset`, {
 				position: 'bottom-end'
 			});
+			(document.getElementById('reset-joblist-modal') as HTMLDialogElement).showModal();
 		} else toastStore.alert(`Found ${filteredData.length} matches!`, { position: 'bottom-end' });
 
 		arr = filteredData;
@@ -191,6 +173,11 @@
 
 	const handleReset = () => {
 		arr = backUpData;
+	};
+
+	const resetJobList = () => {
+		arr = backUpData;
+		(document.getElementById('reset-joblist-modal') as HTMLDialogElement).close();
 	};
 
 	const handleBookmark = async (slide: JobListing): Promise<Boolean> => {
@@ -202,27 +189,54 @@
 				});
 				return false;
 			}
-			const res = await fetch('api/bookmark', {
-				method: 'POST',
-				body: JSON.stringify({
-					...slide
-				})
-			});
-			const response = await res.json();
-			if (response.success) {
-				arr = arr.map((job) => {
-					if (job.id === slide.id) {
-						// console.log('bok', job.bookmarked);
-						return {
-							...job,
-							bookmarked: true
-						};
-					}
-					return job;
+			if (slide.bookmarked) {
+				// console.log('bookmark id', bookmarkId);
+				const res = await fetch('api/bookmark', {
+					method: 'DELETE',
+					body: JSON.stringify({
+						id: slide.id
+					})
 				});
-				jobIds = [...jobIds, slide.id];
-				// console.log('bookmark', response);
-				return true;
+				const response = await res.json();
+				// console.log('res', response);
+				if (response.success) {
+					arr = arr.map((job) => {
+						if (job.id === slide.id) {
+							// console.log('bok', job.bookmarked);
+							return {
+								...job,
+								bookmarked: false
+							};
+						}
+						return job;
+					});
+					jobIds = jobIds.filter((id) => id !== slide.id);
+					// console.log('bookmark', response);
+					return true;
+				}
+			} else {
+				const res = await fetch('api/bookmark', {
+					method: 'POST',
+					body: JSON.stringify({
+						...slide
+					})
+				});
+				const response = await res.json();
+				if (response.success) {
+					arr = arr.map((job) => {
+						if (job.id === slide.id) {
+							// console.log('bok', job.bookmarked);
+							return {
+								...job,
+								bookmarked: true
+							};
+						}
+						return job;
+					});
+					jobIds = [...jobIds, slide.id];
+					// console.log('bookmark', response);
+					return true;
+				}
 			}
 			return false;
 		} catch (error) {
@@ -289,15 +303,15 @@
 		<img src="/logo1.svg" alt="analysing" class="animate-bounce w-52 h-52 mx-auto mt-12" />
 		<p class="text-center text-2xl font-bold animate-pulse">Analysing...</p>
 	{:else if state === 'success'}
-		{#if !arr.length}
+		<!-- {#if !arr.length}
 			<p class="text-3xl text-center mt-16">No matches found</p>
 			<button class="btn btn-secondary mx-auto mt-2" on:click={() => (state = '')}
 				>Try Again?</button
 			>
-		{:else}
-			<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
-			<FilterForm {handleSubmit} />
-		{/if}
+		{:else} -->
+		<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} {state} />
+		<!-- <FilterForm {handleSubmit} /> -->
+		<!-- {/if} -->
 	{:else if state === 'capped'}
 		<p class="text-2xl text-center mt-16">
 			You have reached your daily limit of 5 files. Login to get access to more.
@@ -312,6 +326,7 @@
 	{/if}
 	<!-- <GuestPrivacyPolicyModal {data} /> -->
 	<!-- <ListComponent /> -->
-	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} />
-	<FilterForm {handleSubmit} /> -->
+	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} {state} /> -->
+	<FilterForm handleSubmit={handleFilterSubmit} />
+	<ResetJoblistModal {resetJobList} />
 </div>

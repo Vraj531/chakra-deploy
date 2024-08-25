@@ -13,13 +13,13 @@
 
 	$: backUpData = data.bookmarkedJobs as unknown as JobListing[];
 
-	const handleReset = () => {
-		arr = backUpData;
-	};
+	// const handleReset = () => {
+	// 	arr = backUpData;
+	// };
 
-	const triggerModal = () => {
-		(document.getElementById('filter-modal') as HTMLDialogElement).showModal();
-	};
+	// const triggerModal = () => {
+	// 	(document.getElementById('filter-modal') as HTMLDialogElement).showModal();
+	// };
 
 	const handleSubmit = (e: SubmitEvent) => {
 		e.preventDefault();

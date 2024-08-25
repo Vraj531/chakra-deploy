@@ -20,7 +20,7 @@ export async function verifyCaptcha(token: string, expectedAction: string): Prom
 		});
 		const data = await res.json();
 		// const  { riskAnalysis: { score } } = data
-		console.log('response', data);
+		// console.log('response', data);
 		return data.riskAnalysis.score;
 	} catch (error) {
 		console.log('error verifying captcha', error);

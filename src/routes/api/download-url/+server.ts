@@ -37,7 +37,7 @@ export const POST: RequestHandler = async (event) => {
 	// console.log('session id log', locals.session?.id);
 
 	const command = new GetObjectCommand({
-		Bucket: 'nikhil-pipeline-storage',
+		Bucket: 'career-chakra-resumes',
 		Key: `${username}/${filename}`,
 		ResponseContentDisposition: `attachment; filename="${filename}"`
 	});
@@ -72,7 +72,7 @@ export const POST: RequestHandler = async (event) => {
 				signal: AbortSignal.timeout(25000),
 				body: JSON.stringify({
 					additional_text: inputText,
-					pdf_file_location: `s3://nikhil-pipeline-storage/${username}/${filename}`
+					pdf_file_location: `s3://career-chakra-resumes/${username}/${filename}`
 				}),
 				headers: {
 					'Content-Type': 'application/json'

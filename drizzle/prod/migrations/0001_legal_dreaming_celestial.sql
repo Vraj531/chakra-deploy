@@ -1,1 +1,1 @@
-CREATE UNIQUE INDEX `bookmarked_jobs_job_id_unique` ON `bookmarked_jobs` (`job_id`);
+CREATE UNIQUE INDEX IF NOT EXISTS `bookmarked_jobs_job_id_unique` ON `bookmarked_jobs` (`job_id`);

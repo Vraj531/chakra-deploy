@@ -30,9 +30,9 @@
 </script>
 
 <dialog id="job-description-modal" class="modal modal-bottom sm:modal-middle">
-	<div class="modal-box md:w-11/12 md:max-w-5xl">
+	<div class="modal-box md:w-11/12 md:max-w-5xl pt-12">
 		<form method="dialog">
-			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 -top-1 md:top-2">✕</button>
+			<button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-1 md:top-2">✕</button>
 		</form>
 
 		<!-- paste here -->

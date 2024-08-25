@@ -139,7 +139,6 @@ export const addBookmark = async (userId: string, req: JobListing) => {
 			.select({ bookmark_id: bookMarkedJobs.id })
 			.from(bookMarkedJobs)
 			.where(eq(bookMarkedJobs.jobId, req.id));
-
 		if (!res.length) {
 			await db.insert(bookMarkedJobs).values({
 				id: bookmarkId,
@@ -164,6 +163,7 @@ export const addBookmark = async (userId: string, req: JobListing) => {
 				title: req.title
 			});
 		}
+
 		await db.insert(userToBookmarkJobs).values({
 			bookmarkId: res[0]?.bookmark_id ? res[0].bookmark_id : bookmarkId,
 			userId: userId,
@@ -244,14 +244,33 @@ export const getBookmarks = async (userId: string, page = 1) => {
 };
 
 export const deleteUserBookmarks = async (userId: string, bookmarkId: string) => {
-	const res = await db
-		.delete(userToBookmarkJobs)
-		.where(
-			and(eq(userToBookmarkJobs.userId, userId), eq(userToBookmarkJobs.bookmarkId, bookmarkId))
-		)
-		.returning();
-	if (!res.length) return null;
-	return true;
+	try {
+		const res = await db
+			.delete(userToBookmarkJobs)
+			.where(
+				and(eq(userToBookmarkJobs.userId, userId), eq(userToBookmarkJobs.bookmarkId, bookmarkId))
+			)
+			.returning();
+		if (!res.length) return null;
+		return true;
+	} catch (error) {
+		console.log('error', error);
+		return false;
+	}
+};
+
+export const deleteBookmark = async (userId: string, jobId: number) => {
+	try {
+		const res = await db
+			.delete(userToBookmarkJobs)
+			.where(and(eq(userToBookmarkJobs.userId, userId), eq(userToBookmarkJobs.jobId, jobId)))
+			.returning();
+		if (!res.length) return null;
+		return true;
+	} catch (error) {
+		console.log('error', error);
+		return null;
+	}
 };
 
 export const addInterestedJob = async (userId: string, jobId: string) => {
