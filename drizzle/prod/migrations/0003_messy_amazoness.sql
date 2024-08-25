@@ -1,0 +1,1 @@
+CREATE INDEX IF NOT EXISTS `job_id_index` ON `user_to_bookmark` (`job_id`);
