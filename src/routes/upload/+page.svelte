@@ -132,7 +132,7 @@
 			} else state = 'error';
 		} catch (error) {
 			state = 'error';
-			console.log('error', error);
+			console.log('error during upload process', error);
 		}
 		progress = 0; //reset progress
 	};
@@ -303,15 +303,7 @@
 		<img src="/logo1.svg" alt="analysing" class="animate-bounce w-52 h-52 mx-auto mt-12" />
 		<p class="text-center text-2xl font-bold animate-pulse">Analysing...</p>
 	{:else if state === 'success'}
-		<!-- {#if !arr.length}
-			<p class="text-3xl text-center mt-16">No matches found</p>
-			<button class="btn btn-secondary mx-auto mt-2" on:click={() => (state = '')}
-				>Try Again?</button
-			>
-		{:else} -->
 		<Carousel {arr} {triggerModal} {handleReset} {handleBookmark} {state} />
-		<!-- <FilterForm {handleSubmit} /> -->
-		<!-- {/if} -->
 	{:else if state === 'capped'}
 		<p class="text-2xl text-center mt-16">
 			You have reached your daily limit of 5 files. Login to get access to more.
@@ -324,8 +316,6 @@
 		</button>
 		<p class="text-xl text-center mt-2">Please upload a valid pdf</p>
 	{/if}
-	<!-- <GuestPrivacyPolicyModal {data} /> -->
-	<!-- <ListComponent /> -->
 	<!-- <Carousel {arr} {triggerModal} {handleReset} {handleBookmark} {state} /> -->
 	<FilterForm handleSubmit={handleFilterSubmit} />
 	<ResetJoblistModal {resetJobList} />
