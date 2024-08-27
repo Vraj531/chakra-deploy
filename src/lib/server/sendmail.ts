@@ -4,7 +4,7 @@ import * as aws from '@aws-sdk/client-ses';
 import { EMAIL_ACCESS_ID, EMAIL_SECRET_KEY } from '$env/static/private';
 
 // const FROM_EMAIL = 'gouravdeb@gmail.com';
-const FROM_EMAIL = 'help@careerchakra.com';
+const FROM_EMAIL = 'Career Chakra <help@careerchakra.com>';
 
 export default async function sendEmail(
 	email: string,

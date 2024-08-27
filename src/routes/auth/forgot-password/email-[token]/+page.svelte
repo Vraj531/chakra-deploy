@@ -44,6 +44,7 @@
 				<span class="label-text">New Password</span>
 				<input
 					name="password"
+					autocomplete="off"
 					type="password"
 					placeholder="Type here"
 					class="input input-bordered w-full max-w-xs"
@@ -52,6 +53,7 @@
 			<div class="form-control w-full max-w-xs">
 				<span class="label-text">Confirm Password</span>
 				<input
+					autocomplete="off"
 					type="text"
 					name="confirmPassword"
 					placeholder="Type here"
@@ -71,7 +73,9 @@
 			{/if}
 			{#if status === 'success'}
 				<p class="text-2xl text-green-500">Success</p>
-				<p class="text-xl">Your password has been updated successfully!</p>
+				<p class="text-xl">
+					Your password has been updated successfully! Login using your new credentials
+				</p>
 			{/if}
 		</form>
 	</div>

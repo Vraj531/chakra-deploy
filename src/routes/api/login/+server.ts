@@ -25,17 +25,22 @@ export const POST: RequestHandler = async ({ request, cookies }) => {
 	const user = await getUserByEmail(email);
 	if (!user) {
 		// user array is empty
-		error(401, { message: 'Invalid email' });
+		error(401, { message: 'Email not found' });
+	}
+	if (user?.provider !== 'email') {
+		error(401, { message: 'Invalid login method' });
 	}
 	if (!user?.password) {
-		error(401, { message: 'Password not found' });
+		error(401, {
+			message: 'Password not found, please use the forgot password feature to set you password'
+		});
 	}
 	const { id, password: hashRes, isVerified } = user;
 
 	const verifyRes = await verify(hashRes, password);
 	if (!verifyRes) error(401, { message: 'Invalid password' });
 
-	if (!isVerified) error(401, { message: 'Email not verified, Please check your inbox.' });
+	if (!isVerified) error(401, { message: 'Email not verified, please check your inbox.' });
 
 	const session = await lucia.createSession(id, {});
 	const sessionCookie = lucia.createSessionCookie(session.id);
