@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { goto, invalidateAll } from '$app/navigation';
+	import { goto } from '$app/navigation';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 	import GoogleIcon from '$lib/assets/icons/google.svg?raw';
@@ -43,9 +43,9 @@
 				return;
 			}
 			if (res.status === 200) {
-				invalidateAll();
 				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
 				modal.close();
+				goto('/upload');
 			}
 			passwordError = '';
 			status = false;
