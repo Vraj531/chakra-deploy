@@ -97,7 +97,7 @@
 			state = 'analysing';
 			const res = await fetch('api/download-url', {
 				method: 'POST',
-				signal: AbortSignal.timeout(30000),
+				signal: AbortSignal.timeout(100_000),
 				body: JSON.stringify({
 					filename: file.name,
 					inputText,
