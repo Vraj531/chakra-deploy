@@ -21,7 +21,10 @@ export const load = async ({ params }) => {
 		if (!verificationStatus) {
 			error(500, { message: 'User verification failed!' });
 		}
-		return { heading: 'Verification status', message: 'User has been verified successfully!' };
+		return {
+			heading: 'Verification status',
+			message: 'User has been verified successfully! Login to get started'
+		};
 	} catch (error) {
 		return fail(500, { error });
 	}
