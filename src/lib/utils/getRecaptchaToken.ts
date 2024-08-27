@@ -2,7 +2,12 @@ import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
 type TAction = 'LOGIN' | 'SIGNUP' | 'FORGOT_PASSWORD';
 
-export const getRecaptchaToken = async (action: TAction): Promise<string> => {
+export const getRecaptchaToken = async (action: TAction): Promise<string | undefined> => {
+	if (!window.grecaptcha || !window.grecaptcha.enterprise) {
+		// reject(new Error('reCAPTCHA not loaded'));
+		console.log('grecaptcha not loaded');
+		return;
+	}
 	return new Promise((resolve, reject) => {
 		window.grecaptcha.enterprise.ready(() => {
 			window.grecaptcha.enterprise

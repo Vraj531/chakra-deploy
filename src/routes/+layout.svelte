@@ -42,6 +42,8 @@
 <svelte:head>
 	<script
 		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
+		async
+		defer
 	></script>
 
 	<!-- this is for tick based recaptcha -->
