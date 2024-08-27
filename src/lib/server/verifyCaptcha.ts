@@ -1,8 +1,6 @@
 import { RECAPTCHA_API_KEY } from '$env/static/private';
 import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
-// const googleApi =
-// 	'https://recaptchaenterprise.googleapis.com/v1/projects/my-first-project/assessments';
 const googleApi =
 	'https://recaptchaenterprise.googleapis.com/v1/projects/vivid-science-358316/assessments';
 
