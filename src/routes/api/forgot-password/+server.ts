@@ -17,7 +17,7 @@ export const POST: RequestHandler = async ({ request }) => {
 	const CaptchaResponse = await verifyCaptcha(token, expectedAction);
 	// const CaptchaResponse = 0.8;
 
-	if (CaptchaResponse < 0.8) {
+	if (!CaptchaResponse || CaptchaResponse < 0.8) {
 		error(401, { message: 'Unauthorised' });
 	}
 
