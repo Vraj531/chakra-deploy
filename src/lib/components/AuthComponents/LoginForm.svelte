@@ -28,7 +28,9 @@
 		}
 		try {
 			status = true;
-			data.token = await getRecaptchaToken('LOGIN');
+			const token = await getRecaptchaToken('LOGIN');
+			if (!token) data.token = '';
+			else data.token = token;
 			// data.token = data['g-recaptcha-response'];
 			// console.log('data', data);
 			const res = await fetch('api/login', {
