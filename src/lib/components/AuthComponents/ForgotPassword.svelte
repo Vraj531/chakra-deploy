@@ -35,7 +35,9 @@
 			}
 			// console.log('data', data);
 			status = 'sendingMail';
-			data.token = await getRecaptchaToken('FORGOT_PASSWORD');
+			const token = await getRecaptchaToken('FORGOT_PASSWORD');
+			if (token) data.token = token;
+			else data.token = '';
 			// data.expectedAction = 'FORGOT_PASSWORD';
 			// data.token = data['g-recaptcha-response'];
 			// console.log('data', data);
@@ -82,12 +84,13 @@
 		{/if}
 	</label>
 	<input type="text" id="required" name="remember2" class="hidden" />
-	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="FORGOT_PASSWORD"></div>
 	<div class="form-control mt-6">
 		<button
-			class="btn btn-primary"
+			class="g-recaptcha btn btn-primary"
 			type="submit"
 			disabled={status === 'sendingMail' || status === 'counterInProgress'}
+			data-sitekey={PUBLIC_RECAPTCHA_KEY}
+			data-action="FORGOT_PASSWORD"
 		>
 			{#if status === 'sendingMail'}
 				<span class="loading loading-spinner"></span>

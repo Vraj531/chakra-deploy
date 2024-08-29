@@ -1,9 +1,10 @@
 <script lang="ts">
-	import { dummyOutput } from '$lib/dummyData';
+	import LinkComponent from '$lib/components/Chatbot/LinkComponent.svelte';
+	import SvelteMarkdown from 'svelte-markdown';
 
-	let messageStream: string = '';
+	let messageStream: string = ``;
 	let loading = '';
-	let userInput = '';
+	let userInput = 'Give list of jobs in new york';
 	let reader: ReadableStreamDefaultReader<Uint8Array>;
 
 	function stopStream() {
@@ -35,9 +36,10 @@
 				const { done, value } = await reader.read();
 				if (done) break;
 				const text = decoder.decode(value);
-				// console.log('response text', { text, messageStream });
+				console.log('response text', { text });
 				messageStream += text;
 			}
+			console.log('messageStream', messageStream);
 			loading = '';
 		} catch (error) {
 			loading = '';
@@ -46,7 +48,7 @@
 	}
 </script>
 
-<div class="flex justify-center gap-2">
+<form on:submit|preventDefault={startStream} class="flex justify-center gap-2">
 	<input
 		type="text"
 		class="form-control input input-bordered w-full max-w-lg"
@@ -56,10 +58,11 @@
 	{#if loading === 'streaming'}
 		<button on:click={stopStream} class="btn btn-secondary">Stop</button>
 	{:else}
-		<button on:click={startStream} class="btn btn-primary">Send</button>
+		<button type="submit" class="btn btn-primary">Send</button>
 	{/if}
-</div>
+</form>
 
-<div class="max-w-none md:mx-20 mx-12 flex justify-center">
-	{messageStream}
+<!-- <div class="prose ">{@html marked(messageStream)}</div> -->
+<div class="prose max-w-none md:mx-20 mx-12">
+	<SvelteMarkdown source={messageStream} renderers={{ link: LinkComponent }} />
 </div>
