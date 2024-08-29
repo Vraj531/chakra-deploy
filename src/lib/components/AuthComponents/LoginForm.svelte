@@ -29,22 +29,22 @@
 		try {
 			status = true;
 			const token = await getRecaptchaToken('LOGIN');
+			// console.log('token', token);
 			if (!token) data.token = '';
 			else data.token = token;
-			// data.token = data['g-recaptcha-response'];
 			// console.log('data', data);
 			const res = await fetch('api/login', {
 				method: 'POST',
 				body: JSON.stringify(data)
 			});
-			if (res.status === 401) {
+			if (!res.ok) {
 				// console.log('res', res);
 				const resData = await res.json();
 				passwordError = resData.message;
 				status = false;
 				return;
 			}
-			if (res.status === 200) {
+			if (res.ok) {
 				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
 				modal.close();
 				goto('/upload');
@@ -89,15 +89,19 @@
 		{/if}
 	</label>
 
-	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="LOGIN"></div>
-
 	<p class="text-xs">
 		This site is protected by reCAPTCHA and the Google
 		<a href="https://policies.google.com/privacy" class="link">Privacy Policy</a> and
 		<a href="https://policies.google.com/terms" class="link">Terms of Service</a> apply.
 	</p>
 	<div class="form-control mt-6">
-		<button class="btn btn-primary" type="submit" disabled={status}>
+		<button
+			class="g-recaptcha btn btn-primary"
+			type="submit"
+			disabled={status}
+			data-sitekey={PUBLIC_RECAPTCHA_KEY}
+			data-action="LOGIN"
+		>
 			{#if status}
 				<span class="loading loading-spinner"></span>
 			{/if}

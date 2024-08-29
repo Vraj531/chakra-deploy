@@ -40,7 +40,9 @@
 				return;
 			}
 			loading = true;
-			data.token = await getRecaptchaToken('SIGNUP');
+			const token = await getRecaptchaToken('SIGNUP');
+			if (token) data.token = token;
+			else data.token = '';
 			data.expectedAction = 'SIGNUP';
 			// data.token = data['g-recaptcha-response'];
 			// console.log('data', data);
@@ -115,7 +117,6 @@
 		{/if}
 	</label>
 
-	<div class="g-recaptcha" data-sitekey={PUBLIC_RECAPTCHA_KEY} data-action="SIGNUP"></div>
 	<div>
 		{#if status}
 			<p class="text-2xl text-green-500">Success</p>
@@ -129,7 +130,13 @@
 		<a href="https://policies.google.com/terms" class="link">Terms of Service</a> apply.
 	</p>
 	<div class="form-control mt-6">
-		<button class="btn btn-primary" type="submit" disabled={loading}>
+		<button
+			class="g-recaptcha btn btn-primary"
+			type="submit"
+			disabled={loading}
+			data-sitekey={PUBLIC_RECAPTCHA_KEY}
+			data-action="SIGNUP"
+		>
 			{#if loading}
 				<span class="loading loading-spinner"></span>
 			{/if}
