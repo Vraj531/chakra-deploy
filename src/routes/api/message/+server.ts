@@ -1,16 +1,6 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
-// let count = 0;
-
-// function generateRandomString(length: number): string {
-// 	const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-// 	let result = '';
-// 	for (let i = 0; i < length; i++) {
-// 		const randomIndex = Math.floor(Math.random() * characters.length);
-// 		result += characters.charAt(randomIndex);
-// 	}
-// 	return result;
-// }
+import { addMessage } from '$lib/server/drizzle/dbChatModel';
 
 // export const GET: RequestHandler = async () => {
 // 	const encoder = new TextEncoder();
@@ -45,26 +35,45 @@ import type { RequestHandler } from './$types';
 // 	});
 // };
 
+type TRequestMessage = {
+	id: string;
+	conversationId: string;
+	content: string;
+	userId: string;
+	system: boolean;
+	timestamp: number;
+};
+
 export const POST: RequestHandler = async ({ locals, request }) => {
 	if (!locals.user) error(401, { message: 'Unauthorised' });
 	const body = await request.json();
-	const { userInput } = body;
-	if (!userInput) error(400, { message: 'Bad request' });
-	const res = await fetch(
-		'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify({
-				country: 'USA',
-				user_id: locals.user.id,
-				user_input: userInput
-			})
-		}
-	);
-	// console.log('res', res);
-	if (!res.ok) error(500, { message: 'Error from api service' });
-	return res;
+	console.log('body', body);
+	const { conversationId, content, system, timestamp, id } = body as TRequestMessage;
+	try {
+		addMessage({ id, conversationId, content, userId: locals.user.id, system, timestamp });
+	} catch (error) {
+		console.log('error saving message to db', error);
+	}
+	// const signal = request.signal;
+	// const { userInput } = body;
+	// if (!content) error(400, { message: 'Bad request' });
+	// const res = await fetch(
+	// 	'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream',
+	// 	{
+	// 		method: 'POST',
+	// 		headers: {
+	// 			'Content-Type': 'application/json'
+	// 		},
+	// 		signal,
+	// 		body: JSON.stringify({
+	// 			country: 'USA',
+	// 			user_id: locals.user.id,
+	// 			user_input: content
+	// 		})
+	// 	}
+	// );
+
+	// if (!res.ok) error(500, { message: 'Error from api service' });
+	// return res;
+	return new Response('ok', { status: 200 });
 };

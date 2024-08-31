@@ -1,5 +1,13 @@
-// TPYES AND INTERFACES
+// TYPES AND INTERFACES
 export type uploadPageState = '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped';
+export type TMessage = {
+	id: string;
+	userId: string;
+	timestamp: number | null;
+	content: string;
+	conversationId: string;
+	system: boolean | null;
+};
 
 // VARIABLES
 // export const BUCKET = 'nikhil-pipeline-storage';
