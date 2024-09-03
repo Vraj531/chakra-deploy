@@ -12,12 +12,21 @@
 </script>
 
 <div class="mt-auto">
-	<form on:submit|preventDefault={startStream} class="flex justify-center gap-2">
+	<form on:submit|preventDefault={startStream} class="flex justify-center gap-2 p-4">
 		<div class="container rounded-2xl max-w-lg">
-			<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{userInput +
-					'\n'}</pre>
+			<!-- <pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{userInput +
+					'\n'}</pre> -->
 
-			<textarea bind:value={userInput} class="rounded-lg" id="skills"></textarea>
+			<textarea
+				bind:value={userInput}
+				class="rounded-lg w-full p-2 resize-none overflow-hidden"
+				id="user-input"
+				style={`
+          minHeight: '1.5rem',
+          height: 'auto',
+          maxHeight: 'calc(1.5rem * 5 + 1rem)'
+        `}
+			></textarea>
 		</div>
 
 		{#if loading === 'streaming'}
@@ -26,7 +35,7 @@
 			<button type="submit" class="btn btn-primary">Send</button>
 		{/if}
 	</form>
-	<p class="text-xs text-center mt-2">
+	<p class="text-xs text-center pt-2">
 		This chatbot is still in its testing phase, so it can make errors
 	</p>
 </div>
@@ -39,7 +48,6 @@
 		width: 100%;
 	}
 
-	pre,
 	textarea {
 		font-family: inherit;
 		padding: 1em;

@@ -47,7 +47,7 @@ type TRequestMessage = {
 export const POST: RequestHandler = async ({ locals, request }) => {
 	if (!locals.user) error(401, { message: 'Unauthorised' });
 	const body = await request.json();
-	console.log('body', body);
+	// console.log('body', body);
 	const { conversationId, content, system, timestamp, id } = body as TRequestMessage;
 	try {
 		addMessage({ id, conversationId, content, userId: locals.user.id, system, timestamp });

@@ -2,16 +2,17 @@
 	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import ChatInput from '$lib/components/Chatbot/ChatInput.svelte';
+	import ChatMessage from '$lib/components/Chatbot/ChatMessage.svelte';
 	import Sidebar from '$lib/components/Chatbot/Sidebar.svelte';
-	import { messageStore } from '$lib/stores/messageStore.js';
 	import { generateIdFromEntropySize } from 'lucia';
+	import { setContext } from 'svelte';
 
 	export let data;
-
+	$: messages = data.messages;
 	const conversationId =
 		$page.params.code === 'new' ? generateIdFromEntropySize(5) : $page.params.code;
-	// set messages in store
-	messageStore.setMessages(data.messages);
+
+	setContext('conversations', data.conversations);
 
 	// let messageStream: string = ``;
 	let loading = '';
@@ -28,18 +29,6 @@
 		}
 	}
 
-	// async function startStream() {
-	// 	console.log('input message', userInput);
-	// 	const id = generateIdFromEntropySize(5);
-	// 	messageStore.addMessage({
-	// 		conversationId,
-	// 		id,
-	// 		content: userInput,
-	// 		system: false,
-	// 		timestamp: Date.now()
-	// 	});
-	// 	console.log('messageStore', messageStore.getMessagesByConversation(conversationId));
-	// }
 	async function startStream() {
 		// messageStream = '';
 		try {
@@ -53,7 +42,8 @@
 				system: false,
 				timestamp: Date.now()
 			};
-			messageStore.addMessage(message);
+			// messageStore.addMessage(message);
+			messages = [...messages, message];
 			const response = await fetch('api/message', {
 				method: 'POST',
 				signal: controller.signal,
@@ -84,16 +74,17 @@
 	}
 
 	function cleanChat() {
-		messageStore.clearMessages();
+		// messageStore.clearMessages();
+		messages = [];
 		userInput = '';
 		invalidateAll();
 	}
 </script>
 
 <div class="flex flex-1">
-	<Sidebar conversations={data.conversations} {cleanChat} />
+	<Sidebar {cleanChat} />
 	<div class="flex-1 mt-auto">
-		<!-- <ChatMessage {messages}/> -->
+		<ChatMessage {messages} />
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput />
 	</div>
 </div>

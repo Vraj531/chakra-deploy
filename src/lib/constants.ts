@@ -2,7 +2,6 @@
 export type uploadPageState = '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped';
 export type TMessage = {
 	id: string;
-	userId: string;
 	timestamp: number | null;
 	content: string;
 	conversationId: string;

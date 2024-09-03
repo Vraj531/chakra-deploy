@@ -40,6 +40,14 @@ function createMessageStore() {
 			});
 			return messages;
 		}
+		// getAllMessages: () => {
+		// 	let messages: Message[] = [];
+		// 	update((currentMessages) => {
+		// 		messages = currentMessages;
+		// 		return currentMessages;
+		// 	});
+		// 	return messages;
+		// }
 	};
 }
 

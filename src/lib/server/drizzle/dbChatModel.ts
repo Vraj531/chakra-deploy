@@ -1,6 +1,6 @@
 import { db } from '$lib/server/drizzle/turso-db';
 import { conversationsTable, messagesTable } from '$lib/server/drizzle/turso-schema';
-import { desc, eq } from 'drizzle-orm';
+import { desc, eq, getTableColumns } from 'drizzle-orm';
 
 type TAddMessage = {
 	id: string;
@@ -66,15 +66,20 @@ export const getConversationsAndMessages = async ({
 	conversationId,
 	userId
 }: TConversationAndMessage) => {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const { userId: tableUserId, ...props } = getTableColumns(messagesTable);
 	const batchResponse = await db.batch([
 		db
 			.select()
 			.from(conversationsTable)
 			.where(eq(conversationsTable.userId, userId))
 			.orderBy(desc(conversationsTable.startedAt)),
-		db.select().from(messagesTable).where(eq(messagesTable.conversationId, conversationId))
+		db
+			.select({ ...props })
+			.from(messagesTable)
+			.where(eq(messagesTable.conversationId, conversationId))
 	]);
-
+	// console.log('first', batchResponse[1]);
 	return { conversations: batchResponse[0], messages: batchResponse[1] };
 };
 
