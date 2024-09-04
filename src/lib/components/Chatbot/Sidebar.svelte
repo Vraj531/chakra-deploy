@@ -50,19 +50,15 @@
 			<p class="text-lg text-center font-bold pt-4">Chat History</p>
 
 			<ul class=" flex flex-col overflow-y-auto p-4">
-				<button class="py-2 px-4 border-b border-gray-200 btn btn-ghost mb-2" on:click={newChat}>
-					New Chat
-				</button>
+				<button class="py-2 px-4 btn btn-ghost mb-2" on:click={newChat}> New Chat </button>
 				<ConversationList />
 			</ul>
 		</aside>
 	{/if}
 	<aside class={`sidebar md:block hidden`}>
-		<ul class="mt-4 flex flex-col px-1 max-h-[60dvh] overflow-y-auto">
+		<ul class="mt-4 flex flex-col px-4 max-h-[60dvh] overflow-y-auto">
 			<!-- Loop through the conversations and display them -->
-			<button class="py-2 px-4 border-b border-gray btn btn-ghost mb-2" on:click={newChat}>
-				New Chat
-			</button>
+			<button class="py-2 px-4 btn btn-ghost mb-2" on:click={newChat}> New Chat </button>
 			<ConversationList />
 		</ul>
 	</aside>
@@ -71,7 +67,7 @@
 <style>
 	/* Define the sidebar styles */
 	.sidebar {
-		width: 200px;
+		width: 230px;
 		/* Add more styles as needed */
 	}
 </style>

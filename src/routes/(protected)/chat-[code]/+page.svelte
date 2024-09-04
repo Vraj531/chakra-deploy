@@ -128,6 +128,7 @@
 
 <div class="flex flex-1">
 	<Sidebar {cleanChat} />
+	<div class="divider divider-horizontal mx-0"></div>
 	<div class="flex-1 mt-auto">
 		<ChatMessage messages={$messages} />
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput />

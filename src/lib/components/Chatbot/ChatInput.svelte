@@ -19,6 +19,12 @@
 
 			<textarea
 				bind:value={userInput}
+				on:keydown={(e) => {
+					if (e.key === 'Enter' && !e.shiftKey) {
+						e.preventDefault();
+						startStream();
+					}
+				}}
 				class="rounded-lg w-full p-2 resize-none overflow-hidden"
 				id="user-input"
 				style={`

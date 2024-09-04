@@ -73,7 +73,8 @@ export const getConversationsAndMessages = async ({
 			.select()
 			.from(conversationsTable)
 			.where(eq(conversationsTable.userId, userId))
-			.orderBy(desc(conversationsTable.startedAt)),
+			.orderBy(desc(conversationsTable.startedAt))
+			.limit(25),
 		db
 			.select({ ...props })
 			.from(messagesTable)
