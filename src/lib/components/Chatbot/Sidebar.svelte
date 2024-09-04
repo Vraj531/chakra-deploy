@@ -14,7 +14,7 @@
 	};
 	const newChat = async () => {
 		// console.log('new chat');
-		openChat();
+		open = false;
 		if ($page.params.code === 'new') {
 			cleanChat();
 		} else goto('chat-new');
@@ -50,7 +50,6 @@
 			<p class="text-lg text-center font-bold pt-4">Chat History</p>
 
 			<ul class=" flex flex-col overflow-y-auto p-4">
-				<!-- Loop through the conversations and display them -->
 				<button class="py-2 px-4 border-b border-gray-200 btn btn-ghost mb-2" on:click={newChat}>
 					New Chat
 				</button>

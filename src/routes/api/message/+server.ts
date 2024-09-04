@@ -54,26 +54,40 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	} catch (error) {
 		console.log('error saving message to db', error);
 	}
-	// const signal = request.signal;
-	// const { userInput } = body;
-	// if (!content) error(400, { message: 'Bad request' });
-	// const res = await fetch(
-	// 	'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream',
-	// 	{
-	// 		method: 'POST',
-	// 		headers: {
-	// 			'Content-Type': 'application/json'
-	// 		},
-	// 		signal,
-	// 		body: JSON.stringify({
-	// 			country: 'USA',
-	// 			user_id: locals.user.id,
-	// 			user_input: content
-	// 		})
-	// 	}
-	// );
+	const signal = request.signal;
+	if (!content) error(400, { message: 'Bad request' });
+	const res = await fetch(
+		'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream',
+		{
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			signal,
+			body: JSON.stringify({
+				country: 'USA',
+				user_id: locals.user.id,
+				user_input: content
+			})
+		}
+	);
 
-	// if (!res.ok) error(500, { message: 'Error from api service' });
-	// return res;
+	if (!res.ok) error(500, { message: 'Error from api service' });
+	return res;
+	// return new Response('ok', { status: 200 });
+};
+
+export const PUT: RequestHandler = async ({ locals, request }) => {
+	if (!locals.user) error(401, { message: 'Unauthorised' });
+	const body = await request.json();
+
+	// save message to db
+	const { conversationId, content, system, timestamp, id } = body as TRequestMessage;
+	try {
+		addMessage({ id, conversationId, content, userId: locals.user.id, system, timestamp });
+	} catch (err) {
+		console.log('error saving message to db', err);
+		error(500, { message: 'Error saving message to db' });
+	}
 	return new Response('ok', { status: 200 });
 };
