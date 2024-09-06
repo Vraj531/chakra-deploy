@@ -5,6 +5,7 @@
 	import { onMount } from 'svelte';
 
 	export let messages: TMessage[] = [];
+	export let error: boolean;
 
 	let chatContainer: HTMLDivElement;
 
@@ -38,21 +39,28 @@
 			</div>
 		{/if}
 		{#each messages as messageStream}
-			{#if messageStream.system}
-				<div class="flex">
-					<img src="/logo.svg" class="w-14 h-14 my-0 mr-2" alt="logo" />
-					<div>
-						<SvelteMarkdown source={messageStream.content} renderers={{ link: LinkComponent }} />
+			{#if messageStream?.content.length > 0}
+				{#if messageStream.system}
+					<div class="flex">
+						<img src="/logo.svg" class="w-14 h-14 my-0 mr-2" alt="logo" />
+						<div>
+							<SvelteMarkdown source={messageStream.content} renderers={{ link: LinkComponent }} />
+						</div>
 					</div>
-				</div>
-			{:else}
-				<div class="text-right flex w-full justify-end">
-					<p class="outline outline-gray-200 py-2 my-1 px-4 mr-6 rounded-md bg-gray-100">
-						{messageStream.content}
-					</p>
-				</div>
+				{:else}
+					<div class="text-right flex w-full justify-end">
+						<p class="outline outline-gray-200 py-2 my-1 px-4 mr-6 rounded-md bg-gray-100">
+							{messageStream.content}
+						</p>
+					</div>
+				{/if}
 			{/if}
 		{/each}
+		{#if error}
+			<div class="text-right flex w-full justify-start">
+				<p class="py-2 my-1 px-4 rounded-md bg-red-200">Error - please try again later</p>
+			</div>
+		{/if}
 		{#if messages.length > 0}
 			<div class="h-[80px]"></div>
 		{/if}
