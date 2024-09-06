@@ -1,9 +1,18 @@
 <script lang="ts">
 	import { page } from '$app/stores';
-	import { conversationStore } from '$lib/stores/conversationStore';
+	import { getStoreContext } from '$lib/stores/generalStore';
+
+	type TConversations = {
+		id: string;
+		title: string | null;
+		userId: string;
+		startedAt: string | null;
+	}[];
+
+	const conversationsStore = getStoreContext<TConversations>('conversations');
 </script>
 
-{#each $conversationStore.slice(0, 10) as conversation}
+{#each $conversationsStore.slice(0, 10) as conversation}
 	<a
 		class={`mb-2 hover:bg-slate-200 px-2 py-1 rounded-md ${$page?.params?.code === conversation.id && 'bg-neutral-300'}`}
 		href={`chat-${conversation.id}`}

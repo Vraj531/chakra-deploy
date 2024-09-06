@@ -4,9 +4,8 @@
 	import ChatInput from '$lib/components/Chatbot/ChatInput.svelte';
 	import ChatMessage from '$lib/components/Chatbot/ChatMessage.svelte';
 	import Sidebar from '$lib/components/Chatbot/Sidebar.svelte';
-	import { conversationStore } from '$lib/stores/conversationStore.js';
+	import { createStoreContext } from '$lib/stores/generalStore.js';
 	import { generateIdFromEntropySize } from 'lucia';
-	import { setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
 	export let data;
@@ -16,9 +15,12 @@
 			? generateIdFromEntropySize(5)
 			: $page.params.code;
 
-	const messages = writable(data.messages);
+	$: messages = writable(data?.messages || []);
+	// const messageStore = createStoreContext('messages', data?.messages || []);
+	// $: messageStore.set(data?.messages || []);
 
-	$: conversationStore.set(data.conversations || []);
+	const conversationsStore = createStoreContext('conversations', data.conversations);
+	$: conversationsStore.set(data?.conversations || []);
 
 	// let messageStream: string = ``;
 	let loading = '';
@@ -40,7 +42,7 @@
 		try {
 			loading = 'streaming';
 			error = false;
-			console.log('userInput', userInput);
+			// console.log('userInput', userInput);
 
 			const id = generateIdFromEntropySize(5);
 			const systemId = generateIdFromEntropySize(5);
@@ -126,9 +128,6 @@
 		return response.json();
 	}
 	function cleanChat() {
-		// messageStore.clearMessages();
-		// messages = [];
-		messages.set([]);
 		error = false;
 		userInput = '';
 		invalidateAll();
