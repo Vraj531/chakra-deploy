@@ -10,12 +10,6 @@ type StoreContext<T> = {
 export function createStoreContext<T>(key: string, initialValue: T) {
 	const store = writable(initialValue);
 	setContext(key, store);
-	// const update = (partial: Partial<T>) => {
-	// 	store.update((value) => ({ ...value, ...partial }));
-	// };
-
-	// const context: StoreContext<T> = { store, update };
-	// return context;
 }
 
 export function setStoreContext<T>(key: string, initialValue: T) {
