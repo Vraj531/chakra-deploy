@@ -36,7 +36,10 @@
 		</div>
 
 		{#if loading === 'streaming'}
-			<button on:click={stopStream} class="btn btn-secondary">Stop</button>
+			<button on:click={stopStream} class="btn btn-secondary">
+				<span class="loading loading-spinner"></span>
+				Stop</button
+			>
 		{:else}
 			<button type="submit" class="btn btn-primary">Send</button>
 		{/if}
