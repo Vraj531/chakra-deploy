@@ -12,23 +12,15 @@ type TAddMessage = {
 };
 
 export const addMessage = async ({ conversationId, content, userId, id, system }: TAddMessage) => {
-	//search for conversationId in conversationsTable
-	const conversation = await db
-		.select()
-		.from(conversationsTable)
-		.where(eq(conversationsTable.id, conversationId))
-		.limit(1);
-	if (!conversation.length) {
-		//if conversation not found create new conversation entry
-		await db
-			.insert(conversationsTable)
-			.values({
-				id: conversationId,
-				userId,
-				title: content
-			})
-			.returning();
-	}
+	//if conversation not found create new conversation entry
+	await db
+		.insert(conversationsTable)
+		.values({
+			id: conversationId,
+			userId,
+			title: content
+		})
+		.onConflictDoNothing({ target: conversationsTable.id });
 	const res = await db
 		.insert(messagesTable)
 		.values({
