@@ -37,6 +37,9 @@
 			(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
 		}
 	});
+
+	const skipRoutes = ['chat'];
+	const shouldSkipLayout = skipRoutes.includes($page?.route?.id || '');
 </script>
 
 <svelte:head>
@@ -93,12 +96,17 @@
 	<AuthModal />
 	<Toast />
 	<WebviewModal />
+
+	<!-- {#if shouldSkipLayout} -->
 	<Header userData={data.user} />
+	<!-- {/if} -->
 
 	{#key data.pathname}
 		<div class="flex-1 flex flex-col" in:fly={transitionIn} out:fly={transitionOut}>
 			<slot />
 		</div>
 	{/key}
+	<!-- {#if shouldSkipLayout} -->
 	<Footer />
+	<!-- {/if} -->
 </div>
