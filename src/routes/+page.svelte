@@ -65,11 +65,12 @@
 					class="xl:w-1/2 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60"
 				>
 					<h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">
-						Exclusive Focus on USA Jobs
+						Exclusive Focus on USA, Canada and Indian Jobs
 					</h2>
 					<p class="leading-relaxed text-base mb-4">
-						We specialize exclusively in job openings across the United States, ensuring you get
-						access to the most relevant and up-to-date opportunities in your desired location.
+						We specialize exclusively in job openings across the United States, Canada and Indian,
+						ensuring you get access to the most relevant and up-to-date opportunities in your
+						desired location.
 					</p>
 				</div>
 				<div

@@ -44,6 +44,9 @@ type TRequestMessage = {
 	timestamp: number;
 };
 
+const url = 'https://xt6fltahz45x26gud6h43rygw40boigx.lambda-url.us-east-2.on.aws/chat_stream';
+// const url = 'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream';
+
 export const POST: RequestHandler = async ({ locals, request }) => {
 	if (!locals.user) error(401, { message: 'Unauthorised' });
 	const body = await request.json();
@@ -56,21 +59,18 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 	const signal = request.signal;
 	if (!content) error(400, { message: 'Bad request' });
-	const res = await fetch(
-		'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream',
-		{
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			signal,
-			body: JSON.stringify({
-				country: 'USA',
-				user_id: locals.user.id,
-				user_input: content
-			})
-		}
-	);
+	const res = await fetch(url, {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json'
+		},
+		signal,
+		body: JSON.stringify({
+			country: 'USA',
+			user_id: `${locals.user.id}-${conversationId}`,
+			user_input: content
+		})
+	});
 
 	if (!res.ok) error(500, { message: 'Error from api service' });
 	return res;

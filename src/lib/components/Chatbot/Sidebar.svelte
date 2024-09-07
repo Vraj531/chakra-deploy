@@ -29,7 +29,7 @@
 ></button>
 
 <div class="">
-	<button class="absolute btn btn-primary btn-sm md:hidden" on:click={openChat}>
+	<button class="absolute btn btn-primary btn-sm left-4 md:hidden z-10 top-36" on:click={openChat}>
 		<svg
 			width="16px"
 			height="16px"
@@ -47,19 +47,23 @@
 			class="fixed top-0 left-0 h-full w-64 bg-white shadow-lg z-50 flex flex-col"
 			transition:fly={{ x: -200, duration: 300 }}
 		>
+			<img src="/chakra-beta-mq.png" alt="chakra ai" class="h-24 m-3" />
 			<p class="text-lg text-center font-bold pt-4">Chat History</p>
 
 			<ul class=" flex flex-col overflow-y-auto p-4">
-				<button class="py-2 px-4 btn btn-ghost mb-2" on:click={newChat}> New Chat </button>
+				<button class="py-2 px-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
 				<ConversationList />
 			</ul>
 		</aside>
 	{/if}
 	<aside class={`sidebar md:block hidden`}>
-		<ul class="mt-4 flex flex-col px-4 max-h-[60dvh] overflow-y-auto">
+		<ul class="mt-4 flex flex-col max-h-[80dvh]">
 			<!-- Loop through the conversations and display them -->
-			<button class="py-2 px-4 btn btn-ghost mb-2" on:click={newChat}> New Chat </button>
-			<ConversationList />
+			<img src="/chakra-beta-mq.png" alt="chakra ai" class="h-24 m-3" />
+			<button class="py-2 mx-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
+			<div class="overflow-y-auto px-2">
+				<ConversationList />
+			</div>
 		</ul>
 	</aside>
 </div>

@@ -25,7 +25,7 @@
 			</div>
 			<div class="dropdown mt-2 md:hidden">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-				<div class="border-0 py-2 px-4" tabindex="0">
+				<div class="border-0 py-2" tabindex="0">
 					<button class="btn btn-sm btn-primary mt-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -93,7 +93,7 @@
 				</a> -->
 				<button
 					on:click={showAuthModal}
-					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
 					Login
 					<svg
@@ -111,7 +111,7 @@
 			{:else}
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-					<div class="border-0 py-2 px-4" tabindex="0">
+					<div class="border-0 py-2" tabindex="0">
 						{#if !userData?.picture}
 							<div class="chat-image w-10 h-10 rounded-full cursor-pointer bg-amber-500 relative">
 								<p class="absolute top-[18%] left-[32%] text-xl text-white">
@@ -159,7 +159,7 @@
 			{/if}
 		</div>
 	</div>
-	{#if $state === 'uploaded'}
+	<!-- {#if $state === 'uploaded'}
 		<div class="md:hidden w-full flex">
 			<a
 				href="/upload"
@@ -168,5 +168,5 @@
 				>New Upload</a
 			>
 		</div>
-	{/if}
+	{/if} -->
 </header>

@@ -4,22 +4,22 @@
 	import ChatInput from '$lib/components/Chatbot/ChatInput.svelte';
 	import ChatMessage from '$lib/components/Chatbot/ChatMessage.svelte';
 	import Sidebar from '$lib/components/Chatbot/Sidebar.svelte';
+	import type { TConversation, TMessage } from '$lib/constants.js';
 	import { createStoreContext } from '$lib/stores/generalStore.js';
 	import { generateIdFromEntropySize } from 'lucia';
-	import { writable } from 'svelte/store';
 
 	export let data;
+
+	const messageStore = createStoreContext<TMessage[]>('messages', []);
+	const conversationsStore = createStoreContext<TConversation[]>('conversations', []);
+	const controller = new AbortController();
 
 	$: conversationId =
 		$page.params.code === 'new' || data.conversations
 			? generateIdFromEntropySize(5)
 			: $page.params.code;
-
-	$: messages = writable(data?.messages || []);
-	// const messageStore = createStoreContext('messages', data?.messages || []);
-	// $: messageStore.set(data?.messages || []);
-
-	const conversationsStore = createStoreContext('conversations', data.conversations);
+	// $: messages = writable(data?.messages || []);
+	$: messageStore.set(data?.messages || []);
 	$: conversationsStore.set(data?.conversations || []);
 
 	// let messageStream: string = ``;
@@ -27,8 +27,6 @@
 	let userInput = '';
 	let error = false;
 	let reader: ReadableStreamDefaultReader<Uint8Array>;
-
-	const controller = new AbortController();
 
 	function stopStream() {
 		if (reader) {
@@ -55,7 +53,7 @@
 			};
 
 			userInput = '';
-			messages.update((msgs) => [...msgs, message]);
+			messageStore.update((msgs) => [...msgs, message]);
 
 			const response = await fetch('api/message', {
 				method: 'POST',
@@ -91,7 +89,7 @@
 				systemMessage.content += text;
 
 				// To trigger reactivity
-				messages.update((msgs) => {
+				messageStore.update((msgs) => {
 					const index = msgs.findIndex((msg) => msg.id === systemId);
 					if (index !== -1) {
 						// Create a new array with the updated system message
@@ -136,9 +134,9 @@
 
 <div class="flex flex-1">
 	<Sidebar {cleanChat} />
-	<div class="divider divider-horizontal mx-0"></div>
+	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
 	<div class="flex-1 mt-auto">
-		<ChatMessage messages={$messages} {error} />
+		<ChatMessage {error} />
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput />
 	</div>
 </div>

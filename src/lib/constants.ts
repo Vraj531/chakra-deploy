@@ -7,7 +7,12 @@ export type TMessage = {
 	conversationId: string;
 	system: boolean | null;
 };
-
+export type TConversation = {
+	userId: string;
+	id: string;
+	title: string | null;
+	startedAt: string | null;
+};
 // VARIABLES
 // export const BUCKET = 'nikhil-pipeline-storage';
 export const BUCKET = 'career-chakra-resumes';

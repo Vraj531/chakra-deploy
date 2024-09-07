@@ -40,6 +40,7 @@
 
 	const skipRoutes = ['chat'];
 	const shouldSkipLayout = skipRoutes.includes($page?.route?.id || '');
+	// const shouldSkipLayout = true;
 </script>
 
 <svelte:head>
@@ -106,7 +107,7 @@
 			<slot />
 		</div>
 	{/key}
-	<!-- {#if shouldSkipLayout} -->
-	<Footer />
-	<!-- {/if} -->
+	{#if shouldSkipLayout}
+		<Footer />
+	{/if}
 </div>

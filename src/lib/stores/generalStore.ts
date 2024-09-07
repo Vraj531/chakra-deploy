@@ -1,6 +1,5 @@
-// src/lib/store.ts
 import { writable, type Writable } from 'svelte/store';
-import { setContext, getContext } from 'svelte';
+import { setContext, getContext, hasContext } from 'svelte';
 
 type StoreContext<T> = {
 	subscribe: Writable<T>['subscribe'];
@@ -9,18 +8,16 @@ type StoreContext<T> = {
 };
 
 export function createStoreContext<T>(key: string, initialValue: T): StoreContext<T> {
+	if (hasContext(key)) return getContext(key);
+
 	const store = writable(initialValue);
-
 	const { subscribe, set, update } = store;
-
 	const context: StoreContext<T> = {
 		subscribe,
 		set,
 		update
 	};
-
 	setContext(key, context);
-
 	return context;
 }
 
@@ -36,3 +33,37 @@ export function updateStoreContext<T>(key: string, partialValue: Partial<T>): vo
 	const context = getStoreContext<T>(key);
 	context.update((currentValue) => ({ ...currentValue, ...partialValue }));
 }
+
+//* Global store implementation
+type GlobalStoreType = {
+	conversations: {
+		userId: string;
+		id: string;
+		title: string | null;
+		startedAt: string | null;
+	}[];
+	messages: {
+		id: string;
+		conversationId: string;
+		content: string;
+		system: boolean | null;
+		timestamp: number | null;
+	}[];
+};
+
+export function globalStore() {
+	return createStoreContext<GlobalStoreType>('globalStore', {
+		conversations: [],
+		messages: []
+	});
+}
+
+export function updateGlobalStore<T extends keyof GlobalStoreType>(
+	key: T,
+	value: Partial<GlobalStoreType[T]>
+) {
+	const globalStore = getContext<Writable<GlobalStoreType>>('globalStore');
+	globalStore.update((currentValue) => ({ ...currentValue, [key]: value }));
+}
+
+// updateGlobalStore('messages', [{}])

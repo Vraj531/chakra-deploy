@@ -157,9 +157,9 @@
 			experience: filterForm.experience.toString(),
 			min_salary: filterForm.min_salary.toString()
 		};
-		console.log('new filter', newFilter);
+		// console.log('new filter', newFilter);
 		const filteredData = filterObjects(backUpData, newFilter);
-		console.log('filtered data', filteredData);
+		// console.log('filtered data', filteredData);
 		if (!filteredData.length) {
 			toastStore.alert(`Found ${filteredData.length} matches! Please reset`, {
 				position: 'bottom-end'
