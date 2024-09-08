@@ -2,38 +2,7 @@ import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { addMessage } from '$lib/server/drizzle/dbChatModel';
 
-// export const GET: RequestHandler = async () => {
-// 	const encoder = new TextEncoder();
-
-// 	// Function to simulate sending chunks of data
-// 	const stream = new ReadableStream({
-// 		start(controller) {
-// 			const sendChunk = () => {
-// 				if (count >= 10) {
-// 					controller.close();
-// 				} else {
-// 					count += 1;
-
-// 					controller.enqueue(
-// 						encoder.encode(
-// 							JSON.stringify({ message: `Chunk ${count}`, content: generateRandomString(5) }) + '\n'
-// 						)
-// 					);
-// 					setTimeout(sendChunk, 1000);
-// 				}
-// 			};
-
-// 			sendChunk();
-// 		}
-// 	});
-// 	// console.log('stream', stream);
-// 	return new Response(stream, {
-// 		headers: {
-// 			'Content-Type': 'application/json',
-// 			'Transfer-Encoding': 'chunked'
-// 		}
-// 	});
-// };
+//TODO : need to put a limit for not logged in users!
 
 type TRequestMessage = {
 	id: string;
@@ -42,18 +11,20 @@ type TRequestMessage = {
 	userId: string;
 	system: boolean;
 	timestamp: number;
+	sessionId: string;
 };
 
 const url = 'https://xt6fltahz45x26gud6h43rygw40boigx.lambda-url.us-east-2.on.aws/chat_stream';
 // const url = 'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream';
 
 export const POST: RequestHandler = async ({ locals, request }) => {
-	if (!locals.user) error(401, { message: 'Unauthorised' });
 	const body = await request.json();
 	// console.log('body', body);
-	const { conversationId, content, system, timestamp, id } = body as TRequestMessage;
+	const { conversationId, content, system, timestamp, id, sessionId } = body as TRequestMessage;
 	try {
-		addMessage({ id, conversationId, content, userId: locals.user.id, system, timestamp });
+		if (locals.user) {
+			addMessage({ id, conversationId, content, userId: locals.user.id, system, timestamp });
+		}
 	} catch (error) {
 		console.log('error saving message to db', error);
 	}
@@ -67,7 +38,9 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		signal,
 		body: JSON.stringify({
 			country: 'USA',
-			user_id: `${locals.user.id}-${conversationId}`,
+			user_id: !locals?.user?.id
+				? `${sessionId}-${conversationId}`
+				: `${locals.user.id}-${conversationId}`,
 			user_input: content
 		})
 	});

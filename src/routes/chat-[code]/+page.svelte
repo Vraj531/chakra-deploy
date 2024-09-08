@@ -4,15 +4,36 @@
 	import ChatInput from '$lib/components/Chatbot/ChatInput.svelte';
 	import ChatMessage from '$lib/components/Chatbot/ChatMessage.svelte';
 	import Sidebar from '$lib/components/Chatbot/Sidebar.svelte';
+	import PrivacyPolicyModal from '$lib/components/LayoutComponents/PrivacyPolicyModal.svelte';
 	import type { TConversation, TMessage } from '$lib/constants.js';
-	import { createStoreContext } from '$lib/stores/generalStore.js';
+	import { getStoreContext, storeContext } from '$lib/stores/generalStore.js';
+	import { Cookie } from '$lib/utils/exportCookie.js';
 	import { generateIdFromEntropySize } from 'lucia';
+	import { onMount } from 'svelte';
 
 	export let data;
 
-	const messageStore = createStoreContext<TMessage[]>('messages', []);
-	const conversationsStore = createStoreContext<TConversation[]>('conversations', []);
+	const messageStore = storeContext<TMessage[]>('messages', []);
+	const conversationStore = storeContext<TConversation[]>('conversations', []);
+	const user = getStoreContext('user');
+
+	// initStore();
 	const controller = new AbortController();
+
+	onMount(() => {
+		let consent = Cookie.get('privacy_policy');
+		if (!consent) {
+			const modal = document.getElementById('privacy-policy-modal') as HTMLDialogElement;
+			modal.showModal();
+		}
+
+		const sessionId = sessionStorage.getItem('session_id');
+		if (!$user && !sessionId) {
+			const sessionId = generateIdFromEntropySize(16);
+			sessionStorage.setItem('session_id', sessionId);
+		}
+		// console.log('consent', consent);
+	});
 
 	$: conversationId =
 		$page.params.code === 'new' || data.conversations
@@ -20,9 +41,8 @@
 			: $page.params.code;
 	// $: messages = writable(data?.messages || []);
 	$: messageStore.set(data?.messages || []);
-	$: conversationsStore.set(data?.conversations || []);
+	$: conversationStore.set(data?.conversations || []);
 
-	// let messageStream: string = ``;
 	let loading = '';
 	let userInput = '';
 	let error = false;
@@ -55,10 +75,12 @@
 			userInput = '';
 			messageStore.update((msgs) => [...msgs, message]);
 
+			let sessionId = sessionStorage.getItem('session_id');
+
 			const response = await fetch('api/message', {
 				method: 'POST',
 				signal: controller.signal,
-				body: JSON.stringify({ ...message }),
+				body: JSON.stringify({ ...message, sessionId }),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -139,4 +161,5 @@
 		<ChatMessage {error} />
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput />
 	</div>
+	<PrivacyPolicyModal />
 </div>

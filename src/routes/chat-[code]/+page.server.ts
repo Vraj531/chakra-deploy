@@ -3,16 +3,17 @@ import type { PageServerLoad } from './$types';
 import { getConversationsAndMessages } from '$lib/server/drizzle/dbChatModel';
 
 export const load: PageServerLoad = async ({ params, locals }) => {
-	if (!locals.user) error(401, { message: 'Unauthorised' });
+	// if (!locals.user) error(401, { message: 'Unauthorised' });
 	// if (!params.code) return;
 	const res = await getConversationsAndMessages({
 		conversationId: params.code,
-		userId: locals.user.id
+		userId: locals?.user?.id
 	});
 	// console.log('res', res);
 	return res;
 };
 
+//* this not in use!!
 export const actions = {
 	sendMessage: async ({ request, locals }) => {
 		if (!locals.user) error(401, { message: 'Unauthorised' });

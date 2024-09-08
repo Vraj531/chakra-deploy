@@ -52,12 +52,13 @@ export const getConversationsByUser = async (userId: string, trx = db) => {
 
 type TConversationAndMessage = {
 	conversationId: string;
-	userId: string;
+	userId: string | undefined;
 };
 export const getConversationsAndMessages = async ({
 	conversationId,
 	userId
 }: TConversationAndMessage) => {
+	if (!userId) return { conversations: [], messages: [] };
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
 	const { userId: tableUserId, ...props } = getTableColumns(messagesTable);
 	const batchResponse = await db.batch([

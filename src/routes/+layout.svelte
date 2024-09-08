@@ -3,7 +3,6 @@
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import '../app.css';
 	import type { LayoutData } from './$types';
-	import Analytics from '$lib/components/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/LayoutComponents/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/LayoutComponents/Toast.svelte';
 
@@ -16,8 +15,12 @@
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import Header from '$lib/components/LayoutComponents/Header.svelte';
 	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
+	import { storeContext } from '$lib/stores/generalStore';
+	import type { User } from 'lucia';
 
 	export let data: LayoutData;
+
+	const user = storeContext<User | null>('user', data.user);
 
 	$: query = $page.url.searchParams;
 

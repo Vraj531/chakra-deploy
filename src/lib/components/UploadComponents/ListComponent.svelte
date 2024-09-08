@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { JobListing } from '$lib/dummyData';
-	import { getContext } from 'svelte';
+	import { getStoreContext } from '$lib/stores/generalStore';
 	import { fly } from 'svelte/transition';
 
 	export let arr: JobListing[];
 	export let selectJobIndex: (index: number | string) => void;
 	export let selected: number;
 
-	const user = getContext('user');
+	const user = getStoreContext('user');
 
 	$: jobListWithHumanReadableDates = !arr.length
 		? []

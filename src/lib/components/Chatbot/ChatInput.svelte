@@ -23,7 +23,8 @@
 				id="message-box"
 				class="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-white"
 				placeholder="Message Chakra AI"
-				required
+				required={loading !== 'streaming'}
+				autocomplete="off"
 				bind:value={userInput}
 				on:keydown={(e) => {
 					if (e.key === 'Enter' && !e.shiftKey) {
@@ -64,8 +65,8 @@
 	</form>
 
 	<p class="text-xs text-center pb-2">
-		This chatbot is still in its testing phase, so it can make errors. <a href="mail:" class="link"
-			>Email</a
+		This chatbot is still in its testing phase, so it can make errors. <a
+			href="mailto:help@careerchakra.com">Email</a
 		> us for feedback
 	</p>
 </div>

@@ -53,6 +53,7 @@
 			<ul class=" flex flex-col overflow-y-auto p-4">
 				<button class="py-2 px-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
 				<ConversationList />
+				<p class="px-2">Please log in to save conversations!</p>
 			</ul>
 		</aside>
 	{/if}
@@ -64,6 +65,7 @@
 			<div class="overflow-y-auto px-2">
 				<ConversationList />
 			</div>
+			<p class="px-2">Please log in to save conversations!</p>
 		</ul>
 	</aside>
 </div>

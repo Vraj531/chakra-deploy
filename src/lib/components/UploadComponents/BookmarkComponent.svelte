@@ -1,10 +1,10 @@
 <script lang="ts">
-	import { getContext } from 'svelte';
 	import BookmarkBlankIcon from '$lib/assets/icons/bookmark-blank.svg?raw';
 	import BookmarkFilledIcon from '$lib/assets/icons/bookmark-filled.svg?raw';
 	import type { JobListing } from '$lib/dummyData';
+	import { getStoreContext } from '$lib/stores/generalStore';
 
-	const user = getContext('user');
+	const user = getStoreContext('user');
 
 	export let job;
 	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;

@@ -13,7 +13,6 @@
 	import { writable } from 'svelte/store';
 	import { fade, fly } from 'svelte/transition';
 	import JobCard from './JobCard.svelte';
-	import { getContext } from 'svelte';
 	import MoreJobsModal from '$lib/components/UploadComponents/MoreJobsModal.svelte';
 	import { list } from 'postcss';
 	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
@@ -21,6 +20,7 @@
 	import { toastStore } from '$lib/stores/toastStores';
 	import type { uploadPageState } from '$lib/constants';
 	import BookmarkComponent from '$lib/components/UploadComponents/BookmarkComponent.svelte';
+	import { getStoreContext } from '$lib/stores/generalStore';
 
 	export let arr: JobListing[];
 	export let state: uploadPageState;
@@ -28,7 +28,7 @@
 	export let handleReset: () => void;
 	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;
 
-	const user = getContext('user');
+	const user = getStoreContext('user');
 	let loading = false;
 
 	// console.log('re', arr);
@@ -58,7 +58,7 @@
 	};
 
 	const selectJobIndex = (index: number | string) => {
-		console.log(' i was called from another component');
+		// console.log(' i was called from another component');
 		if (typeof index === 'number') $carousel?.scrollTo(index);
 	};
 

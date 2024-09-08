@@ -11,13 +11,12 @@
 	import { filterObjects } from '$lib/utils/filterData';
 	import type { PageData } from './$types';
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
-	import { onMount, setContext } from 'svelte';
+	import { onMount } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
 	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
 	import type { uploadPageState } from '$lib/constants';
 
 	export let data: PageData;
-	setContext('user', data.user);
 
 	$: privacyPolicy = Cookie.get('privacy_policy');
 

@@ -1,15 +1,10 @@
 <script lang="ts">
 	import { page } from '$app/stores';
+	import type { TConversation } from '$lib/constants';
 	import { getStoreContext } from '$lib/stores/generalStore';
 
-	type TConversations = {
-		id: string;
-		title: string | null;
-		userId: string;
-		startedAt: string | null;
-	}[];
-
-	const conversationsStore = getStoreContext<TConversations>('conversations');
+	const conversationsStore = getStoreContext<TConversation[]>('conversations');
+	// console.log('$conversationsStore', $conversationsStore);
 </script>
 
 {#each $conversationsStore.slice(0, 10) as conversation}
