@@ -22,7 +22,7 @@
 
 	onMount(() => {
 		let consent = Cookie.get('privacy_policy');
-		if (!consent) {
+		if (!consent && !$user) {
 			const modal = document.getElementById('privacy-policy-modal') as HTMLDialogElement;
 			modal.showModal();
 		}
@@ -32,7 +32,7 @@
 			const sessionId = generateIdFromEntropySize(16);
 			sessionStorage.setItem('session_id', sessionId);
 		}
-		// console.log('consent', consent);
+		console.log('consent', $user);
 	});
 
 	$: conversationId =

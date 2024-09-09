@@ -15,6 +15,7 @@
 	import { Cookie } from '$lib/utils/exportCookie';
 	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
 	import type { uploadPageState } from '$lib/constants';
+	import { count } from 'drizzle-orm';
 
 	export let data: PageData;
 
@@ -35,6 +36,7 @@
 	let progress = 0;
 	let state: uploadPageState = '';
 	let inputText = '';
+	let country = 'USA';
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
@@ -102,7 +104,8 @@
 					inputText,
 					s3Url: uploadResponse.config.url.split('?')[0],
 					sessionId,
-					expiresIn: 2000
+					expiresIn: 2000,
+					country
 				})
 			});
 
@@ -134,10 +137,6 @@
 			console.log('error during upload process', error);
 		}
 		progress = 0; //reset progress
-	};
-
-	const handleTextChange = (text: string) => {
-		inputText = text;
 	};
 
 	const triggerModal = () => {
@@ -251,7 +250,7 @@
 	<div class="ripple" style="top: -60rem; left: -60rem;"></div>
 
 	{#if state === ''}
-		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
+		<FileUpload {handleFileInput} bind:inputText bind:country />
 		{#if file}
 			<div
 				class="flex mx-auto w-5/6 md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"

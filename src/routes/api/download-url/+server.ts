@@ -18,6 +18,7 @@ interface RequestFileProp {
 	filename: string;
 	expiresIn: number;
 	inputText: string;
+	country: string;
 }
 
 interface IResponse {
@@ -31,7 +32,7 @@ export const POST: RequestHandler = async (event) => {
 	}
 	const { request, locals } = event;
 
-	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
+	const { expiresIn, filename, inputText, country } = (await request.json()) as RequestFileProp;
 
 	const userEmail = locals.user ? locals.user.email : 'guestuser@gmail.com';
 	const username = !locals.user ? 'guest-user' : locals.user.email.split('@')[0];
@@ -74,7 +75,7 @@ export const POST: RequestHandler = async (event) => {
 				body: JSON.stringify({
 					additional_text: inputText,
 					pdf_file_location: `s3://${BUCKET}/${username}/${filename}`,
-					country: 'USA'
+					country
 				}),
 				headers: {
 					'Content-Type': 'application/json'
