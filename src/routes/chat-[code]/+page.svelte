@@ -5,7 +5,7 @@
 	import ChatMessage from '$lib/components/Chatbot/ChatMessage.svelte';
 	import Sidebar from '$lib/components/Chatbot/Sidebar.svelte';
 	import PrivacyPolicyModal from '$lib/components/LayoutComponents/PrivacyPolicyModal.svelte';
-	import type { TConversation, TMessage } from '$lib/constants.js';
+	import { TIMEZONES, type TConversation, type TMessage } from '$lib/constants.js';
 	import { getStoreContext, storeContext } from '$lib/stores/generalStore.js';
 	import { Cookie } from '$lib/utils/exportCookie.js';
 	import { generateIdFromEntropySize } from 'lucia';
@@ -32,7 +32,7 @@
 			const sessionId = generateIdFromEntropySize(16);
 			sessionStorage.setItem('session_id', sessionId);
 		}
-		console.log('consent', $user);
+		// console.log('consent', $user);
 	});
 
 	$: conversationId =
@@ -43,10 +43,12 @@
 	$: messageStore.set(data?.messages || []);
 	$: conversationStore.set(data?.conversations || []);
 
-	let loading = '';
+	let loading: 'fetching' | 'streaming' | '' = '';
 	let userInput = '';
 	let error = false;
 	let reader: ReadableStreamDefaultReader<Uint8Array>;
+	let country = TIMEZONES[Intl.DateTimeFormat().resolvedOptions().timeZone.toString()] || 'USA';
+	// $: console.log('country', country);
 
 	function stopStream() {
 		if (reader) {
@@ -58,7 +60,7 @@
 
 	async function startStream() {
 		try {
-			loading = 'streaming';
+			loading = 'fetching';
 			error = false;
 			// console.log('userInput', userInput);
 
@@ -80,7 +82,7 @@
 			const response = await fetch('api/message', {
 				method: 'POST',
 				signal: controller.signal,
-				body: JSON.stringify({ ...message, sessionId }),
+				body: JSON.stringify({ ...message, sessionId, country }),
 				headers: {
 					'Content-Type': 'application/json'
 				}
@@ -103,6 +105,7 @@
 				timestamp: Date.now()
 			};
 
+			loading = 'streaming';
 			while (true) {
 				const { done, value } = await reader.read();
 				if (done) break;
@@ -124,8 +127,8 @@
 				});
 			}
 			try {
-				const res = await saveToDb(systemMessage);
-				console.log('res from db', res);
+				await saveToDb(systemMessage);
+				// console.log('res from db', res);
 			} catch (error) {
 				console.log('error', error);
 			}
@@ -138,14 +141,14 @@
 		}
 	}
 	async function saveToDb(message: any) {
-		const response = await fetch('api/message', {
+		await fetch('api/message', {
 			method: 'PUT',
 			body: JSON.stringify({ ...message }),
 			headers: {
 				'Content-Type': 'application/json'
 			}
 		});
-		return response.json();
+		// return response.json();
 	}
 	function cleanChat() {
 		error = false;
@@ -155,10 +158,10 @@
 </script>
 
 <div class="flex flex-1">
-	<Sidebar {cleanChat} />
+	<Sidebar {cleanChat} bind:country />
 	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
 	<div class="flex-1 mt-auto">
-		<ChatMessage {error} />
+		<ChatMessage {error} {loading} />
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput />
 	</div>
 	<PrivacyPolicyModal />

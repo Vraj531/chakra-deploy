@@ -1,14 +1,14 @@
 <script lang="ts">
 	export let startStream: () => void;
-	export let loading: string;
+	export let loading: 'fetching' | 'streaming' | '';
 	export let stopStream: () => void;
 	export let userInput: string;
 
-	let minRows = 1;
-	let maxRows = 20;
+	// let minRows = 1;
+	// let maxRows = 20;
 
-	$: minHeight = `${1 + minRows * 1.2}em`;
-	$: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
+	// $: minHeight = `${1 + minRows * 1.2}em`;
+	// $: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
 </script>
 
 <div class="mt-auto">
@@ -23,7 +23,7 @@
 				id="message-box"
 				class="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-white"
 				placeholder="Message Chakra AI"
-				required={loading !== 'streaming'}
+				required={loading !== 'streaming' && loading !== 'fetching'}
 				autocomplete="off"
 				bind:value={userInput}
 				on:keydown={(e) => {
@@ -33,7 +33,7 @@
 					}
 				}}
 			/>
-			{#if loading === 'streaming'}
+			{#if loading === 'fetching' || loading === 'streaming'}
 				<button
 					on:click={stopStream}
 					class="rounded-lg absolute end-2.5 bottom-2.5 btn btn-sm btn-circle btn-primary"

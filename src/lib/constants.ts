@@ -16,3 +16,13 @@ export type TConversation = {
 // VARIABLES
 // export const BUCKET = 'nikhil-pipeline-storage';
 export const BUCKET = 'career-chakra-resumes';
+
+export const TIMEZONES: { [key: string]: string } = {
+	'America/New_York': 'USA',
+	'America/Chicago': 'USA',
+	'America/Los_Angeles': 'USA',
+	'America/Toronto': 'Canada',
+	'America/Vancouver': 'Canada',
+	'Asia/Calcutta': 'India'
+	// Add more mappings as needed
+};

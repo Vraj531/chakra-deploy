@@ -7,6 +7,7 @@
 
 	// export let messages: TMessage[] = [];
 	export let error: boolean;
+	export let loading: 'fetching' | 'streaming' | '';
 
 	type TMessages = {
 		id: string;
@@ -35,7 +36,7 @@
 	$: $messageStore, scrollToBottom();
 </script>
 
-<div class="h-[78dvh] overflow-y-auto scroll-smooth" bind:this={chatContainer}>
+<div class="h-[78dvh] overflow-y-auto scroll-smooth flex relative" bind:this={chatContainer}>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
 	<div class="prose w-full md:mx-auto md:max-w-screen-lg h-full relative">
 		<p class="sticky top-0 bg-neutral-50 w-full h-[5%]">
@@ -55,13 +56,17 @@
 		<!-- {#if $messageStore.length > 0} -->
 
 		<!-- {/if} -->
-		{#each $messageStore as messageStream}
+		{#each $messageStore as messageStream, i}
 			{#if messageStream?.content.length > 0}
 				{#if messageStream.system}
 					<div class="flex">
 						<img src="/logo.svg" class="w-14 h-14 my-0 mr-2" alt="logo" />
 						<div>
 							<SvelteMarkdown source={messageStream.content} renderers={{ link: LinkComponent }} />
+
+							{#if loading === 'streaming' && i === $messageStore.length - 1}
+								<p class="animate-pulse">█</p>
+							{/if}
 						</div>
 					</div>
 				{:else}
@@ -73,13 +78,16 @@
 				{/if}
 			{/if}
 		{/each}
+		{#if loading === 'fetching'}
+			<img src="/streaming.gif" alt="fetching text" class="w-16 ml-8 mt-0" />
+		{/if}
 		{#if error}
 			<div class="text-right flex w-full justify-start">
 				<p class="py-2 my-1 px-4 rounded-md bg-red-200">Error - please try again later</p>
 			</div>
 		{/if}
 		{#if $messageStore.length > 0}
-			<div class="h-[80px]"></div>
+			<div class="h-[90px]"></div>
 		{/if}
 	</div>
 </div>

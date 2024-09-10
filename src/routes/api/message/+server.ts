@@ -12,6 +12,7 @@ type TRequestMessage = {
 	system: boolean;
 	timestamp: number;
 	sessionId: string;
+	country: string;
 };
 
 const url = 'https://xt6fltahz45x26gud6h43rygw40boigx.lambda-url.us-east-2.on.aws/chat_stream';
@@ -20,7 +21,8 @@ const url = 'https://xt6fltahz45x26gud6h43rygw40boigx.lambda-url.us-east-2.on.aw
 export const POST: RequestHandler = async ({ locals, request }) => {
 	const body = await request.json();
 	// console.log('body', body);
-	const { conversationId, content, system, timestamp, id, sessionId } = body as TRequestMessage;
+	const { conversationId, content, system, timestamp, id, sessionId, country } =
+		body as TRequestMessage;
 	try {
 		if (locals.user) {
 			addMessage({ id, conversationId, content, userId: locals.user.id, system, timestamp });
@@ -37,7 +39,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 		},
 		signal,
 		body: JSON.stringify({
-			country: 'USA',
+			country: country,
 			user_id: !locals?.user?.id
 				? `${sessionId}-${conversationId}`
 				: `${locals.user.id}-${conversationId}`,
