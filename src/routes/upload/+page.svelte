@@ -14,7 +14,7 @@
 	import { onMount } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
 	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
-	import type { uploadPageState } from '$lib/constants';
+	import { TIMEZONES, type uploadPageState } from '$lib/constants';
 	import { count } from 'drizzle-orm';
 
 	export let data: PageData;
@@ -36,7 +36,7 @@
 	let progress = 0;
 	let state: uploadPageState = '';
 	let inputText = '';
-	let country = 'USA';
+	let country = TIMEZONES[Intl.DateTimeFormat().resolvedOptions().timeZone.toString()] || 'USA';
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
