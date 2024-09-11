@@ -11,7 +11,7 @@
 	// $: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
 </script>
 
-<div class="mt-auto">
+<div class="mt-auto pb-4">
 	<form class="max-w-screen-md mx-auto" on:submit|preventDefault={startStream}>
 		<label
 			for="default-search"
@@ -64,7 +64,7 @@
 		</div>
 	</form>
 
-	<p class="text-xs text-center pb-2">
+	<p class="text-xs text-center pt-2">
 		This chatbot is still in its testing phase, so it can make errors. <a
 			href="mailto:help@careerchakra.com">Email</a
 		> us for feedback

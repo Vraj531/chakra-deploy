@@ -4,10 +4,12 @@
 	import SvelteMarkdown from 'svelte-markdown';
 	import { onMount } from 'svelte';
 	import { getStoreContext } from '$lib/stores/generalStore';
+	import TextComponent from '$lib/components/Chatbot/TextComponent.svelte';
 
 	// export let messages: TMessage[] = [];
 	export let error: boolean;
 	export let loading: 'fetching' | 'streaming' | '';
+	export let sendPredefinedMessage: (message: string) => void;
 
 	type TMessages = {
 		id: string;
@@ -36,20 +38,37 @@
 	$: $messageStore, scrollToBottom();
 </script>
 
-<div class="h-[78dvh] overflow-y-auto scroll-smooth flex relative" bind:this={chatContainer}>
+<div class="h-[75dvh] overflow-y-auto scroll-smooth flex relative" bind:this={chatContainer}>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
 	<div class="prose w-full md:mx-auto md:max-w-screen-lg h-full relative">
 		<p class="sticky top-0 bg-neutral-50 w-full h-[5%]">
 			For personalized job recommendations, <a href="/upload"> click here </a>
 		</p>
 		{#if $messageStore.length === 0}
-			<div class="h-[95%] flex flex-col">
-				<!-- <p class="">For personalized job recommendations, click here</p> -->
+			<div class="h-[90%] flex flex-col">
 				<img src="/logo.svg" class="w-40 mx-auto mt-auto" alt="logo" />
 
 				<div class="mt-auto">
 					<p class="text-center text-lg">Welcome to Chakra AI</p>
 					<p class="text-center text-sm">Ask me anything about jobs</p>
+				</div>
+				<div class="grid grid-cols md:block mx-auto p-4">
+					<button
+						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						on:click={() => sendPredefinedMessage('List out a few jobs for a engineer')}
+						><div class="flex flex-col overflow-hidden">
+							<div class="truncate font-semibold">List out a few jobs</div>
+							<div class="truncate font-normal opacity-50">for a engineer</div>
+						</div></button
+					>
+					<button
+						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						on:click={() => sendPredefinedMessage('List out a few jobs around LA')}
+						><div class="flex flex-col overflow-hidden">
+							<div class="truncate font-semibold">Give me few job links</div>
+							<div class="truncate font-normal opacity-50">around LA</div>
+						</div></button
+					>
 				</div>
 			</div>
 		{/if}
@@ -61,13 +80,16 @@
 				{#if messageStream.system}
 					<div class="flex">
 						<img src="/logo.svg" class="w-14 h-14 my-0 mr-2" alt="logo" />
-						<div>
-							<SvelteMarkdown source={messageStream.content} renderers={{ link: LinkComponent }} />
+						<span>
+							<SvelteMarkdown
+								source={`${messageStream.content}${loading === 'streaming' && i === $messageStore.length - 1 ? '▍' : ''}`}
+								renderers={{ link: LinkComponent }}
+							/>
 
-							{#if loading === 'streaming' && i === $messageStore.length - 1}
-								<p class="animate-pulse">█</p>
-							{/if}
-						</div>
+							<!-- {#if loading === 'streaming' && i === $messageStore.length - 1}
+								<p class="animate-pulse">█ ▍ </p>
+							{/if} -->
+						</span>
 					</div>
 				{:else}
 					<div class="text-right flex w-full justify-end">

@@ -58,7 +58,7 @@
 		}
 	}
 
-	async function startStream() {
+	async function startStream(userMessage = userInput) {
 		try {
 			loading = 'fetching';
 			error = false;
@@ -69,7 +69,7 @@
 			const message = {
 				conversationId,
 				id,
-				content: userInput,
+				content: userMessage,
 				system: false,
 				timestamp: Date.now()
 			};
@@ -161,7 +161,7 @@
 	<Sidebar {cleanChat} bind:country />
 	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
 	<div class="flex-1 mt-auto">
-		<ChatMessage {error} {loading} />
+		<ChatMessage {error} {loading} sendPredefinedMessage={startStream} />
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput />
 	</div>
 	<PrivacyPolicyModal />
