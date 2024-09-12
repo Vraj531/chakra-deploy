@@ -4,7 +4,6 @@
 	import SvelteMarkdown from 'svelte-markdown';
 	import { onMount } from 'svelte';
 	import { getStoreContext } from '$lib/stores/generalStore';
-	import TextComponent from '$lib/components/Chatbot/TextComponent.svelte';
 
 	// export let messages: TMessage[] = [];
 	export let error: boolean;
@@ -38,12 +37,12 @@
 	$: $messageStore, scrollToBottom();
 </script>
 
-<div class="h-[75dvh] overflow-y-auto scroll-smooth flex relative" bind:this={chatContainer}>
+<div class="h-[70dvh] overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
-	<div class="prose w-full md:mx-auto md:max-w-screen-lg h-full relative">
-		<p class="sticky top-0 bg-neutral-50 w-full h-[5%]">
-			For personalized job recommendations, <a href="/upload"> click here </a>
-		</p>
+	<!-- <p class="sticky top-0 bg-neutral-50 w-full p-2 z-10 md:max-w-screen-lg mx-auto rounded-md">
+		For personalized job recommendations, <a href="/upload" class="link"> click here </a>
+	</p> -->
+	<div class="prose w-full md:mx-auto md:max-w-screen-lg relative">
 		{#if $messageStore.length === 0}
 			<div class="h-[90%] flex flex-col">
 				<img src="/logo.svg" class="w-40 mx-auto mt-auto" alt="logo" />
@@ -78,9 +77,9 @@
 		{#each $messageStore as messageStream, i}
 			{#if messageStream?.content.length > 0}
 				{#if messageStream.system}
-					<div class="flex">
-						<img src="/logo.svg" class="w-14 h-14 my-0 mr-2" alt="logo" />
-						<span>
+					<div class="flex px-4">
+						<img src="/logo.svg" class="w-14 h-14 my-0 mr-2 md:block hidden" alt="logo" />
+						<span class="md:max-w-full max-w-xs">
 							<SvelteMarkdown
 								source={`${messageStream.content}${loading === 'streaming' && i === $messageStore.length - 1 ? '▍' : ''}`}
 								renderers={{ link: LinkComponent }}

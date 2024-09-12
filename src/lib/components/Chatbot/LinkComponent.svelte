@@ -2,4 +2,4 @@
 	export let href = '';
 </script>
 
-<a {href} target="_blank">{href}</a>
+<a {href} target="_blank" class="line-clamp-1">{href}</a>

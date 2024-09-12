@@ -33,7 +33,7 @@
 ></button>
 
 <div class="">
-	<button class="absolute btn btn-primary btn-sm left-4 md:hidden z-10 top-36" on:click={openChat}>
+	<button class="absolute btn btn-primary btn-sm left-4 md:hidden z-10 top-30" on:click={openChat}>
 		<svg
 			width="16px"
 			height="16px"
