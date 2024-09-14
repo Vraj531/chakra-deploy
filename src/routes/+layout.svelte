@@ -18,7 +18,7 @@
 	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
 
 	export let data: LayoutData;
-
+	console.log('data', data);
 	$: query = $page.url.searchParams;
 
 	const duration = 300;
