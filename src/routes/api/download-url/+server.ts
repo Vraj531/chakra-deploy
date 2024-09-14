@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, LAMBDA_URL, SECRET_KEY } from '$env/static/private';
-import { addGuestResume, addResume, updateDailyUploadCount } from '$lib/server/drizzle/dbModel';
+import { addResume, updateDailyUploadCount } from '$lib/server/drizzle/dbModel';
 import { downloadLimiter } from '$lib/server/rateLimiter';
 import { BUCKET } from '$lib/constants';
 
@@ -54,7 +54,7 @@ export const POST: RequestHandler = async (event) => {
 			// 	email: userEmail
 			// });
 			if (!locals.user) {
-				await addGuestResume({ filename: `${username}/${filename}`, pdfUrl: downloadUrl });
+				// await addGuestResume({ filename: `${username}/${filename}`, pdfUrl: downloadUrl });
 				// if(!res)
 			} else {
 				const userid = locals.user.id;
