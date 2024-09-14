@@ -25,6 +25,7 @@ try {
 
 	db = drizzle(turso);
 } catch (error) {
+	db = 'big error in db';
 	console.error('Failed to initialize the database:', error);
 }
 
