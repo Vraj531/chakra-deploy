@@ -12,6 +12,22 @@ const turso = createClient({
 	// url: 'http://127.0.0.1:8080'
 });
 
-export const db = drizzle(turso);
+let db;
+
+try {
+	if (typeof drizzle !== 'function') {
+		throw new Error('drizzle is not a function');
+	}
+
+	if (!turso) {
+		throw new Error('turso is not defined');
+	}
+
+	db = drizzle(turso);
+} catch (error) {
+	console.error('Failed to initialize the database:', error);
+}
+
+export { db };
 
 export const adapter = new DrizzleSQLiteAdapter(db, sessionTable, userTable);
