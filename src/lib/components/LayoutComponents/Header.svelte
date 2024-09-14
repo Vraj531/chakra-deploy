@@ -149,7 +149,7 @@
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul
 						tabindex="0"
-						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+						class="dropdown-content z-20 menu p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li><a href="/upload">Upload Resume</a></li>
 						<li><a href="/bookmarked-jobs?page=1">Bookmarked Jobs</a></li>

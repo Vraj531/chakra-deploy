@@ -16,6 +16,7 @@
 	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
 	import { storeContext } from '$lib/stores/generalStore';
 	import type { User } from 'lucia';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
 	export let data: LayoutData;
 
@@ -51,9 +52,9 @@
 	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
 	{/if} -->
 
-	<!-- <script
+	<script
 		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
-	></script> -->
+	></script>
 	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
 	<!-- {#if !dev} -->
 	<!-- <base href="https://www.careerchakra.com/" /> -->
