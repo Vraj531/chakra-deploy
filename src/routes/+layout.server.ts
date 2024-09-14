@@ -1,3 +1,4 @@
+import { TURSO_DB, TURSO_TOKEN } from '$env/static/private';
 import { db } from '$lib/server/drizzle/turso-db';
 import { userResumeTable } from '$lib/server/drizzle/turso-schema';
 import type { LayoutServerLoad } from './$types';
@@ -12,6 +13,7 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 		};
 	} catch (error) {
 		return {
+			url: { TURSO_DB, TURSO_TOKEN },
 			user: locals.user,
 			pathname: url.pathname,
 			error: JSON.stringify(error)
