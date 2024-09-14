@@ -15,7 +15,7 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 			user: locals.user,
 			pathname: url.pathname,
 			error: JSON.stringify(error),
-			db
+			db: JSON.stringify(db)
 		};
 	}
 };
