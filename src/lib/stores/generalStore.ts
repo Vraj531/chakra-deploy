@@ -1,14 +1,12 @@
 import { writable, type Writable } from 'svelte/store';
 import { setContext, getContext, hasContext } from 'svelte';
-import type { TConversation, TMessage } from '$lib/constants';
+import type { storeKeys, TConversation, TMessage } from '$lib/constants';
 
 type StoreContext<T> = {
 	subscribe: Writable<T>['subscribe'];
 	set: (value: T) => void;
 	update: (updater: (value: T) => T) => void;
 };
-
-type storeKeys = 'conversations' | 'messages' | 'user';
 
 export function storeContext<T>(key: storeKeys, initialValue: T): StoreContext<T> {
 	if (hasContext(key)) return getContext(key);

@@ -1,6 +1,8 @@
 import { error } from '@sveltejs/kit';
 import type { RequestHandler } from './$types';
 import { addMessage } from '$lib/server/drizzle/dbChatModel';
+import { CHAT_LAMBDA_URL } from '$env/static/private';
+import { messageLimiter } from '$lib/server/rateLimiter';
 
 //TODO : need to put a limit for not logged in users!
 
@@ -15,10 +17,14 @@ type TRequestMessage = {
 	country: string;
 };
 
-const url = 'https://xt6fltahz45x26gud6h43rygw40boigx.lambda-url.us-east-2.on.aws/chat_stream';
+const url = CHAT_LAMBDA_URL;
 // const url = 'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream';
 
-export const POST: RequestHandler = async ({ locals, request }) => {
+export const POST: RequestHandler = async (event) => {
+	const { locals, request } = event;
+	if (!locals.user && (await messageLimiter.isLimited(event))) {
+		return error(401, { message: 'capped' });
+	}
 	const body = await request.json();
 	// console.log('body', body);
 	const { conversationId, content, system, timestamp, id, sessionId, country } =
@@ -32,6 +38,7 @@ export const POST: RequestHandler = async ({ locals, request }) => {
 	}
 	const signal = request.signal;
 	if (!content) error(400, { message: 'Bad request' });
+	console.log('starting stream from backend');
 	const res = await fetch(url, {
 		method: 'POST',
 		headers: {

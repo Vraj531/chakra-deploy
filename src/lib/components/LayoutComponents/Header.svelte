@@ -57,7 +57,7 @@
 		<!-- Logo -->
 		<a
 			href="/"
-			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center ml-10 md:ml-0"
+			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center ml-1 md:ml-0"
 		>
 			<img src="/logo.svg" class="h-20 w-20" alt="logo" />
 			<span class=" text-lg hidden lg:inline-block">Career Chakra</span>

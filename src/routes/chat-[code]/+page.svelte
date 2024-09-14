@@ -158,11 +158,11 @@
 </script>
 
 <div class="flex flex-1">
-	<Sidebar {cleanChat} bind:country />
+	<Sidebar {cleanChat} />
 	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
 	<div class="flex-1 mt-auto">
 		<ChatMessage {error} {loading} sendPredefinedMessage={startStream} />
-		<ChatInput {startStream} {loading} {stopStream} bind:userInput />
+		<ChatInput {startStream} {loading} {stopStream} bind:userInput bind:country />
 	</div>
 	<PrivacyPolicyModal />
 </div>

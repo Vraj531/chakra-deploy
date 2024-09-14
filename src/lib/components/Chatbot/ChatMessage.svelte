@@ -21,6 +21,7 @@
 	const messageStore = getStoreContext<TMessages>('messages');
 
 	let chatContainer: HTMLDivElement;
+	let showBanner = true;
 
 	// Function to scroll to the bottom of the chat container
 	function scrollToBottom() {
@@ -39,9 +40,23 @@
 
 <div class="h-[70dvh] overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
-	<!-- <p class="sticky top-0 bg-neutral-50 w-full p-2 z-10 md:max-w-screen-lg mx-auto rounded-md">
-		For personalized job recommendations, <a href="/upload" class="link"> click here </a>
-	</p> -->
+	{#if showBanner}
+		<div
+			class="sticky md:top-0 top-8 md:text-base text-sm bg-neutral-100 md:w-full mx-2 p-2 z-10 md:max-w-screen-lg md:mx-auto rounded-md flex"
+		>
+			<p class="">
+				For personalized job recommendations from a resume, <a href="/upload" class="link">
+					click here
+				</a>
+			</p>
+			<button
+				class="btn btn-circle btn-xs ml-auto"
+				on:click={() => {
+					showBanner = false;
+				}}>X</button
+			>
+		</div>
+	{/if}
 	<div class="prose w-full md:mx-auto md:max-w-screen-lg relative">
 		{#if $messageStore.length === 0}
 			<div class="h-[90%] flex flex-col">
@@ -51,9 +66,9 @@
 					<p class="text-center text-lg">Welcome to Chakra AI</p>
 					<p class="text-center text-sm">Ask me anything about jobs</p>
 				</div>
-				<div class="grid grid-cols md:block mx-auto p-4">
+				<div class="flex p-2 gap-6 mx-auto md:w-3/4">
 					<button
-						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
 						on:click={() => sendPredefinedMessage('List out a few jobs for a engineer')}
 						><div class="flex flex-col overflow-hidden">
 							<div class="truncate font-semibold">List out a few jobs</div>
@@ -61,7 +76,7 @@
 						</div></button
 					>
 					<button
-						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
 						on:click={() => sendPredefinedMessage('List out a few jobs around LA')}
 						><div class="flex flex-col overflow-hidden">
 							<div class="truncate font-semibold">Give me few job links</div>
@@ -103,12 +118,14 @@
 			<img src="/streaming.gif" alt="fetching text" class="w-16 ml-8 mt-0" />
 		{/if}
 		{#if error}
-			<div class="text-right flex w-full justify-start">
-				<p class="py-2 my-1 px-4 rounded-md bg-red-200">Error - please try again later</p>
+			<div class="text-right flex w-full justify-start px-2">
+				<p class="py-2 my-1 rounded-md bg-red-200 px-2">
+					Error - please try again later or try logging in
+				</p>
 			</div>
 		{/if}
 		{#if $messageStore.length > 0}
-			<div class="h-[90px]"></div>
+			<div class="h-[50px]"></div>
 		{/if}
 	</div>
 </div>

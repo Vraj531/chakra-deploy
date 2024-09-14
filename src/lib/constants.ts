@@ -1,5 +1,7 @@
 // TYPES AND INTERFACES
 export type uploadPageState = '' | 'uploading' | 'analysing' | 'success' | 'error' | 'capped';
+export type storeKeys = 'conversations' | 'messages' | 'user' | 'viewport';
+
 export type TMessage = {
 	id: string;
 	timestamp: number | null;

@@ -1,24 +1,84 @@
 <script lang="ts">
+	import { onMount } from 'svelte';
+	import { fly } from 'svelte/transition';
+
 	export let startStream: () => void;
 	export let loading: 'fetching' | 'streaming' | '';
 	export let stopStream: () => void;
 	export let userInput: string;
+	export let country: string;
 
-	// let minRows = 1;
-	// let maxRows = 20;
+	const MOBILE_BREAKPOINT = 768; // Adjust this value as needed
+	let mobileView = '';
+	let focus = false;
+	$: hidefield = mobileView === 'mobile';
 
-	// $: minHeight = `${1 + minRows * 1.2}em`;
-	// $: maxHeight = maxRows ? `${1 + maxRows * 1.2}em` : `auto`;
+	// $: console.log('log', mobileView, focus, hidefield);
+
+	function checkViewport() {
+		if (window.innerWidth < MOBILE_BREAKPOINT) {
+			mobileView = 'mobile';
+		} else {
+			mobileView = 'desktop';
+		}
+	}
+
+	onMount(() => {
+		checkViewport();
+		window.addEventListener('resize', checkViewport);
+		return () => window.removeEventListener('resize', checkViewport);
+	});
 </script>
 
 <div class="mt-auto pb-4">
-	<form class="max-w-screen-md mx-auto" on:submit|preventDefault={startStream}>
+	<form
+		class="max-w-screen-md md:mx-auto flex md:w-full mx-2 gap-2 items-center"
+		on:submit|preventDefault={startStream}
+	>
+		{#if mobileView === 'mobile'}
+			{#if hidefield}
+				<button class="btn btn-circle btn-sm" on:click={() => (hidefield = !hidefield)}>+</button>
+			{:else if !hidefield}
+				<label class="form-control" transition:fly>
+					<select
+						class="select select-bordered pt-1"
+						value={country}
+						on:change={(e) => (country = e.currentTarget.value)}
+					>
+						<option value="USA">USA</option>
+						<option value="Canada">Canada</option>
+						<option value="India">India</option>
+					</select>
+				</label>
+			{/if}
+		{/if}
+		{#if mobileView === 'desktop'}
+			<label class="form-control" transition:fly>
+				<select
+					class="select select-bordered pt-1"
+					value={country}
+					on:change={(e) => (country = e.currentTarget.value)}
+				>
+					<option value="USA">USA</option>
+					<option value="Canada">Canada</option>
+					<option value="India">India</option>
+				</select>
+			</label>
+		{/if}
 		<label
 			for="default-search"
 			class="mb-2 text-sm font-medium text-gray-900 sr-only dark:text-white">Search</label
 		>
-		<div class="relative">
+		<div class="relative w-full">
 			<input
+				on:focus={() => {
+					focus = !focus;
+					hidefield = true;
+				}}
+				on:blur={() => {
+					focus = !focus;
+					// if (hidefield) hidefield = false;
+				}}
 				type="text"
 				id="message-box"
 				class="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-white"
@@ -66,7 +126,8 @@
 
 	<p class="text-xs text-center pt-2">
 		This chatbot is still in its testing phase, so it can make errors. <a
-			href="mailto:help@careerchakra.com">Email</a
+			href="mailto:help@careerchakra.com"
+			class="link">Email</a
 		> us for feedback
 	</p>
 </div>

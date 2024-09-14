@@ -11,3 +11,8 @@ export const downloadLimiter = new RateLimiter({
 	IP: dev ? [1, '15s'] : [5, '15m'], // IP address limiter
 	IPUA: dev ? [1, '15s'] : [5, '15m'] // IP + User Agent limiter
 });
+
+export const messageLimiter = new RateLimiter({
+	IP: dev ? [5, 'm'] : [10, '12h'],
+	IPUA: dev ? [1, '15s'] : [10, '12h']
+});

@@ -7,7 +7,6 @@
 
 	// export let conversations: TConversations;
 	export let cleanChat: () => void;
-	export let country: string;
 
 	const user = getStoreContext('user');
 
@@ -57,17 +56,7 @@
 			<ul class=" flex flex-col overflow-y-auto p-4">
 				<button class="py-2 px-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
 				<ConversationList />
-				<label class="form-control max-w-xs sticky bottom-0 pr-4">
-					<select
-						class="select select-bordered"
-						value={country}
-						on:change={(e) => (country = e.currentTarget.value)}
-					>
-						<option value="USA">USA</option>
-						<option value="Canada">Canada</option>
-						<option value="India">India</option>
-					</select>
-				</label>
+
 				{#if !$user}
 					<p class="px-2">Please log in to save conversations!</p>
 				{/if}
@@ -82,17 +71,7 @@
 			<div class="overflow-y-auto px-2">
 				<ConversationList />
 			</div>
-			<label class="form-control max-w-xs sticky bottom-0 p-2">
-				<select
-					class="select select-bordered"
-					value={country}
-					on:change={(e) => (country = e.currentTarget.value)}
-				>
-					<option value="USA">USA</option>
-					<option value="Canada">Canada</option>
-					<option value="India">India</option>
-				</select>
-			</label>
+
 			{#if !$user}
 				<p class="px-2">Please log in to save conversations!</p>
 			{/if}

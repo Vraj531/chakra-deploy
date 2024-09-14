@@ -12,7 +12,6 @@
 	import { onMount } from 'svelte';
 	import AuthModal from '$lib/components/AuthComponents/AuthModal.svelte';
 	import WebviewModal from '$lib/components/LayoutComponents/WebviewModal.svelte';
-	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import Header from '$lib/components/LayoutComponents/Header.svelte';
 	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
 	import { storeContext } from '$lib/stores/generalStore';
@@ -20,7 +19,7 @@
 
 	export let data: LayoutData;
 
-	const user = storeContext<User | null>('user', data.user);
+	storeContext<User | null>('user', data.user);
 
 	$: query = $page.url.searchParams;
 
@@ -47,12 +46,6 @@
 </script>
 
 <svelte:head>
-	<script
-		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
-		async
-		defer
-	></script>
-
 	<!-- this is for tick based recaptcha -->
 	<!-- {#if !dev}
 	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
