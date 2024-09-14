@@ -17,7 +17,7 @@ export const handleError: HandleServerError = async ({ error, event }) => {
 	event.locals.errorId = errorId;
 
 	return {
-		message: 'An unexpected error occurred.',
+		message: JSON.stringify(error),
 		errorId
 	};
 };
