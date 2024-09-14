@@ -8,13 +8,13 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 		return {
 			user: locals.user,
 			pathname: url.pathname,
-			res
+			...res
 		};
 	} catch (error) {
 		return {
 			user: locals.user,
 			pathname: url.pathname,
-			error
+			error: JSON.stringify(error)
 		};
 	}
 };
