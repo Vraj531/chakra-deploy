@@ -14,12 +14,11 @@ export const load: LayoutServerLoad = async ({ locals, url }) => {
 			// res1
 		};
 	} catch (error) {
-		const res1 = await turso.execute('SELECT * FROM resumes LIMIT 1');
 		return {
 			user: locals.user,
 			pathname: url.pathname,
 			error: JSON.stringify(error),
-			db: JSON.stringify(res1)
+			db: JSON.stringify(db)
 		};
 	}
 };
