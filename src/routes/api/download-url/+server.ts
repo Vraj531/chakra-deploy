@@ -82,7 +82,11 @@ export const POST: RequestHandler = async (event) => {
 					'Content-Type': 'application/json'
 				}
 			});
-			await updateDailyUploadCount();
+			try {
+				await updateDailyUploadCount();
+			} catch (error) {
+				console.log('error in libsql', error);
+			}
 			// console.log('response', await res.json());
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {

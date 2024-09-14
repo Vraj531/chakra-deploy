@@ -77,11 +77,13 @@ export async function GET(event: RequestEvent): Promise<Response> {
 		if (e instanceof OAuth2RequestError) {
 			// invalid code
 			return new Response(null, {
-				status: 400
+				status: 400,
+				statusText: e.message
 			});
 		}
 		return new Response(null, {
-			status: 500
+			status: 500,
+			statusText: 'Unknown Error'
 		});
 	}
 }

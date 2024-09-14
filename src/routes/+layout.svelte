@@ -19,6 +19,7 @@
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
 	export let data: LayoutData;
+	console.log('layout data', data);
 
 	const user = data?.user
 		? storeContext<User | null>('user', data?.user)

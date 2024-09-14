@@ -11,7 +11,7 @@ import {
 	userToBookmarkJobs
 } from '$lib/server/drizzle/turso-schema';
 import { hash } from '@node-rs/argon2';
-import { and, count, desc, eq } from 'drizzle-orm';
+import { and, count, desc, eq, sql } from 'drizzle-orm';
 import { generateIdFromEntropySize } from 'lucia';
 
 interface IAddToken {
@@ -290,13 +290,14 @@ export const addInterestedJob = async (userId: string, jobId: string) => {
 };
 
 export const updateDailyUploadCount = async () => {
-	// const today = new Date().toISOString().split('T')[0];
-	// 	await db.run(sql`
-	//     INSERT INTO daily_resume_uploads (date, count)
-	//     VALUES (${today}, 1)
-	//     ON CONFLICT(date)
-	//     DO UPDATE SET count = count + 1
-	//   `);
+	const today = new Date().toISOString().split('T')[0];
+
+	await db.run(sql`
+    INSERT INTO daily_resume_uploads (date, count)
+    VALUES (${today}, 1)
+    ON CONFLICT(date)
+    DO UPDATE SET count = count + 1
+  `);
 };
 
 export const verifyUser = async (userId: string, token: string) => {
