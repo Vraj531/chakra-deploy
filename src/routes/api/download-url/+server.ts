@@ -93,8 +93,8 @@ export const POST: RequestHandler = async (event) => {
 				// console.log('body', body.length);
 				return json(body);
 			} else return json({ error: 'error reading pdf' });
-		} catch (error) {
-			return json(error);
+		} catch (err) {
+			error(500, { message: JSON.stringify(err) });
 		}
 	}
 	error(500, { message: 'web service error' });
