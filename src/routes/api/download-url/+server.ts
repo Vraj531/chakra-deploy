@@ -56,6 +56,7 @@ export const POST: RequestHandler = async (event) => {
 			if (!locals.user) {
 				// await addGuestResume({ filename: `${username}/${filename}`, pdfUrl: downloadUrl });
 				// if(!res)
+				console.log('guest user');
 			} else {
 				const userid = locals.user.id;
 				const res = await addResume({
