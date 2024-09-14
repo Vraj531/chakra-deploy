@@ -15,7 +15,6 @@
 	import { Cookie } from '$lib/utils/exportCookie';
 	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
 	import { TIMEZONES, type uploadPageState } from '$lib/constants';
-	import { count } from 'drizzle-orm';
 
 	export let data: PageData;
 

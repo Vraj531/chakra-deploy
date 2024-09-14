@@ -20,7 +20,9 @@
 
 	export let data: LayoutData;
 
-	storeContext<User | null>('user', data.user);
+	const user = data?.user
+		? storeContext<User | null>('user', data?.user)
+		: storeContext<User | null>('user', null);
 
 	$: query = $page.url.searchParams;
 
