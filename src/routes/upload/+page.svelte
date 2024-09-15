@@ -17,7 +17,6 @@
 	import type { uploadPageState } from '$lib/constants';
 
 	export let data: PageData;
-	console.log('data', data?.testData);
 	setContext('user', data.user || null);
 
 	$: privacyPolicy = Cookie.get('privacy_policy');
@@ -252,7 +251,6 @@
 	<div class="ripple" style="top: -45rem; left: -45rem;"></div>
 	<div class="ripple" style="top: -60rem; left: -60rem;"></div>
 
-	<p>{data?.testData?.id}</p>
 	{#if state === ''}
 		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
 		{#if file}
