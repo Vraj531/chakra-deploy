@@ -1,14 +1,15 @@
 <script lang="ts">
 	import Cookie from 'js-cookie';
-	import type { PageData } from '../../../routes/$types';
+	import { getStoreContext } from '$lib/stores/generalStore';
 
-	export let data: PageData;
+	// export let data: PageData;
+	const user = getStoreContext('user');
 
 	const handleSubmit = async (e: Event) => {
 		const formData = Object.fromEntries(new FormData(e.target as HTMLFormElement));
-		console.log('dat', data);
+		// console.log('dat', $user);
 		try {
-			if (!data?.user) {
+			if (!$user) {
 				Cookie.set('privacy_policy', 'true');
 				const modal = document.getElementById('privacy-policy-modal') as HTMLDialogElement;
 				modal.close();

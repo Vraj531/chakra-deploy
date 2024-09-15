@@ -65,11 +65,12 @@
 					class="xl:w-1/2 lg:w-1/2 md:w-full px-8 py-6 border-l-2 border-gray-200 border-opacity-60"
 				>
 					<h2 class="text-lg sm:text-xl text-gray-900 font-medium title-font mb-2">
-						Exclusive Focus on USA Jobs
+						Exclusive Focus on USA, Canada and Indian Jobs
 					</h2>
 					<p class="leading-relaxed text-base mb-4">
-						We specialize exclusively in job openings across the United States, ensuring you get
-						access to the most relevant and up-to-date opportunities in your desired location.
+						We specialize exclusively in job openings across the United States, Canada and Indian,
+						ensuring you get access to the most relevant and up-to-date opportunities in your
+						desired location.
 					</p>
 				</div>
 				<div
@@ -135,6 +136,33 @@
 								Discover job opportunities like never before with our AI-powered job search feature.
 								Let advanced algorithms match you with the perfect career.
 							</p>
+							<a
+								href="/chat-new"
+								class="link-hover text-lg text-yellow-500 mt-2 flex gap-2 items-center"
+								>Chakra AI
+
+								<svg
+									fill="currentColor"
+									height="24px"
+									width="24px"
+									version="1.1"
+									id="Layer_1"
+									xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink"
+									viewBox="0 0 330 330"
+									xml:space="preserve"
+									><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+										id="SVGRepo_tracerCarrier"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></g><g id="SVGRepo_iconCarrier">
+										<path
+											id="XMLID_27_"
+											d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255 s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0 c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"
+										></path>
+									</g></svg
+								>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -168,6 +196,33 @@
 								Experience a job search tailored to your unique skills and preferences. Find the
 								perfect job match with our tailor-fit search feature.
 							</p>
+							<a
+								href="/upload"
+								class="link-hover text-lg text-yellow-500 mt-2 flex gap-2 items-center"
+								>Find a Job
+
+								<svg
+									fill="currentColor"
+									height="24px"
+									width="24px"
+									version="1.1"
+									id="Layer_1"
+									xmlns="http://www.w3.org/2000/svg"
+									xmlns:xlink="http://www.w3.org/1999/xlink"
+									viewBox="0 0 330 330"
+									xml:space="preserve"
+									><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g
+										id="SVGRepo_tracerCarrier"
+										stroke-linecap="round"
+										stroke-linejoin="round"
+									></g><g id="SVGRepo_iconCarrier">
+										<path
+											id="XMLID_27_"
+											d="M15,180h263.787l-49.394,49.394c-5.858,5.857-5.858,15.355,0,21.213C232.322,253.535,236.161,255,240,255 s7.678-1.465,10.606-4.394l75-75c5.858-5.857,5.858-15.355,0-21.213l-75-75c-5.857-5.857-15.355-5.857-21.213,0 c-5.858,5.857-5.858,15.355,0,21.213L278.787,150H15c-8.284,0-15,6.716-15,15S6.716,180,15,180z"
+										></path>
+									</g></svg
+								>
+							</a>
 						</div>
 					</div>
 				</div>

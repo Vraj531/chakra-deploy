@@ -11,13 +11,12 @@
 	import { filterObjects } from '$lib/utils/filterData';
 	import type { PageData } from './$types';
 	import FileUpload from '$lib/components/UploadComponents/FileUpload.svelte';
-	import { onMount, setContext } from 'svelte';
+	import { onMount } from 'svelte';
 	import { Cookie } from '$lib/utils/exportCookie';
 	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
-	import type { uploadPageState } from '$lib/constants';
+	import { TIMEZONES, type uploadPageState } from '$lib/constants';
 
 	export let data: PageData;
-	setContext('user', data.user || null);
 
 	$: privacyPolicy = Cookie.get('privacy_policy');
 
@@ -36,6 +35,7 @@
 	let progress = 0;
 	let state: uploadPageState = '';
 	let inputText = '';
+	let country = TIMEZONES[Intl.DateTimeFormat().resolvedOptions().timeZone.toString()] || 'USA';
 	let file: File | null;
 
 	const sessionId = generateIdFromEntropySize(6);
@@ -103,7 +103,8 @@
 					inputText,
 					s3Url: uploadResponse.config.url.split('?')[0],
 					sessionId,
-					expiresIn: 2000
+					expiresIn: 2000,
+					country
 				})
 			});
 
@@ -137,10 +138,6 @@
 		progress = 0; //reset progress
 	};
 
-	const handleTextChange = (text: string) => {
-		inputText = text;
-	};
-
 	const triggerModal = () => {
 		(document.getElementById('filter-modal') as HTMLDialogElement).showModal();
 	};
@@ -157,9 +154,9 @@
 			experience: filterForm.experience.toString(),
 			min_salary: filterForm.min_salary.toString()
 		};
-		console.log('new filter', newFilter);
+		// console.log('new filter', newFilter);
 		const filteredData = filterObjects(backUpData, newFilter);
-		console.log('filtered data', filteredData);
+		// console.log('filtered data', filteredData);
 		if (!filteredData.length) {
 			toastStore.alert(`Found ${filteredData.length} matches! Please reset`, {
 				position: 'bottom-end'
@@ -252,7 +249,7 @@
 	<div class="ripple" style="top: -60rem; left: -60rem;"></div>
 
 	{#if state === ''}
-		<FileUpload {handleFileInput} {inputText} {handleTextChange} />
+		<FileUpload {handleFileInput} bind:inputText bind:country />
 		{#if file}
 			<div
 				class="flex mx-auto w-5/6 md:w-2/3 md:p-6 p-2 bg-white shadow-xl rounded-xl justify-between items-center mt-4"

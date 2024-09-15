@@ -3,7 +3,6 @@
 	import { cubicIn, cubicOut } from 'svelte/easing';
 	import '../app.css';
 	import type { LayoutData } from './$types';
-	import Analytics from '$lib/components/Analytics.svelte';
 	import PageLoaderProgress from '$lib/components/LayoutComponents/PageLoaderProgress.svelte';
 	import Toast from '$lib/components/LayoutComponents/Toast.svelte';
 
@@ -13,12 +12,19 @@
 	import { onMount } from 'svelte';
 	import AuthModal from '$lib/components/AuthComponents/AuthModal.svelte';
 	import WebviewModal from '$lib/components/LayoutComponents/WebviewModal.svelte';
-	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import Header from '$lib/components/LayoutComponents/Header.svelte';
 	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
+	import { storeContext } from '$lib/stores/generalStore';
+	import type { User } from 'lucia';
+	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 
 	export let data: LayoutData;
-	console.log('data', data);
+	console.log('layout', data);
+
+	const user = data?.user
+		? storeContext<User | null>('user', data?.user)
+		: storeContext<User | null>('user', null);
+
 	$: query = $page.url.searchParams;
 
 	const duration = 300;
@@ -37,23 +43,21 @@
 			(document.getElementById('default-browser-modal') as HTMLDialogElement).showModal();
 		}
 	});
+
+	const skipRoutes = ['chat'];
+	const shouldSkipLayout = skipRoutes.includes($page?.route?.id || '');
+	// const shouldSkipLayout = true;
 </script>
 
 <svelte:head>
-	<script
-		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
-		async
-		defer
-	></script>
-
 	<!-- this is for tick based recaptcha -->
 	<!-- {#if !dev}
 	<script src="https://www.google.com/recaptcha/enterprise.js" async defer></script>
 	{/if} -->
 
-	<!-- <script
+	<script
 		src={`https://www.google.com/recaptcha/enterprise.js?render=${PUBLIC_RECAPTCHA_KEY}`}
-	></script> -->
+	></script>
 	<title>Career Chakra - Your AI-Powered Job Matching Service</title>
 	<!-- {#if !dev} -->
 	<!-- <base href="https://www.careerchakra.com/" /> -->
@@ -93,12 +97,17 @@
 	<AuthModal />
 	<Toast />
 	<WebviewModal />
+
+	<!-- {#if shouldSkipLayout} -->
 	<Header userData={data.user} />
+	<!-- {/if} -->
 
 	{#key data.pathname}
 		<div class="flex-1 flex flex-col" in:fly={transitionIn} out:fly={transitionOut}>
 			<slot />
 		</div>
 	{/key}
-	<Footer />
+	{#if shouldSkipLayout}
+		<Footer />
+	{/if}
 </div>

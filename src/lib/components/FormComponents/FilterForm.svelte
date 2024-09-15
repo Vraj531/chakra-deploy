@@ -24,13 +24,13 @@
 						<p class="font-semibold">Clearance</p>
 						<label class="label cursor-pointer">
 							<span class="label-text">Required</span>
-							<input type="radio" name="clearance" class="radio" checked value={true} />
+							<input type="radio" name="clearance" class="radio" value={true} />
 						</label>
 					</div>
 					<div class="form-control">
 						<label class="label cursor-pointer">
 							<span class="label-text">Not Required</span>
-							<input type="radio" name="clearance" class="radio" checked value={false} />
+							<input type="radio" name="clearance" class="radio" value={false} />
 						</label>
 					</div>
 				</div>
@@ -39,13 +39,7 @@
 						<p class="font-semibold">Job Type</p>
 						<label class="label cursor-pointer">
 							<span class="label-text">Remote</span>
-							<input
-								type="radio"
-								name="has_remote"
-								class="radio checked:bg-primary"
-								checked
-								value={true}
-							/>
+							<input type="radio" name="has_remote" class="radio checked:bg-primary" value={true} />
 						</label>
 					</div>
 					<div class="form-control">
@@ -55,7 +49,6 @@
 								type="radio"
 								name="has_remote"
 								class="radio checked:bg-primary"
-								checked
 								value={false}
 							/>
 						</label>
@@ -74,6 +67,7 @@
 					name="experience"
 					placeholder="Mid-level, Excecutive etc"
 				>
+					<option disabled selected>Select Experience Level</option>
 					{#each experienceFilters as experienceLevel}
 						<option value={experienceLevel.value}>{experienceLevel.label}</option>
 					{/each}

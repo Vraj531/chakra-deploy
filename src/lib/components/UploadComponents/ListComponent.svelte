@@ -1,13 +1,13 @@
 <script lang="ts">
 	import type { JobListing } from '$lib/dummyData';
-	import { getContext } from 'svelte';
+	import { getStoreContext } from '$lib/stores/generalStore';
 	import { fly } from 'svelte/transition';
 
 	export let arr: JobListing[];
 	export let selectJobIndex: (index: number | string) => void;
 	export let selected: number;
 
-	const user = getContext('user');
+	const user = getStoreContext('user');
 
 	$: jobListWithHumanReadableDates = !arr.length
 		? []
@@ -26,6 +26,10 @@
 			hour12: true
 		}).format(new Date(date));
 	}
+
+	const showAuthModal = () => {
+		(document.getElementById('auth-modal') as HTMLDialogElement).showModal();
+	};
 </script>
 
 {#each jobListWithHumanReadableDates as job, i}
@@ -69,7 +73,7 @@
 
 {#if arr.length > 0 && !user}
 	<p class="text-xl text-center">
-		<a href="/google" class="link">Login </a>
+		<button class="link" on:click={showAuthModal}>Login </button>
 		to get more recommendations!
 	</p>
 {/if}

@@ -13,7 +13,6 @@
 	import { writable } from 'svelte/store';
 	import { fade, fly } from 'svelte/transition';
 	import JobCard from './JobCard.svelte';
-	import { getContext } from 'svelte';
 	import MoreJobsModal from '$lib/components/UploadComponents/MoreJobsModal.svelte';
 	import { list } from 'postcss';
 	import ListComponent from '$lib/components/UploadComponents/ListComponent.svelte';
@@ -21,6 +20,7 @@
 	import { toastStore } from '$lib/stores/toastStores';
 	import type { uploadPageState } from '$lib/constants';
 	import BookmarkComponent from '$lib/components/UploadComponents/BookmarkComponent.svelte';
+	import { getStoreContext } from '$lib/stores/generalStore';
 
 	export let arr: JobListing[];
 	export let state: uploadPageState;
@@ -28,7 +28,7 @@
 	export let handleReset: () => void;
 	export let handleBookmark: (slide: JobListing) => Promise<Boolean>;
 
-	const user = getContext('user');
+	const user = getStoreContext('user');
 	let loading = false;
 
 	// console.log('re', arr);
@@ -58,7 +58,7 @@
 	};
 
 	const selectJobIndex = (index: number | string) => {
-		console.log(' i was called from another component');
+		// console.log(' i was called from another component');
 		if (typeof index === 'number') $carousel?.scrollTo(index);
 	};
 
@@ -134,19 +134,15 @@
 		// console.log('job listing', jobListing);
 		// }
 	}
+	const showAuthModal = () => {
+		(document.getElementById('auth-modal') as HTMLDialogElement).showModal();
+	};
 </script>
 
-<div class="flex w-full mt-4">
+<div class="flex w-full mt-4 px-4">
 	{#if arr.length > 0}
 		<div class="md:hidden">
-			<button class="btn btn-circle btn-primary" on:click={previousCard}>
-				<div class="pl-0">
-					{@html ChevronLeftIcon}
-				</div>
-			</button>
-			<button class="btn btn-circle btn-primary" on:click={nextCard}>
-				{@html ChevronRightIcon}
-			</button>
+			<a href="/upload" data-sveltekit-reload class="btn btn-primary">New Upload</a>
 		</div>
 	{/if}
 	{#if state === 'success'}
@@ -233,6 +229,12 @@
 					</div>
 				</div>
 			{/each}
+			{#if arr.length > 0 && !user}
+				<p class="text-xl text-center py-4">
+					<button class="link" on:click={showAuthModal}>Login </button>
+					to get more recommendations!
+				</p>
+			{/if}
 		</div>
 		<!-- <div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
 			{#if displayValues !== undefined}

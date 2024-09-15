@@ -102,17 +102,21 @@ export const addGuestResume = async ({
 	filename: string;
 	pdfUrl: string;
 }) => {
-	const id = generateIdFromEntropySize(16);
-	const username = 'guest-user';
-	const res = await db
-		.insert(guestResumeTable)
-		.values({
-			id,
-			fileLocation: `${username}/${filename}`,
-			pdfUrl
-		})
-		.returning();
-	return res.length > 0;
+	try {
+		const id = generateIdFromEntropySize(16);
+		const username = 'guest-user';
+		const res = await db
+			.insert(guestResumeTable)
+			.values({
+				id,
+				fileLocation: `${username}/${filename}`,
+				pdfUrl
+			})
+			.returning();
+		return res.length > 0;
+	} catch (error) {
+		return error;
+	}
 };
 
 export const updateUserPolicy = async (

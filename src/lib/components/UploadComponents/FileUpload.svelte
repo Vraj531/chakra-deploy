@@ -3,9 +3,7 @@
 
 	export let handleFileInput: (e: any) => void;
 	export let inputText: string;
-	export let handleTextChange: (text: string) => void;
-
-	$: handleTextChange(inputText);
+	export let country: string;
 
 	let minRows = 1;
 	let maxRows = 20;
@@ -25,6 +23,17 @@
 		/>
 		<UploadIcon />
 		Upload Resume/CV PDF
+	</label>
+	<label class="form-control max-w-xs">
+		<select
+			class="select select-bordered"
+			on:change={(e) => (country = e.currentTarget.value)}
+			value={country}
+		>
+			<option value="USA">USA</option>
+			<option value="Canada">Canada</option>
+			<option value="India">India</option>
+		</select>
 	</label>
 	<div class="container rounded-2xl">
 		<pre aria-hidden="true" style="min-height: {minHeight}; max-height: {maxHeight}">{inputText +

@@ -25,7 +25,7 @@
 			</div>
 			<div class="dropdown mt-2 md:hidden">
 				<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-				<div class="border-0 py-2 px-4" tabindex="0">
+				<div class="border-0 py-2" tabindex="0">
 					<button class="btn btn-sm btn-primary mt-3">
 						<svg
 							xmlns="http://www.w3.org/2000/svg"
@@ -57,7 +57,7 @@
 		<!-- Logo -->
 		<a
 			href="/"
-			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center ml-10 md:ml-0"
+			class="flex lg:w-1/5 title-font font-medium items-center text-gray-900 lg:items-center lg:justify-center ml-1 md:ml-0"
 		>
 			<img src="/logo.svg" class="h-20 w-20" alt="logo" />
 			<span class=" text-lg hidden lg:inline-block">Career Chakra</span>
@@ -93,7 +93,7 @@
 				</a> -->
 				<button
 					on:click={showAuthModal}
-					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
+					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center focus:outline-none hover:bg-yellow-600 rounded text-sm"
 				>
 					Login
 					<svg
@@ -102,7 +102,7 @@
 						stroke-linecap="round"
 						stroke-linejoin="round"
 						stroke-width="2"
-						class="w-4 h-4 ml-1"
+						class="w-4 h-4 ml-1 md:block hidden"
 						viewBox="0 0 24 24"
 					>
 						<path d="M5 12h14M12 5l7 7-7 7"></path>
@@ -111,7 +111,7 @@
 			{:else}
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
-					<div class="border-0 py-2 px-4" tabindex="0">
+					<div class="border-0 py-2" tabindex="0">
 						{#if !userData?.picture}
 							<div class="chat-image w-10 h-10 rounded-full cursor-pointer bg-amber-500 relative">
 								<p class="absolute top-[18%] left-[32%] text-xl text-white">
@@ -149,7 +149,7 @@
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<ul
 						tabindex="0"
-						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
+						class="dropdown-content z-20 menu p-2 shadow bg-base-100 rounded-box w-52"
 					>
 						<li><a href="/upload">Upload Resume</a></li>
 						<li><a href="/bookmarked-jobs?page=1">Bookmarked Jobs</a></li>
@@ -159,7 +159,7 @@
 			{/if}
 		</div>
 	</div>
-	{#if $state === 'uploaded'}
+	<!-- {#if $state === 'uploaded'}
 		<div class="md:hidden w-full flex">
 			<a
 				href="/upload"
@@ -168,5 +168,5 @@
 				>New Upload</a
 			>
 		</div>
-	{/if}
+	{/if} -->
 </header>

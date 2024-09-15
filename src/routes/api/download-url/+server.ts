@@ -3,7 +3,7 @@ import type { RequestHandler } from './$types';
 import { GetObjectCommand, S3Client } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 import { ACCESS_ID, LAMBDA_URL, SECRET_KEY } from '$env/static/private';
-import { addGuestResume, addResume, updateDailyUploadCount } from '$lib/server/drizzle/dbModel';
+import { addResume, updateDailyUploadCount } from '$lib/server/drizzle/dbModel';
 import { downloadLimiter } from '$lib/server/rateLimiter';
 import { BUCKET } from '$lib/constants';
 
@@ -18,6 +18,7 @@ interface RequestFileProp {
 	filename: string;
 	expiresIn: number;
 	inputText: string;
+	country: string;
 }
 
 interface IResponse {
@@ -31,7 +32,7 @@ export const POST: RequestHandler = async (event) => {
 	}
 	const { request, locals } = event;
 
-	const { expiresIn, filename, inputText } = (await request.json()) as RequestFileProp;
+	const { expiresIn, filename, inputText, country } = (await request.json()) as RequestFileProp;
 
 	const userEmail = locals.user ? locals.user.email : 'guestuser@gmail.com';
 	const username = !locals.user ? 'guest-user' : locals.user.email.split('@')[0];
@@ -53,8 +54,9 @@ export const POST: RequestHandler = async (event) => {
 			// 	email: userEmail
 			// });
 			if (!locals.user) {
-				await addGuestResume({ filename: `${username}/${filename}`, pdfUrl: downloadUrl });
+				// await addGuestResume({ filename: `${username}/${filename}`, pdfUrl: downloadUrl });
 				// if(!res)
+				console.log('guest user');
 			} else {
 				const userid = locals.user.id;
 				const res = await addResume({
@@ -73,13 +75,18 @@ export const POST: RequestHandler = async (event) => {
 				signal: AbortSignal.timeout(60_000),
 				body: JSON.stringify({
 					additional_text: inputText,
-					pdf_file_location: `s3://${BUCKET}/${username}/${filename}`
+					pdf_file_location: `s3://${BUCKET}/${username}/${filename}`,
+					country
 				}),
 				headers: {
 					'Content-Type': 'application/json'
 				}
 			});
-			await updateDailyUploadCount();
+			try {
+				await updateDailyUploadCount();
+			} catch (error) {
+				console.log('error in libsql', error);
+			}
 			// console.log('response', await res.json());
 			const fullResponse = (await res.json()) as IResponse;
 			if ('body' in fullResponse) {
@@ -91,8 +98,8 @@ export const POST: RequestHandler = async (event) => {
 				// console.log('body', body.length);
 				return json(body);
 			} else return json({ error: 'error reading pdf' });
-		} catch (error) {
-			return json(error);
+		} catch (err) {
+			error(500, { message: JSON.stringify(err) });
 		}
 	}
 	error(500, { message: 'web service error' });
