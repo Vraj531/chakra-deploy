@@ -42,7 +42,7 @@
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
 	{#if showBanner}
 		<div
-			class="sticky md:top-0 top-8 md:text-base text-sm bg-neutral-100 md:w-full mx-2 p-2 z-10 md:max-w-screen-lg md:mx-auto rounded-md flex"
+			class="sticky md:top-0 top-8 md:text-base text-sm bg-neutral-100 md:w-full w-full p-2 z-10 md:max-w-screen-lg md:mx-auto rounded-md flex"
 		>
 			<p class="">
 				For personalized job recommendations from a resume, <a href="/upload" class="link">
@@ -68,19 +68,41 @@
 				</div>
 				<div class="flex p-2 gap-6 mx-auto md:w-3/4">
 					<button
-						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
-						on:click={() => sendPredefinedMessage('List out a few jobs for a engineer')}
-						><div class="flex flex-col overflow-hidden">
-							<div class="truncate font-semibold">List out a few jobs</div>
-							<div class="truncate font-normal opacity-50">for a engineer</div>
+						class="relative rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						on:click={() => sendPredefinedMessage('How many jobs are in data science?')}
+						><div class="flex flex-col">
+							<div class=" font-semibold">How many jobs are</div>
+							<div class=" font-normal opacity-50">in data science?</div>
 						</div></button
 					>
 					<button
-						class="relative whitespace-nowrap rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
-						on:click={() => sendPredefinedMessage('List out a few jobs around LA')}
-						><div class="flex flex-col overflow-hidden">
-							<div class="truncate font-semibold">Give me few job links</div>
-							<div class="truncate font-normal opacity-50">around LA</div>
+						class="relative rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						on:click={() => sendPredefinedMessage('What skills are needed for pharmaceutical jobs')}
+						><div class="flex flex-col">
+							<div class=" font-semibold">What skills are needed</div>
+							<div class=" font-normal opacity-50">for pharmaceutical jobs</div>
+						</div></button
+					>
+				</div>
+				<div class="hidden md:flex p-2 gap-6 mx-auto md:w-3/4">
+					<button
+						class="relative rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						on:click={() =>
+							sendPredefinedMessage(
+								"Is a master's degree required for entry-level software engineering jobs?"
+							)}
+						><div class="flex flex-col">
+							<div class=" font-semibold">Is a master's degree required</div>
+							<div class=" font-normal opacity-50">entry-level software engineering jobs?</div>
+						</div></button
+					>
+					<button
+						class="relative rounded-2xl border border-token-border-light px-4 py-2 w-1/2 text-start align-top text-[15px] shadow-sm transition enabled:hover:bg-neutral-100 cursor-default"
+						on:click={() =>
+							sendPredefinedMessage('Show data analyst jobs in New york with apply links.')}
+						><div class="flex flex-col">
+							<div class=" font-semibold">Show data analyst jobs in</div>
+							<div class=" font-normal opacity-50">New york with apply links.</div>
 						</div></button
 					>
 				</div>
@@ -94,7 +116,7 @@
 				{#if messageStream.system}
 					<div class="flex px-4">
 						<img src="/logo.svg" class="w-14 h-14 my-0 mr-2 md:block hidden" alt="logo" />
-						<span class="md:max-w-full max-w-xs">
+						<span class="max-w-full">
 							<SvelteMarkdown
 								source={`${messageStream.content}${loading === 'streaming' && i === $messageStore.length - 1 ? '▍' : ''}`}
 								renderers={{ link: LinkComponent }}

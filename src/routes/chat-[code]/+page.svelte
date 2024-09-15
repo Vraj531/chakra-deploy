@@ -89,6 +89,8 @@
 			});
 
 			if (!response.body || !response.ok) {
+				// const res = await response.json();
+				// console.log('response', res);
 				loading = '';
 				error = true;
 				return;
@@ -111,6 +113,7 @@
 				if (done) break;
 
 				const text = decoder.decode(value);
+				// if(text.includes('Runtime.StreamError')) break;
 				systemMessage.content += text;
 
 				// To trigger reactivity
@@ -126,6 +129,7 @@
 					return [...msgs, systemMessage];
 				});
 			}
+
 			try {
 				await saveToDb(systemMessage);
 				// console.log('res from db', res);

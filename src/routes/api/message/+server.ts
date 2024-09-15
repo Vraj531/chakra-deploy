@@ -39,23 +39,30 @@ export const POST: RequestHandler = async (event) => {
 	const signal = request.signal;
 	if (!content) error(400, { message: 'Bad request' });
 	console.log('starting stream from backend');
-	const res = await fetch(url, {
-		method: 'POST',
-		headers: {
-			'Content-Type': 'application/json'
-		},
-		signal,
-		body: JSON.stringify({
-			country: country,
-			user_id: !locals?.user?.id
-				? `${sessionId}-${conversationId}`
-				: `${locals.user.id}-${conversationId}`,
-			user_input: content
-		})
-	});
 
-	if (!res.ok) error(500, { message: 'Error from api service' });
-	return res;
+	try {
+		const res = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'Content-Type': 'application/json'
+			},
+			signal,
+			body: JSON.stringify({
+				country: country,
+				user_id: !locals?.user?.id
+					? `${sessionId}-${conversationId}`
+					: `${locals.user.id}-${conversationId}`,
+				user_input: content
+			})
+		});
+
+		if (!res.ok) error(500, { message: 'Error from api service' });
+		return res;
+	} catch (err) {
+		return error(500, { message: 'Error from chat service' });
+	}
+	// console.log('res', res);
+
 	// return new Response('ok', { status: 200 });
 };
 

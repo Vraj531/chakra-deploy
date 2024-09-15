@@ -11,7 +11,7 @@
 	const MOBILE_BREAKPOINT = 768; // Adjust this value as needed
 	let mobileView = '';
 	let focus = false;
-	$: hidefield = mobileView === 'mobile';
+	$: hidefield = false;
 
 	// $: console.log('log', mobileView, focus, hidefield);
 
