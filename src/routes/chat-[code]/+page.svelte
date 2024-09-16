@@ -9,13 +9,14 @@
 	import { getStoreContext, storeContext } from '$lib/stores/generalStore.js';
 	import { Cookie } from '$lib/utils/exportCookie.js';
 	import { generateIdFromEntropySize } from 'lucia';
-	import { onMount } from 'svelte';
+	import { onMount, setContext } from 'svelte';
 
 	export let data;
 
 	const messageStore = storeContext<TMessage[]>('messages', []);
-	const conversationStore = storeContext<TConversation[]>('conversations', []);
+	// const conversationStore = storeContext<TConversation[]>('conversations', []);
 	const user = getStoreContext('user');
+	setContext('conversations', data?.conversations || []);
 
 	// initStore();
 	const controller = new AbortController();
@@ -35,13 +36,13 @@
 		// console.log('consent', $user);
 	});
 
-	$: conversationId =
-		$page.params.code === 'new' || data.conversations
-			? generateIdFromEntropySize(5)
-			: $page.params.code;
+	// let conversationId = $page.params.code
+	let conversationId =
+		$page.params.code === 'new' ? generateIdFromEntropySize(5) : $page.params.code;
 	// $: messages = writable(data?.messages || []);
+	$: console.log('messages', conversationId);
 	$: messageStore.set(data?.messages || []);
-	$: conversationStore.set(data?.conversations || []);
+	// $: conversationStore.set(data?.conversations || []);
 
 	let loading: 'fetching' | 'streaming' | '' = '';
 	let userInput = '';
@@ -165,9 +166,11 @@
 		// return response.json();
 	}
 	function cleanChat() {
-		error = '';
-		userInput = '';
-		invalidateAll();
+		window.location.reload();
+		// error = '';
+		// userInput = '';
+		// conversationId = generateIdFromEntropySize(5);
+		// invalidateAll();
 	}
 </script>
 
