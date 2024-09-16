@@ -7,6 +7,7 @@
 	export let stopStream: () => void;
 	export let userInput: string;
 	export let country: string;
+	export let error: 'capped' | 'apiError' | '';
 
 	const MOBILE_BREAKPOINT = 768; // Adjust this value as needed
 	let mobileView = '';
@@ -35,30 +36,11 @@
 		class="max-w-screen-md md:mx-auto flex md:w-full mx-2 gap-2 items-center"
 		on:submit|preventDefault={startStream}
 	>
-		{#if mobileView === 'mobile'}
-			{#if hidefield}
-				<button class="btn btn-circle btn-sm" on:click={() => (hidefield = !hidefield)}>+</button>
-			{:else if !hidefield}
-				<label class="form-control" transition:fly>
-					<select
-						class="select select-bordered pt-1"
-						value={country}
-						on:change={(e) => (country = e.currentTarget.value)}
-					>
-						<option value="USA">USA</option>
-						<option value="Canada">Canada</option>
-						<option value="India">India</option>
-					</select>
-				</label>
-			{/if}
-		{/if}
-		{#if mobileView === 'desktop'}
+		{#if mobileView === 'mobile' && hidefield}
+			<button class="btn btn-circle btn-sm" on:click={() => (hidefield = !hidefield)}>+</button>
+		{:else if mobileView === 'desktop' || (mobileView === 'mobile' && !hidefield)}
 			<label class="form-control" transition:fly>
-				<select
-					class="select select-bordered pt-1"
-					value={country}
-					on:change={(e) => (country = e.currentTarget.value)}
-				>
+				<select class="select select-bordered pt-1 rounded-2xl" bind:value={country}>
 					<option value="USA">USA</option>
 					<option value="Canada">Canada</option>
 					<option value="India">India</option>
@@ -71,17 +53,19 @@
 		>
 		<div class="relative w-full">
 			<input
+				disabled={error === 'capped'}
 				on:focus={() => {
 					focus = !focus;
 					hidefield = true;
 				}}
 				on:blur={() => {
 					focus = !focus;
+					hidefield = false;
 					// if (hidefield) hidefield = false;
 				}}
 				type="text"
 				id="message-box"
-				class="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 dark:text-white"
+				class="block w-full p-4 ps-5 text-sm text-gray-900 border border-gray-300 rounded-2xl bg-gray-50 dark:text-white"
 				placeholder="Message Chakra AI"
 				required={loading !== 'streaming' && loading !== 'fetching'}
 				autocomplete="off"

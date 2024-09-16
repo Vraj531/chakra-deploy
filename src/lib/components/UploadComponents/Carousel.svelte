@@ -31,14 +31,14 @@
 	const user = getStoreContext('user');
 	let loading = false;
 
-	// console.log('re', arr);
+	console.log('re', $user);
 
 	const carousel = writable<EmblaCarouselType>();
 
 	let selected: number = 0;
 	let jobListing: JobListing;
 
-	$: if (selected === arr.length - 1 && !user) {
+	$: if (selected === arr.length - 1 && !$user) {
 		(document.getElementById('more-jobs-modal') as HTMLDialogElement).showModal();
 	}
 
@@ -195,7 +195,7 @@
 			</div>
 		</div>
 
-		<div class="px-4 mt-2">
+		<div class="px-4 mt-2 flex flex-col">
 			{#each jobListWithHumanReadableDates as job}
 				<div
 					class="md:hidden flex flex-col gap-2 border border-gray-200 rounded-md md:w-3/5 w-full shadow-md relative"
@@ -229,29 +229,13 @@
 					</div>
 				</div>
 			{/each}
-			{#if arr.length > 0 && !user}
-				<p class="text-xl text-center py-4">
-					<button class="link" on:click={showAuthModal}>Login </button>
+			{#if arr.length > 0 && !$user}
+				<p class="text-xl text-center py-2">
+					<button class="link md:hidden" on:click={showAuthModal}>Login </button>
 					to get more recommendations!
 				</p>
 			{/if}
 		</div>
-		<!-- <div class=" px-8 flex justify-center items-center md:gap-4 gap-2">
-			{#if displayValues !== undefined}
-				{#each displayValues as item, index}
-					{#if item === '...'}
-						<p>...</p>
-					{:else}
-						<button
-							class={`btn md:btn-md btn-xs btn-circle btn-secondary grid place-items-center ${selected === item && 'bg-gradient-to-br from-orange-500 to-orange-300'}`}
-							on:click={select(item)}
-						>
-							{item + 1}
-						</button>
-					{/if}
-				{/each}
-			{/if}
-		</div> -->
 	</div>
 </div>
 <JobDescriptionModal {jobListing} />

@@ -19,7 +19,7 @@
 
 		<nav class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base md:flex">
 			<div class="lg:flex gap-4 hidden">
-				<a href="/chat-new" class="link link-hover">ChakraAi</a>
+				<a href="/chat-new" class="link link-hover">ChakraAI</a>
 				<a href="/faq" class="link link-hover">FAQ</a>
 				<a href="/upload" class="link link-hover">Find Jobs</a>
 			</div>

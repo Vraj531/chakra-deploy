@@ -47,7 +47,7 @@
 			if (res.ok) {
 				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
 				modal.close();
-				goto('/upload');
+				goto('/chat-new');
 			}
 			passwordError = '';
 			status = false;

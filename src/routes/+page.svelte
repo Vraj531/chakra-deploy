@@ -25,7 +25,7 @@
 				</p>
 				<div class="flex justify-center">
 					<a
-						href="/upload"
+						href="/chat-new"
 						class="inline-flex text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg"
 						>Try Now</a
 					>

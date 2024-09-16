@@ -71,7 +71,7 @@
 	</div>
 {/each}
 
-{#if arr.length > 0 && !user}
+{#if arr.length > 0 && !$user}
 	<p class="text-xl text-center">
 		<button class="link" on:click={showAuthModal}>Login </button>
 		to get more recommendations!

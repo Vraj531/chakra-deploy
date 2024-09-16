@@ -63,10 +63,10 @@
 			</ul>
 		</aside>
 	{/if}
-	<aside class={`sidebar md:block hidden`}>
+	<aside class={`w-[230px] 2xl:w-[350px] md:block hidden`}>
 		<ul class="mt-4 flex flex-col max-h-[80dvh]">
 			<!-- Loop through the conversations and display them -->
-			<img src="/chakra-beta-mq.png" alt="chakra ai" class="h-24 m-3" />
+			<img src="/chakra-beta-mq.png" alt="chakra ai" class="mx-auto xl:w-60 h-24 m-3" />
 			<button class="py-2 mx-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
 			<div class="overflow-y-auto px-2">
 				<ConversationList />
@@ -78,11 +78,3 @@
 		</ul>
 	</aside>
 </div>
-
-<style>
-	/* Define the sidebar styles */
-	.sidebar {
-		width: 230px;
-		/* Add more styles as needed */
-	}
-</style>

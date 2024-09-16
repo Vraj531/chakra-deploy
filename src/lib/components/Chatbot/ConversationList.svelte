@@ -32,9 +32,9 @@
 				></path>
 			</g></svg
 		>
-		{conversation.title && conversation.title.length > 19
-			? conversation.title?.slice(0, 35) + '...'
-			: conversation.title || 'Untitled'}
+		<p class="line-clamp-1">
+			{conversation.title && conversation.title.length > 19 ? conversation.title : 'Untitled'}
+		</p>
 	</a>
 {/each}
 <!-- {#each Array(20) as _, i}
