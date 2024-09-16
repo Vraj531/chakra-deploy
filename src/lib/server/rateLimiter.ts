@@ -13,6 +13,6 @@ export const downloadLimiter = new RateLimiter({
 });
 
 export const messageLimiter = new RateLimiter({
-	IP: dev ? [5, '12h'] : [5, '12h'],
-	IPUA: dev ? [5, '15s'] : [5, '12h']
+	IP: dev ? [5, '10s'] : [5, '12h'],
+	IPUA: dev ? [5, '10s'] : [5, '12h']
 });

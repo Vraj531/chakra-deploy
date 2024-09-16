@@ -2,12 +2,14 @@
 	import { page } from '$app/stores';
 	import type { TConversation } from '$lib/constants';
 	import { getStoreContext } from '$lib/stores/generalStore';
+	import { getContext } from 'svelte';
 
-	const conversationsStore = getStoreContext<TConversation[]>('conversations');
-	// console.log('$conversationsStore', $conversationsStore);
+	// const conversationsStore = getStoreContext<TConversation[]>('conversations');
+	const conversationsStore = getContext<TConversation[]>('conversations');
+	// console.log('$conversationsStore', conversationsStore);
 </script>
 
-{#each $conversationsStore.slice(0, 10) as conversation}
+{#each conversationsStore.slice(0, 10) as conversation}
 	<a
 		class={`mb-2 hover:bg-slate-200 px-2 py-1 rounded-md flex gap-1 ${$page?.params?.code === conversation.id && 'bg-neutral-300'}`}
 		href={`chat-${conversation.id}`}
@@ -34,7 +36,7 @@
 			</g></svg
 		>
 		<p class="line-clamp-1">
-			{conversation.title && conversation.title.length > 19 ? conversation.title : 'Untitled'}
+			{conversation.title ? conversation.title : 'Untitled'}
 		</p>
 	</a>
 {/each}
