@@ -89,7 +89,7 @@
 						class="relative rounded-2xl border px-4 py-2 text-start align-top shadow-sm transition enabled:hover:bg-neutral-100 md:w-1/2"
 						on:click={() =>
 							sendPredefinedMessage(
-								"Is a master's degree required for entry-level software engineering jobs?"
+								`Is a master's degree required for entry-level software engineering jobs?`
 							)}
 						><div class="flex flex-col">
 							<div class="font-semibold">Is a master's degree required for</div>
@@ -145,7 +145,7 @@
 			</div>
 		{/if}
 		{#if error === 'capped'}
-			<div class="text-right flex w-full justify-start px-2">
+			<div class="text-right flex w-full justify-start px-4">
 				<p class="py-2 my-1 rounded-md bg-yellow-200 px-2">
 					Message limit reached. Please create a free account to text more.
 				</p>

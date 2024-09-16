@@ -22,7 +22,9 @@ const url = CHAT_LAMBDA_URL;
 
 export const POST: RequestHandler = async (event) => {
 	const { locals, request } = event;
-	if (!locals.user && (await messageLimiter.isLimited(event))) {
+	const limit = await messageLimiter.isLimited(event);
+	// console.log('limit', limit);
+	if (!locals.user && limit) {
 		return error(401, { message: 'capped' });
 	}
 	const body = await request.json();

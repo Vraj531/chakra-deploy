@@ -13,6 +13,7 @@
 		href={`chat-${conversation.id}`}
 	>
 		<svg
+			class="min-w-6"
 			width="24px"
 			height="24px"
 			viewBox="0 0 24 24"
