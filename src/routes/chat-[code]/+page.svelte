@@ -45,23 +45,26 @@
 
 	let loading: 'fetching' | 'streaming' | '' = '';
 	let userInput = '';
-	let error = false;
+	let error: 'apiError' | 'capped' | '' = '';
 	let reader: ReadableStreamDefaultReader<Uint8Array>;
 	let country = TIMEZONES[Intl.DateTimeFormat().resolvedOptions().timeZone.toString()] || 'USA';
 	// $: console.log('country', country);
 
-	function stopStream() {
+	async function stopStream() {
 		if (reader) {
 			loading = '';
 			reader.cancel();
 			controller.abort();
+			const systemMessage = $messageStore[$messageStore.length - 1];
+			await saveToDb(systemMessage);
 		}
 	}
 
 	async function startStream(userMessage = userInput) {
 		try {
+			if (error === 'capped') return;
 			loading = 'fetching';
-			error = false;
+			error = '';
 			// console.log('userInput', userInput);
 
 			const id = generateIdFromEntropySize(5);
@@ -89,10 +92,14 @@
 			});
 
 			if (!response.body || !response.ok) {
-				// const res = await response.json();
-				// console.log('response', res);
+				const res = await response.json();
+				if (res?.message === 'capped') {
+					loading = '';
+					error = 'capped';
+					return;
+				}
 				loading = '';
-				error = true;
+				error = 'apiError';
 				return;
 			}
 
@@ -144,7 +151,9 @@
 			console.error(error);
 		}
 	}
+
 	async function saveToDb(message: any) {
+		if (!$user) return;
 		await fetch('api/message', {
 			method: 'PUT',
 			body: JSON.stringify({ ...message }),
@@ -155,7 +164,7 @@
 		// return response.json();
 	}
 	function cleanChat() {
-		error = false;
+		error = '';
 		userInput = '';
 		invalidateAll();
 	}
@@ -166,7 +175,7 @@
 	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
 	<div class="flex-1 mt-auto">
 		<ChatMessage {error} {loading} sendPredefinedMessage={startStream} />
-		<ChatInput {startStream} {loading} {stopStream} bind:userInput bind:country />
+		<ChatInput {startStream} {loading} {stopStream} bind:userInput bind:country {error} />
 	</div>
 	<PrivacyPolicyModal />
 </div>
