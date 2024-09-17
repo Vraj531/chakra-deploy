@@ -10,10 +10,11 @@
 	import { Cookie } from '$lib/utils/exportCookie.js';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { onMount, setContext } from 'svelte';
+	import { writable } from 'svelte/store';
 
 	export let data;
 
-	const messageStore = storeContext<TMessage[]>('messages', []);
+	// const messageStore = storeContext<TMessage[]>('messages', []);
 	// const conversationStore = storeContext<TConversation[]>('conversations', []);
 	const user = getStoreContext('user');
 	setContext('conversations', data?.conversations || []);
@@ -39,9 +40,9 @@
 	// let conversationId = $page.params.code
 	let conversationId =
 		$page.params.code === 'new' ? generateIdFromEntropySize(5) : $page.params.code;
-	// $: messages = writable(data?.messages || []);
+	$: messageStore = writable(data?.messages || []);
 	$: console.log('messages', conversationId);
-	$: messageStore.set(data?.messages || []);
+	// $: messageStore.set(data?.messages || []);
 	// $: conversationStore.set(data?.conversations || []);
 
 	let loading: 'fetching' | 'streaming' | '' = '';
@@ -166,11 +167,11 @@
 		// return response.json();
 	}
 	function cleanChat() {
-		window.location.reload();
-		// error = '';
-		// userInput = '';
-		// conversationId = generateIdFromEntropySize(5);
-		// invalidateAll();
+		// window.location.reload();
+		error = '';
+		userInput = '';
+		conversationId = generateIdFromEntropySize(5);
+		invalidateAll();
 	}
 </script>
 
@@ -178,7 +179,12 @@
 	<Sidebar {cleanChat} />
 	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
 	<div class="flex-1 mt-auto">
-		<ChatMessage {error} {loading} sendPredefinedMessage={startStream} />
+		<ChatMessage
+			{error}
+			{loading}
+			sendPredefinedMessage={startStream}
+			messageStore={$messageStore}
+		/>
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput bind:country {error} />
 	</div>
 	<PrivacyPolicyModal />
