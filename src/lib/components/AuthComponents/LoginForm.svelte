@@ -99,13 +99,19 @@
 		<a href="https://policies.google.com/terms" class="link">Terms of Service</a> apply.
 	</p>
 	<div class="form-control mt-6">
-		<button
+		<!-- <button
 			class="g-recaptcha btn btn-primary"
 			type="submit"
 			disabled={status}
 			data-sitekey={PUBLIC_RECAPTCHA_KEY}
 			data-action="LOGIN"
 		>
+			{#if status}
+				<span class="loading loading-spinner"></span>
+			{/if}
+			Login</button
+		> -->
+		<button class="btn btn-primary" type="submit" disabled={status}>
 			{#if status}
 				<span class="loading loading-spinner"></span>
 			{/if}

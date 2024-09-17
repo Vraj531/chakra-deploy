@@ -86,6 +86,21 @@
 	<input type="text" id="required" name="remember2" class="hidden" />
 	<div class="form-control mt-6">
 		<button
+			class="btn btn-primary"
+			type="submit"
+			disabled={status === 'sendingMail' || status === 'counterInProgress'}
+		>
+			{#if status === 'sendingMail'}
+				<span class="loading loading-spinner"></span>
+			{/if}
+			{#if status === 'counterInProgress'}
+				Wait {timer}s
+			{/if}
+			{#if status === ''}
+				Send Reset Link
+			{/if}
+		</button>
+		<!-- <button
 			class="g-recaptcha btn btn-primary"
 			type="submit"
 			disabled={status === 'sendingMail' || status === 'counterInProgress'}
@@ -101,6 +116,6 @@
 			{#if status === ''}
 				Send Reset Link
 			{/if}
-		</button>
+		</button> -->
 	</div>
 </form>
