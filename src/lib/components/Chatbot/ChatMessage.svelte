@@ -9,6 +9,7 @@
 	export let error: 'apiError' | 'capped' | '' = '';
 	export let loading: 'fetching' | 'streaming' | '';
 	export let sendPredefinedMessage: (message: string) => void;
+	export let messageStore: TMessages;
 
 	type TMessages = {
 		id: string;
@@ -18,7 +19,7 @@
 		timestamp: number | null;
 	}[];
 
-	const messageStore = getStoreContext<TMessages>('messages');
+	// constmessageStore = getStoreContext<TMessages>('messages');
 
 	let chatContainer: HTMLDivElement;
 	let showBanner = true;
@@ -35,7 +36,7 @@
 		scrollToBottom();
 	});
 
-	$: $messageStore, scrollToBottom();
+	$: messageStore, scrollToBottom();
 </script>
 
 <div class="h-[70dvh] overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
@@ -58,7 +59,7 @@
 		</div>
 	{/if}
 	<div class="prose w-full md:mx-auto md:max-w-screen-lg relative">
-		{#if $messageStore.length === 0}
+		{#if messageStore.length === 0}
 			<div class="md:h-[90%] flex flex-col">
 				<img src="/logo.svg" class="w-24 md:w-40 mx-auto mb-0" alt="logo" />
 
@@ -109,18 +110,18 @@
 			</div>
 		{/if}
 
-		{#each $messageStore as messageStream, i}
+		{#each messageStore as messageStream, i}
 			{#if messageStream?.content.length > 0}
 				{#if messageStream.system}
 					<div class="flex px-4">
 						<img src="/logo.svg" class="w-14 h-14 my-0 mr-2 md:block hidden" alt="logo" />
 						<span class="max-w-full">
 							<SvelteMarkdown
-								source={`${messageStream.content}${loading === 'streaming' && i === $messageStore.length - 1 ? '▍' : ''}`}
+								source={`${messageStream.content}${loading === 'streaming' && i === messageStore.length - 1 ? '▍' : ''}`}
 								renderers={{ link: LinkComponent }}
 							/>
 
-							<!-- {#if loading === 'streaming' && i === $messageStore.length - 1}
+							<!-- {#if loading === 'streaming' && i === messageStore.length - 1}
 								<p class="animate-pulse">█ ▍ </p>
 							{/if} -->
 						</span>
@@ -151,7 +152,7 @@
 				</p>
 			</div>
 		{/if}
-		{#if $messageStore.length > 0}
+		{#if messageStore.length > 0}
 			<div class="h-[80px]"></div>
 		{/if}
 	</div>
