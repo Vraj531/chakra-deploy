@@ -11,7 +11,7 @@
 {#each conversationsStore.slice(0, 10) as conversation}
 	<a
 		class={`mb-2 hover:bg-slate-200 px-2 py-1 rounded-md flex gap-1 ${$page?.params?.code === conversation.id && 'bg-neutral-300'}`}
-		href={`chat-${conversation.id}`}
+		href={`chakraai-${conversation.id}`}
 	>
 		<svg
 			class="min-w-6"

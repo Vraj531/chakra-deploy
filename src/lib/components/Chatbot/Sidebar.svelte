@@ -21,7 +21,7 @@
 		open = false;
 		if ($page.params.code === 'new') {
 			cleanChat();
-		} else goto('chat-new');
+		} else goto('chakraai-new');
 	};
 </script>
 

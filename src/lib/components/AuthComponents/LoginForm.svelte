@@ -51,7 +51,7 @@
 			if (res.ok) {
 				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
 				modal.close();
-				goto('/chat-new');
+				goto('/chakraai-new');
 			}
 			passwordError = '';
 			status = false;

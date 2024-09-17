@@ -19,7 +19,7 @@
 
 		<nav class="lg:w-2/5 md:mb-0 sm:mb-0 mb-2 flex-wrap items-center text-base md:flex">
 			<div class="lg:flex gap-4 hidden">
-				<a href="/chat-new" class="link link-hover">ChakraAI</a>
+				<a href="/chakraai-new" class="link link-hover">ChakraAI</a>
 				<a href="/faq" class="link link-hover">FAQ</a>
 				<a href="/upload" class="link link-hover">Find Jobs</a>
 			</div>
@@ -45,7 +45,7 @@
 						tabindex="0"
 						class="dropdown-content z-[1] menu p-2 shadow bg-base-100 rounded-box w-52"
 					>
-						<li><a href="/chat-new">ChakraAI</a></li>
+						<li><a href="/chakraai-new">ChakraAI</a></li>
 						<li><a href="/faq">FAQ</a></li>
 						<li><a href="/upload">Find Jobs</a></li>
 						<!-- <li><a href="/privacy-policy">Privacy Policy</a></li> -->
