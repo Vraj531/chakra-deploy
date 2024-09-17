@@ -130,7 +130,13 @@
 		<a href="https://policies.google.com/terms" class="link">Terms of Service</a> apply.
 	</p>
 	<div class="form-control mt-6">
-		<button
+		<button class="btn btn-primary" type="submit" disabled={loading}>
+			{#if loading}
+				<span class="loading loading-spinner"></span>
+			{/if}
+			Sign Up</button
+		>
+		<!-- <button
 			class="g-recaptcha btn btn-primary"
 			type="submit"
 			disabled={loading}
@@ -141,7 +147,7 @@
 				<span class="loading loading-spinner"></span>
 			{/if}
 			Sign Up</button
-		>
+		> -->
 	</div>
 	<div class="divider">OR</div>
 
