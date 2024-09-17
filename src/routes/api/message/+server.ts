@@ -75,10 +75,19 @@ export const PUT: RequestHandler = async ({ locals, request }) => {
 	// save message to db
 	const { conversationId, content, system, timestamp, id } = body as TRequestMessage;
 	try {
-		addMessage({ id, conversationId, content, userId: locals.user.id, system, timestamp });
+		const res = await addMessage({
+			id,
+			conversationId,
+			content,
+			userId: locals.user.id,
+			system,
+			timestamp
+		});
+		console.log('message status', res);
+		return new Response('ok', { status: 200 });
 	} catch (err) {
 		console.log('error saving message to db', err);
 		error(500, { message: 'Error saving message to db' });
 	}
-	return new Response('ok', { status: 200 });
+	error(500, { message: 'Error saving message to db' });
 };

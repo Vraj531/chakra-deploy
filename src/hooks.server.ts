@@ -37,10 +37,10 @@ export const handle: Handle = async ({ event, resolve }) => {
 		const cachedData = getCache(sessionId);
 		if (cachedData) {
 			({ session, user } = cachedData);
-			console.count('using cache');
+			// console.count('using cache');
 		} else {
 			const validationResponse = await lucia.validateSession(sessionId);
-			console.count('using db res');
+			// console.count('using db res');
 			// console.log('user', validationResponse.user?.agreedToPrivacyPolicy);
 			// if (validationResponse.user?.agreedToPrivacyPolicy) {
 			// 	Cookie.set('privacy_policy', 'true');
