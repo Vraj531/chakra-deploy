@@ -64,7 +64,9 @@
 
 	async function startStream(userMessage = userInput) {
 		try {
-			if (typeof userMessage !== 'string') return;
+			if (typeof userMessage !== 'string') {
+				userMessage = userInput;
+			}
 			if (error === 'capped') return;
 			loading = 'fetching';
 			error = '';
