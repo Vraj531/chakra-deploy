@@ -85,7 +85,7 @@
 						</div></button
 					>
 				</div>
-				<div class="flex flex-col md:flex-row p-1 gap-6 mx-auto md:w-3/4 w-full">
+				<div class="flex flex-col md:flex-row p-1 gap-2 mx-auto md:w-3/4 w-full">
 					<button
 						class="relative rounded-2xl border px-4 py-2 text-start align-top shadow-sm transition enabled:hover:bg-neutral-100 md:w-1/2"
 						on:click={() =>
