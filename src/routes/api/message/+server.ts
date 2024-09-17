@@ -89,5 +89,5 @@ export const PUT: RequestHandler = async ({ locals, request }) => {
 		console.log('error saving message to db', err);
 		error(500, { message: 'Error saving message to db' });
 	}
-	error(500, { message: 'Error saving message to db' });
+	// error(500, { message: 'Error saving message to db' });
 };

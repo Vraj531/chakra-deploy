@@ -25,7 +25,7 @@
 				</p>
 				<div class="flex justify-center">
 					<a
-						href="/chat-new"
+						href="/chakraai-new"
 						class="inline-flex text-white bg-yellow-500 border-0 py-2 px-6 focus:outline-none hover:bg-yellow-600 rounded text-lg"
 						>Try Now</a
 					>
@@ -137,7 +137,7 @@
 								Let advanced algorithms match you with the perfect career.
 							</p>
 							<a
-								href="/chat-new"
+								href="/chakraai-new"
 								class="link-hover text-lg text-yellow-500 mt-2 flex gap-2 items-center"
 								>Chakra AI
 

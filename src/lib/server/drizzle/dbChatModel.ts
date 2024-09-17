@@ -24,13 +24,16 @@ export const addMessage = async ({ conversationId, content, userId, id, system }
 			.onConflictDoNothing({ target: conversationsTable.id }),
 		db
 			.insert(messagesTable)
-			.values({
-				id,
-				conversationId,
-				userId,
-				content,
-				system
-			})
+			.values([
+				{
+					id,
+					conversationId,
+					userId,
+					content,
+					system
+				}
+			])
+			.onConflictDoNothing({ target: messagesTable.id })
 			.returning()
 	]);
 	return res[1].length > 0;

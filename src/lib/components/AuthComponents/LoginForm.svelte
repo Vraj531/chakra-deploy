@@ -1,6 +1,6 @@
 <script lang="ts">
 	import { goto } from '$app/navigation';
-	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	// import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 	import GoogleIcon from '$lib/assets/icons/google.svg?raw';
 
@@ -51,7 +51,7 @@
 			if (res.ok) {
 				const modal = document.getElementById('auth-modal') as HTMLDialogElement;
 				modal.close();
-				goto('/chat-new');
+				goto('/chakraai-new');
 			}
 			passwordError = '';
 			status = false;

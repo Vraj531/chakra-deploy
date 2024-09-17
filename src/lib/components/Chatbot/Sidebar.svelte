@@ -3,12 +3,13 @@
 	import { page } from '$app/stores';
 	import ConversationList from '$lib/components/Chatbot/ConversationList.svelte';
 	import { getStoreContext } from '$lib/stores/generalStore';
+	import { getContext } from 'svelte';
 	import { fly } from 'svelte/transition';
 
 	// export let conversations: TConversations;
 	export let cleanChat: () => void;
 
-	const user = getStoreContext('user');
+	const user = getContext('user');
 
 	let open = false;
 
@@ -20,7 +21,7 @@
 		open = false;
 		if ($page.params.code === 'new') {
 			cleanChat();
-		} else goto('chat-new');
+		} else goto('chakraai-new');
 	};
 </script>
 
@@ -53,11 +54,11 @@
 			<img src="/chakra-beta-mq.png" alt="chakra ai" class="h-24 m-3" />
 			<p class="text-lg text-center font-bold pt-4">Chat History</p>
 
-			<ul class=" flex flex-col overflow-y-auto p-4">
+			<ul class="h-[200px] flex flex-col overflow-y-auto p-4">
 				<button class="py-2 px-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
 				<ConversationList />
 
-				{#if !$user}
+				{#if !user}
 					<p class="px-2">Please log in to save conversations!</p>
 				{/if}
 			</ul>
@@ -68,11 +69,11 @@
 			<!-- Loop through the conversations and display them -->
 			<img src="/chakra-beta-mq.png" alt="chakra ai" class="mx-auto xl:w-60 h-24 m-3" />
 			<button class="py-2 mx-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
-			<div class="overflow-y-auto px-2">
+			<div class="h-[50dvh] md:h-[80dvh] overflow-y-auto px-2">
 				<ConversationList />
 			</div>
 
-			{#if !$user}
+			{#if !user}
 				<p class="px-2">Please log in to save conversations!</p>
 			{/if}
 		</ul>
