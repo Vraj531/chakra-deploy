@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { page } from '$app/stores';
 	import type { TConversation } from '$lib/constants';
-	import { getStoreContext } from '$lib/stores/generalStore';
 	import { getContext } from 'svelte';
 
 	// const conversationsStore = getStoreContext<TConversation[]>('conversations');

@@ -168,11 +168,11 @@
 		// return response.json();
 	}
 	function cleanChat() {
-		// window.location.reload();
-		error = '';
-		userInput = '';
-		conversationId = generateIdFromEntropySize(5);
-		invalidateAll();
+		window.location.reload();
+		// error = '';
+		// userInput = '';
+		// conversationId = generateIdFromEntropySize(5);
+		// invalidateAll();
 	}
 </script>
 
