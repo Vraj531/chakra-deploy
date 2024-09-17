@@ -1,5 +1,4 @@
 <script lang="ts">
-	import { invalidateAll } from '$app/navigation';
 	import { page } from '$app/stores';
 	import ChatInput from '$lib/components/Chatbot/ChatInput.svelte';
 	import ChatMessage from '$lib/components/Chatbot/ChatMessage.svelte';
@@ -83,7 +82,11 @@
 
 			userInput = '';
 			messageStore.update((msgs) => [...msgs, message]);
-
+			// const messageArr = [];
+			// const lastMessage = $messageStore[$messageStore.length - 1];
+			// if the last message is a system message, add it to the array
+			// if (lastMessage.system) messageArr.push(lastMessage);
+			// const penultimateMessage = $messageStore[$messageStore.length - 2];
 			let sessionId = sessionStorage.getItem('session_id');
 
 			const response = await fetch('api/message', {

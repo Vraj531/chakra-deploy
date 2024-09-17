@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	// import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 
 	let emailError = '';

@@ -1,6 +1,6 @@
 <script lang="ts">
-	import { goto } from '$app/navigation';
-	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	// import { goto } from '$app/navigation';
+	// import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import { getRecaptchaToken } from '$lib/utils/getRecaptchaToken';
 	import GoogleIcon from '$lib/assets/icons/google.svg?raw';
 
