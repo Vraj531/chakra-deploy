@@ -40,8 +40,9 @@
 	// let conversationId = $page.params.code
 	let conversationId =
 		$page.params.code === 'new' ? generateIdFromEntropySize(5) : $page.params.code;
-	$: messageStore = writable(data?.messages || []);
-	$: console.log('messages', conversationId);
+	$: messageStore = writable<TMessage[]>(data?.messages || []);
+	// $: console.log('conversations', conversationId);
+	// console.log('messages all', data?.messages);
 	// $: messageStore.set(data?.messages || []);
 	// $: conversationStore.set(data?.conversations || []);
 

@@ -1,6 +1,6 @@
 import { db } from '$lib/server/drizzle/turso-db';
 import { conversationsTable, messagesTable } from '$lib/server/drizzle/turso-schema';
-import { desc, eq, getTableColumns } from 'drizzle-orm';
+import { desc, eq } from 'drizzle-orm';
 
 type TAddMessage = {
 	id: string;
@@ -13,25 +13,27 @@ type TAddMessage = {
 
 export const addMessage = async ({ conversationId, content, userId, id, system }: TAddMessage) => {
 	//if conversation not found create new conversation entry
-	await db
-		.insert(conversationsTable)
-		.values({
-			id: conversationId,
-			userId,
-			title: content
-		})
-		.onConflictDoNothing({ target: conversationsTable.id });
-	const res = await db
-		.insert(messagesTable)
-		.values({
-			id,
-			conversationId,
-			userId,
-			content,
-			system
-		})
-		.returning();
-	return res.length > 0;
+	const res = await db.batch([
+		db
+			.insert(conversationsTable)
+			.values({
+				id: conversationId,
+				userId,
+				title: content
+			})
+			.onConflictDoNothing({ target: conversationsTable.id }),
+		db
+			.insert(messagesTable)
+			.values({
+				id,
+				conversationId,
+				userId,
+				content,
+				system
+			})
+			.returning()
+	]);
+	return res[1].length > 0;
 };
 
 export const getMessagesByConversation = async (conversationId: string, trx = db) => {
@@ -60,7 +62,7 @@ export const getConversationsAndMessages = async ({
 }: TConversationAndMessage) => {
 	if (!userId) return { conversations: [], messages: [] };
 	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const { userId: tableUserId, ...props } = getTableColumns(messagesTable);
+	// const { userId: tableUserId, ...props } = getTableColumns(messagesTable);
 	const batchResponse = await db.batch([
 		db
 			.select()
@@ -69,7 +71,13 @@ export const getConversationsAndMessages = async ({
 			.orderBy(desc(conversationsTable.startedAt))
 			.limit(25),
 		db
-			.select({ ...props })
+			.select({
+				content: messagesTable.content,
+				conversationId: messagesTable.conversationId,
+				id: messagesTable.id,
+				system: messagesTable.system,
+				timestamp: messagesTable.timestamp
+			})
 			.from(messagesTable)
 			.where(eq(messagesTable.conversationId, conversationId))
 	]);
