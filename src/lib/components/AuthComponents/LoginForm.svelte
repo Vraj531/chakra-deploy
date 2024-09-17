@@ -13,6 +13,8 @@
 	const handleSubmit = async (e: Event) => {
 		const formData = new FormData(e.target as HTMLFormElement);
 		const data = Object.fromEntries(formData);
+		console.log('data');
+
 		if (data.email === '') {
 			emailError = 'Email is required';
 			return;
@@ -21,18 +23,20 @@
 			emailError = 'Invalid email';
 			return;
 		}
-		emailError = '';
 		if (data.password === '') {
 			emailError = 'Password is required';
 			return;
 		}
+		emailError = '';
+
 		try {
 			status = true;
+
 			const token = await getRecaptchaToken('LOGIN');
 			// console.log('token', token);
 			if (!token) data.token = '';
 			else data.token = token;
-			// console.log('data', data);
+			data.expectedAction = 'LOGIN';
 			const res = await fetch('api/login', {
 				method: 'POST',
 				body: JSON.stringify(data)
