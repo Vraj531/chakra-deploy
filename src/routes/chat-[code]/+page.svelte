@@ -17,7 +17,7 @@
 	// const messageStore = storeContext<TMessage[]>('messages', []);
 	// const conversationStore = storeContext<TConversation[]>('conversations', []);
 	const user = getStoreContext('user');
-	setContext('conversations', data?.conversations || []);
+	$: setContext('conversations', data?.conversations || []);
 
 	// initStore();
 	const controller = new AbortController();
