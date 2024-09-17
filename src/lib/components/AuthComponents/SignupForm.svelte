@@ -45,7 +45,7 @@
 			else data.token = '';
 			data.expectedAction = 'SIGNUP';
 			// data.token = data['g-recaptcha-response'];
-			// console.log('data', data);
+			console.log('sign up data');
 			const response = await fetch('api/signup', {
 				method: 'POST',
 				body: JSON.stringify(data)
