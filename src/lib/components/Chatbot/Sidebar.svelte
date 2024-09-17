@@ -54,8 +54,10 @@
 			<img src="/chakra-beta-mq.png" alt="chakra ai" class="h-24 m-3" />
 			<p class="text-lg text-center font-bold pt-4">Chat History</p>
 
-			<ul class="h-[200px] flex flex-col overflow-y-auto p-4">
-				<button class="py-2 px-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
+			<button class="py-2 px-4 btn btn-primary btn-sm mb-2 mx-4" on:click={newChat}>
+				New Chat
+			</button>
+			<ul class="h-[60dvh] flex flex-col overflow-y-auto p-4">
 				<ConversationList />
 
 				{#if !user}
@@ -69,7 +71,7 @@
 			<!-- Loop through the conversations and display them -->
 			<img src="/chakra-beta-mq.png" alt="chakra ai" class="mx-auto xl:w-60 h-24 m-3" />
 			<button class="py-2 mx-4 btn btn-primary btn-sm mb-2" on:click={newChat}> New Chat </button>
-			<div class="h-[50dvh] md:h-[80dvh] overflow-y-auto px-2">
+			<div class="h-[70dvh] md:h-[80dvh] overflow-y-auto px-2">
 				<ConversationList />
 			</div>
 
