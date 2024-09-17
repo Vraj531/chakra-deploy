@@ -140,9 +140,7 @@
 		{/if}
 		{#if error === 'apiError'}
 			<div class="text-right flex w-full justify-start px-2">
-				<p class="py-2 my-1 rounded-md bg-red-200 px-2">
-					Error - please try again later or try logging in
-				</p>
+				<p class="py-2 my-1 rounded-md bg-red-200 px-2">Error - please try again later</p>
 			</div>
 		{/if}
 		{#if error === 'capped'}
