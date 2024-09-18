@@ -19,7 +19,6 @@
 	$: setContext('conversations', data?.conversations || []);
 
 	// initStore();
-	const controller = new AbortController();
 
 	onMount(() => {
 		let consent = Cookie.get('privacy_policy');
@@ -48,17 +47,23 @@
 	let loading: 'fetching' | 'streaming' | '' = '';
 	let userInput = '';
 	let error: 'apiError' | 'capped' | '' = '';
-	let reader: ReadableStreamDefaultReader<Uint8Array>;
+	let reader: ReadableStreamDefaultReader<Uint8Array> | null;
+	let controller: AbortController | null = null;
 	let country = TIMEZONES[Intl.DateTimeFormat().resolvedOptions().timeZone.toString()] || 'USA';
 	// $: console.log('country', country);
 
 	async function stopStream() {
 		if (reader) {
 			loading = '';
-			reader.cancel();
-			controller.abort();
+			error = '';
+			await reader.cancel();
+			reader = null;
 			const systemMessage = $messageStore[$messageStore.length - 1];
 			await saveToDb(systemMessage);
+		}
+		if (controller) {
+			controller.abort();
+			controller = null;
 		}
 	}
 
@@ -69,6 +74,7 @@
 			}
 			if (error === 'capped') return;
 			loading = 'fetching';
+			console.log('loading', loading);
 			error = '';
 			// console.log('userInput', userInput);
 
@@ -90,6 +96,8 @@
 			// if (lastMessage.system) messageArr.push(lastMessage);
 			// const penultimateMessage = $messageStore[$messageStore.length - 2];
 			let sessionId = sessionStorage.getItem('session_id');
+			console.log('starting api request');
+			controller = new AbortController();
 
 			const response = await fetch('api/message', {
 				method: 'POST',
@@ -124,6 +132,7 @@
 			};
 
 			loading = 'streaming';
+			console.log('stream load', loading);
 			while (true) {
 				const { done, value } = await reader.read();
 				if (done) break;
@@ -149,15 +158,18 @@
 			try {
 				await saveToDb(systemMessage);
 				// console.log('res from db', res);
-			} catch (error) {
-				console.log('error', error);
+			} catch (err) {
+				console.log('error', err);
 			}
 
 			loading = '';
-		} catch (error) {
-			error = true;
+		} catch (err) {
+			error = 'apiError';
 			loading = '';
-			console.error(error);
+			console.error('error log', err);
+		} finally {
+			reader = null;
+			controller = null;
 		}
 	}
 
