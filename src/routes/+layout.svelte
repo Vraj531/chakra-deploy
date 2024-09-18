@@ -44,8 +44,12 @@
 		}
 	});
 
-	const skipRoutes = ['chat'];
-	const shouldSkipLayout = skipRoutes.includes($page?.route?.id || '');
+	function shouldSkipLayout(routeId: string | null) {
+		if (routeId?.includes('/chakraai')) return false;
+		return true;
+	}
+
+	$: skipLayout = shouldSkipLayout($page?.route?.id);
 	// const shouldSkipLayout = true;
 </script>
 
@@ -107,7 +111,7 @@
 			<slot />
 		</div>
 	{/key}
-	{#if shouldSkipLayout}
+	{#if skipLayout}
 		<Footer />
 	{/if}
 </div>
