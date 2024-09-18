@@ -39,7 +39,7 @@
 
 <dialog id="privacy-policy-modal" class="modal modal-bottom sm:modal-middle">
 	<div class="modal-box md:w-11/12 md:max-w-5xl pb-0 flex flex-col justify-center">
-		<div class="prose mx-auto md:p-4">
+		<div class="prose mx-auto md:px-4 h-[95dvh] pt-8">
 			<h1>Website Terms and Conditions of Use</h1>
 
 			<h2>Introduction</h2>

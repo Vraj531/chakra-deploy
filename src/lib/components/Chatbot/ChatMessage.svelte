@@ -38,7 +38,7 @@
 	$: messageStore, scrollToBottom();
 </script>
 
-<div class="h-[70dvh] overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
+<div class="h-[80dvh] overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
 	{#if showBanner}
 		<div
@@ -60,7 +60,7 @@
 	<div class="prose w-full md:mx-auto md:max-w-screen-lg relative">
 		{#if messageStore.length === 0}
 			<div class="md:h-[90%] flex flex-col">
-				<img src="/logo.svg" class="w-24 md:w-40 mx-auto mb-0" alt="logo" />
+				<img src="/logo.svg" class="w-32 md:w-40 mx-auto my-0" alt="logo" />
 
 				<div class="mt-auto py-4">
 					<p class="text-center text-lg m-0">Welcome to Chakra AI</p>
@@ -97,7 +97,7 @@
 						</div></button
 					>
 					<button
-						class="hidden md:block relative rounded-2xl border px-4 py-2 text-start align-top shadow-sm transition enabled:hover:bg-neutral-100 md:w-1/2"
+						class="relative rounded-2xl border px-4 py-2 text-start align-top shadow-sm transition enabled:hover:bg-neutral-100 md:w-1/2"
 						on:click={() =>
 							sendPredefinedMessage('Show data analyst jobs in New york with apply links.')}
 						><div class="flex flex-col">
