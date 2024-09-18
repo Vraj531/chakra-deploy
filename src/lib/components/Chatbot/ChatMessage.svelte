@@ -3,7 +3,6 @@
 
 	import SvelteMarkdown from 'svelte-markdown';
 	import { onMount } from 'svelte';
-	import { getStoreContext } from '$lib/stores/generalStore';
 
 	// export let messages: TMessage[] = [];
 	export let error: 'apiError' | 'capped' | '' = '';
