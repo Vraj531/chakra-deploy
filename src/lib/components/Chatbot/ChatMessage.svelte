@@ -134,7 +134,7 @@
 				{/if}
 			{/if}
 		{/each}
-		{#if loading === 'fetching'}
+		{#if loading === 'fetching' || loading === 'streaming'}
 			<img src="/streaming.gif" alt="fetching text" class="w-16 ml-8 mt-0" />
 		{/if}
 		{#if error === 'apiError'}
