@@ -38,7 +38,10 @@
 	$: messageStore, scrollToBottom();
 </script>
 
-<div class="h-[70dvh] overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
+<div
+	class="h-[80dvh] md:h-[70dvh] overflow-y-auto scroll-smooth relative"
+	bind:this={chatContainer}
+>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
 	{#if showBanner}
 		<div
