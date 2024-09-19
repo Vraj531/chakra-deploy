@@ -108,7 +108,7 @@
 		</div>
 	</form>
 
-	<p class="text-xs text-center pt-2">
+	<p class="text-xs text-center px-4">
 		This chatbot is still in its testing phase, so it can make errors. <a
 			href="mailto:help@careerchakra.com"
 			class="link">Email</a

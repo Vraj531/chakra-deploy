@@ -38,10 +38,7 @@
 	$: messageStore, scrollToBottom();
 </script>
 
-<div
-	class="h-[80dvh] md:h-[70dvh] overflow-y-auto scroll-smooth relative"
-	bind:this={chatContainer}
->
+<div class="h-[70dvh] overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
 	{#if showBanner}
 		<div
@@ -69,7 +66,7 @@
 					<p class="text-center text-lg m-0">Welcome to Chakra AI</p>
 					<p class="text-center text-sm m-0">Ask me anything about jobs</p>
 				</div>
-				<div class="flex p-1 gap-2 mx-auto md:w-3/4 w-full">
+				<div class="flex p-1 gap-2 mx-auto md:w-3/4 w-full justify-center">
 					<button
 						class="relative rounded-2xl border px-4 py-2 text-start align-top shadow-sm transition enabled:hover:bg-neutral-100 md:w-1/2"
 						on:click={() => sendPredefinedMessage('How many jobs are in data science?')}
