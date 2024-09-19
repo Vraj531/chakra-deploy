@@ -16,7 +16,7 @@
 			class="flex lg:w-2/5 md:mb-0 sm:mb-0 mb-5 flex-wrap items-center text-base md:ml-auto lg:mb-5 pt-5"
 		>
 			<a class="mr-5 hover:text-gray-900" href="/terms-of-service">Terms of service</a>
-			<a href="mailto:careerchakraai@gmail.com" class="mr-5 hover:text-gray-900">Support</a>
+			<a href="mailto:help@careerchakra.com" class="mr-5 hover:text-gray-900">Support</a>
 			<a href="/privacy-policy" class="mr-5 hover:text-gray-900">Privacy Policy</a>
 		</nav>
 
