@@ -134,8 +134,14 @@
 				{/if}
 			{/if}
 		{/each}
-		{#if loading === 'fetching' || loading === 'streaming'}
-			<img src="/streaming.gif" alt="fetching text" class="w-16 ml-8 mt-0" />
+		{#if loading === 'fetching'}
+			<div class="ml-8">
+				<img
+					src="/chatloader.png"
+					alt="fetching text"
+					class="w-16 m-0 object-cover animate-scale-rotate"
+				/>
+			</div>
 		{/if}
 		{#if error === 'apiError'}
 			<div class="text-right flex w-full justify-start px-2">
@@ -154,3 +160,27 @@
 		{/if}
 	</div>
 </div>
+
+<style>
+	@keyframes scaleRotate {
+		0% {
+			transform: scale(1) rotate(0deg);
+		}
+		25% {
+			transform: scale(1.2) rotate(90deg);
+		}
+		50% {
+			transform: scale(1) rotate(180deg);
+		}
+		75% {
+			transform: scale(1.2) rotate(270deg);
+		}
+		100% {
+			transform: scale(1) rotate(360deg);
+		}
+	}
+	.animate-scale-rotate {
+		animation: scaleRotate 2s linear infinite;
+		transform-origin: center center;
+	}
+</style>
