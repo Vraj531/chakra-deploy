@@ -134,7 +134,7 @@
 				{/if}
 			{/if}
 		{/each}
-		{#if loading === 'fetching' || loading === 'streaming'}
+		{#if loading === 'fetching'}
 			<div class="p-6 px-4">
 				<img
 					src="/chatloader.png"
