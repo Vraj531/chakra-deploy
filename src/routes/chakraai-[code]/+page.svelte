@@ -195,7 +195,7 @@
 <div class="flex flex-1">
 	<Sidebar {cleanChat} />
 	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
-	<div class="flex-1 mt-auto">
+	<div class="flex flex-col w-full container-height">
 		<ChatMessage
 			{error}
 			{loading}
@@ -206,3 +206,9 @@
 	</div>
 	<!-- <PrivacyPolicyModal /> -->
 </div>
+
+<style>
+	.container-height {
+		max-height: calc(100dvh - 80px);
+	}
+</style>
