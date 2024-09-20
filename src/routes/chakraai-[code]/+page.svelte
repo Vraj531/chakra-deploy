@@ -3,9 +3,8 @@
 	import ChatInput from '$lib/components/Chatbot/ChatInput.svelte';
 	import ChatMessage from '$lib/components/Chatbot/ChatMessage.svelte';
 	import Sidebar from '$lib/components/Chatbot/Sidebar.svelte';
-	import PrivacyPolicyModal from '$lib/components/LayoutComponents/PrivacyPolicyModal.svelte';
-	import { TIMEZONES, type TConversation, type TMessage } from '$lib/constants.js';
-	import { getStoreContext, storeContext } from '$lib/stores/generalStore.js';
+	import { TIMEZONES, type TMessage } from '$lib/constants.js';
+	import { getStoreContext } from '$lib/stores/generalStore.js';
 	import { Cookie } from '$lib/utils/exportCookie.js';
 	import { generateIdFromEntropySize } from 'lucia';
 	import { onMount, setContext } from 'svelte';
@@ -21,11 +20,11 @@
 	// initStore();
 
 	onMount(() => {
-		let consent = Cookie.get('privacy_policy');
-		if (!consent && !$user) {
-			const modal = document.getElementById('privacy-policy-modal') as HTMLDialogElement;
-			modal.showModal();
-		}
+		// let consent = Cookie.get('privacy_policy');
+		// if (!consent && !$user) {
+		// 	const modal = document.getElementById('privacy-policy-modal') as HTMLDialogElement;
+		// 	modal.showModal();
+		// }
 
 		const sessionId = sessionStorage.getItem('session_id');
 		if (!$user && !sessionId) {
@@ -205,5 +204,5 @@
 		/>
 		<ChatInput {startStream} {loading} {stopStream} bind:userInput bind:country {error} />
 	</div>
-	<PrivacyPolicyModal />
+	<!-- <PrivacyPolicyModal /> -->
 </div>

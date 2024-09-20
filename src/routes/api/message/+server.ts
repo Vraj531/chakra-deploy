@@ -4,8 +4,6 @@ import { addMessage } from '$lib/server/drizzle/dbChatModel';
 import { CHAT_LAMBDA_URL } from '$env/static/private';
 import { messageLimiter } from '$lib/server/rateLimiter';
 
-//TODO : need to put a limit for not logged in users!
-
 type TRequestMessage = {
 	id: string;
 	conversationId: string;
@@ -18,7 +16,6 @@ type TRequestMessage = {
 };
 
 const url = CHAT_LAMBDA_URL;
-// const url = 'http://ec2-3-15-224-90.us-east-2.compute.amazonaws.com:5000/chat_stream';
 
 export const POST: RequestHandler = async (event) => {
 	const { locals, request } = event;
