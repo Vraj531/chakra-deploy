@@ -38,10 +38,7 @@
 	$: messageStore, scrollToBottom();
 </script>
 
-<div
-	class="h-[80dvh] md:h-[70dvh] overflow-y-auto scroll-smooth relative"
-	bind:this={chatContainer}
->
+<div class="flex-1 overflow-y-auto scroll-smooth relative" bind:this={chatContainer}>
 	<!-- <button class="btn btn-square" on:click={scrollToBottom}>test</button> -->
 	{#if showBanner}
 		<div
@@ -69,7 +66,7 @@
 					<p class="text-center text-lg m-0">Welcome to Chakra AI</p>
 					<p class="text-center text-sm m-0">Ask me anything about jobs</p>
 				</div>
-				<div class="flex p-1 gap-2 mx-auto md:w-3/4 w-full justify-center">
+				<div class="flex p-1 gap-2 px-4 md:mx-auto md:px-0 md:w-3/4 w-full justify-center">
 					<button
 						class="relative rounded-2xl border px-4 py-2 text-start align-top shadow-sm transition enabled:hover:bg-neutral-100 md:w-1/2"
 						on:click={() => sendPredefinedMessage('How many jobs are in data science?')}
@@ -137,8 +134,8 @@
 				{/if}
 			{/if}
 		{/each}
-		{#if loading === 'fetching'}
-			<div class="ml-8">
+		{#if loading === 'fetching' || loading === 'streaming'}
+			<div class="p-6 px-4">
 				<img
 					src="/chatloader.png"
 					alt="fetching text"
