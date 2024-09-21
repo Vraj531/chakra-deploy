@@ -192,7 +192,7 @@
 	}
 </script>
 
-<div class="flex flex-1">
+<div class="flex flex-1 min-h-full">
 	<Sidebar {cleanChat} />
 	<div class="divider divider-horizontal mx-0 hidden md:flex"></div>
 	<div class="flex flex-col w-full container-height">
@@ -210,5 +210,6 @@
 <style>
 	.container-height {
 		max-height: calc(100dvh - 80px);
+		overflow: hidden;
 	}
 </style>
