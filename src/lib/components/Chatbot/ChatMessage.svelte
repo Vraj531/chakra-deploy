@@ -119,15 +119,14 @@
 								source={`${messageStream.content}${loading === 'streaming' && i === messageStore.length - 1 ? '▍' : ''}`}
 								renderers={{ link: LinkComponent }}
 							/>
-
-							<!-- {#if loading === 'streaming' && i === messageStore.length - 1}
-								<p class="animate-pulse">█ ▍ </p>
-							{/if} -->
+							<!-- <p class="animate-pulse">█ ▍ </p> -->
 						</span>
 					</div>
 				{:else}
 					<div class=" flex w-full justify-end text-sm md:text-base">
-						<p class="outline mx-4 outline-gray-200 py-2 my-1 px-4 md:mx-2 rounded-md bg-gray-100">
+						<p
+							class="outline mx-4 outline-gray-200 py-2 my-1 px-4 ml-16 md:ml-2 md:mx-2 rounded-md bg-gray-100"
+						>
 							{messageStream.content}
 						</p>
 					</div>
