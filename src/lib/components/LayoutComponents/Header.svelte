@@ -1,8 +1,9 @@
 <script lang="ts">
 	import { state } from '../../stores/headerStore';
-	import type { PageData } from '../../../routes/$types';
+	import type { User } from 'lucia';
+	import { getStoreContext } from '$lib/stores/generalStore';
 
-	export let userData: PageData['user'];
+	const userData = getStoreContext<User>('user');
 
 	const showAuthModal = () => {
 		(document.getElementById('auth-modal') as HTMLDialogElement).showModal();
@@ -73,7 +74,7 @@
 					>New Upload</a
 				>
 			{/if}
-			{#if !userData}
+			{#if !$userData}
 				<!-- <a
 					href="/google"
 					class="md:inline-flex btn-sm text-white btn btn-primary border-0 mt-3 items-center px-6 focus:outline-none hover:bg-yellow-600 rounded text-sm"
@@ -112,17 +113,17 @@
 				<div class="dropdown dropdown-end">
 					<!-- svelte-ignore a11y-no-noninteractive-tabindex -->
 					<div class="border-0 py-2" tabindex="0">
-						{#if !userData?.picture}
+						{#if !$userData?.picture}
 							<div class="chat-image w-10 h-10 rounded-full cursor-pointer bg-amber-500 relative">
 								<p class="absolute top-[18%] left-[32%] text-xl text-white">
-									{userData.name.charAt(0).toLocaleUpperCase()}
+									{$userData.name.charAt(0).toLocaleUpperCase()}
 								</p>
 							</div>
 						{:else}
 							<img
 								referrerpolicy="no-referrer"
 								class="chat-image w-10 h-10 rounded-full cursor-pointer"
-								src={userData?.picture}
+								src={$userData?.picture}
 								alt="avatar"
 								referrerPolicy="no-referrer"
 							/>

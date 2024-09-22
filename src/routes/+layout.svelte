@@ -17,6 +17,7 @@
 	import { storeContext } from '$lib/stores/generalStore';
 	import type { User } from 'lucia';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
+	import Banner from '$lib/components/LayoutComponents/Banner.svelte';
 
 	export let data: LayoutData;
 	// console.log('layout', data);
@@ -50,6 +51,7 @@
 	}
 
 	$: skipLayout = shouldSkipLayout($page?.route?.id);
+	// $: console.log('page', $page.route.id);
 	// const shouldSkipLayout = true;
 </script>
 
@@ -103,7 +105,8 @@
 	<WebviewModal />
 
 	<!-- {#if shouldSkipLayout} -->
-	<Header userData={data.user} />
+	<Banner />
+	<Header />
 	<!-- {/if} -->
 
 	{#key data.pathname}
