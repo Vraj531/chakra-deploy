@@ -200,8 +200,13 @@
 				Terms, we will notify you by email or through our Site. Your continued use of our Site
 				following any changes constitutes your acceptance of the revised Terms.
 			</p>
+			<h2>15. Information use</h2>
+			<p>
+				We may use the information provided in your resume to match you with potential recruiters or
+				employers in order to facilitate the hiring process.
+			</p>
 
-			<h2>15. Contact Information</h2>
+			<h2>16. Contact Information</h2>
 			<p>
 				If you have any questions about these Terms, please contact us at: Career Chakra, <a
 					href="mailto:help@careerchakra.com">help@careerchakra.com</a
