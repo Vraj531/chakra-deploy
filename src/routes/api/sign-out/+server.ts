@@ -1,17 +1,14 @@
 import { fail, json, redirect } from '@sveltejs/kit';
-import { lucia } from '$lib/server/auth.js';
 import { invalidateCache } from '$lib/cache.js';
+import { invalidateSession } from '$lib/server/auth/session';
+import { deleteSessionTokenCookie } from '$lib/server/auth/sessionCookie.js';
 
 export const GET = async (event) => {
 	if (!event.locals.session) {
 		return json(fail(401));
 	}
-	await lucia.invalidateSession(event.locals.session.id);
+	await invalidateSession(event.locals.session.id);
+	deleteSessionTokenCookie(event);
 	invalidateCache(event.locals.session.id);
-	const sessionCookie = lucia.createBlankSessionCookie();
-	event.cookies.set(sessionCookie.name, sessionCookie.value, {
-		path: '.',
-		...sessionCookie.attributes
-	});
-	redirect(302, '/');
+	return redirect(302, '/');
 };

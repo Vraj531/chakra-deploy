@@ -1,4 +1,7 @@
 // See https://kit.svelte.dev/docs/types#app
+
+import type { User, Session } from '$lib/server/drizzle/turso-schema';
+
 // for information about these interfaces
 declare global {
 	interface Window {
@@ -7,9 +10,8 @@ declare global {
 	}
 	namespace App {
 		interface Locals {
-			lucia: import('$lib/server/auth').Auth;
-			user: import('lucia').User | null;
-			session: import('lucia').Session | null;
+			user: User | null;
+			session: Session | null;
 			error: string;
 			errorId: string;
 			errorStackTrace: string;
@@ -21,7 +23,6 @@ declare global {
 			context: { waitUntil(promise: Promise<any>): void };
 			caches: CacheStorage & { default: Cache };
 		}
-		interface Session {}
 	}
 }
 

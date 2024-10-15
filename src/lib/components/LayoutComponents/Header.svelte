@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { state } from '../../stores/headerStore';
-	import type { User } from 'lucia';
 	import { getStoreContext } from '$lib/stores/generalStore';
+	import type { User } from '$lib/server/drizzle/turso-schema';
 
 	const userData = getStoreContext<User>('user');
 

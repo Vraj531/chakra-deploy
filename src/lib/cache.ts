@@ -1,4 +1,4 @@
-import type { Session, User } from 'lucia';
+import type { Session, User } from '$lib/server/drizzle/turso-schema';
 
 const cache = new Map();
 

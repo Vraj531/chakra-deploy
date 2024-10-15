@@ -3,9 +3,13 @@ import { google } from '$lib/server/google-auth';
 import { db } from '$lib/server/drizzle/turso-db';
 import { userTable } from '$lib/server/drizzle/turso-schema';
 import { eq } from 'drizzle-orm';
-import { lucia } from '$lib/server/auth';
-import { generateIdFromEntropySize } from 'lucia';
+// import { lucia } from '$lib/server/auth/auth';
+// import { generateIdFromEntropySize } from 'lucia';
 import { OAuth2RequestError } from 'arctic';
+import { createSession, generateSessionToken } from '$lib/server/auth/session';
+// import { setSessionTokenCookie } from '$lib/server/auth/sessionCookie';
+import { generateIdFromEntropySize } from '$lib/utils/encoder';
+import { setSessionTokenCookie } from '$lib/server/auth/sessionCookie';
 
 export async function GET(event: RequestEvent): Promise<Response> {
 	const code = event.url.searchParams.get('code');
@@ -32,45 +36,49 @@ export async function GET(event: RequestEvent): Promise<Response> {
 			.select()
 			.from(userTable)
 			.where(eq(userTable.email, googleUser.email));
-		if (!existingUser) {
-			const userId = generateIdFromEntropySize(16);
-			await db.insert(userTable).values({
-				id: userId,
-				providerId: googleUser.id,
-				provider: 'google',
-				email: googleUser.email,
-				name: googleUser.name,
-				picture: googleUser.picture,
-				agreedToPrivacyPolicy: false
-			});
-			const session = await lucia.createSession(userId, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
-			});
-			// console.log('existing user', existingUser);
-		} else {
+
+		if (existingUser !== null) {
 			if (existingUser.provider !== 'google') {
 				// return message to user to login with process that they signed up with
+				//ex: email user tried to login using google
 				return new Response(null, {
 					status: 400
 				});
 			}
-			const session = await lucia.createSession(existingUser.id, {});
-			const sessionCookie = lucia.createSessionCookie(session.id);
-			event.cookies.set(sessionCookie.name, sessionCookie.value, {
-				path: '.',
-				...sessionCookie.attributes
+			const sessionToken = generateSessionToken();
+			const session = await createSession(sessionToken, existingUser.id);
+
+			setSessionTokenCookie(event, sessionToken, new Date(session.expiresAt));
+			// console.log('cookies', event.cookies.get('session'));
+
+			return new Response(null, {
+				status: 302,
+				headers: { Location: '/chakraai-new' }
 			});
 		}
-		event.cookies.delete('privacy_policy', { path: '/' });
+		const userId = generateIdFromEntropySize(16);
+		await db.insert(userTable).values({
+			id: userId,
+			providerId: googleUser.id,
+			provider: 'google',
+			email: googleUser.email,
+			name: googleUser.name,
+			picture: googleUser.picture,
+			agreedToPrivacyPolicy: false
+		});
+		const sessionToken = generateSessionToken();
+		const session = await createSession(sessionToken, userId);
+		setSessionTokenCookie(event, sessionToken, new Date(session.expiresAt));
+
+		// console.log('cookies', event.cookies.getAll());
+		// const sessionCookie = lucia.createSessionCookie(session.id);
 		return new Response(null, {
 			status: 302,
 			headers: {
-				Location: `/chakraai-new`
+				Location: '/chakraai-new'
 			}
 		});
+		// console.log('existing user', existingUser);
 	} catch (e) {
 		// the specific error message depends on the provider
 		// console.log('e', e);

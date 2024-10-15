@@ -1,4 +1,4 @@
-import { sql } from 'drizzle-orm';
+import { sql, type InferSelectModel } from 'drizzle-orm';
 import { text, sqliteTable, integer, index, primaryKey } from 'drizzle-orm/sqlite-core';
 
 export const userTable = sqliteTable(
@@ -177,3 +177,6 @@ export const messagesTable = sqliteTable(
 		};
 	}
 );
+
+export type User = InferSelectModel<typeof userTable>;
+export type Session = InferSelectModel<typeof sessionTable>;

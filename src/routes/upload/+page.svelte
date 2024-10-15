@@ -3,7 +3,6 @@
 	import Carousel from '$lib/components/UploadComponents/Carousel.svelte';
 	import RemoveIcon from '$lib/assets/icons/Remove.svg?raw';
 	import { generatePresignedLink } from '$lib/generatePresignedUrl';
-	import { generateIdFromEntropySize } from 'lucia';
 	import { dummyData, type JobListing } from '$lib/dummyData';
 	import FilterForm from '$lib/components/FormComponents/FilterForm.svelte';
 	import { toastStore } from '$lib/stores/toastStores';
@@ -15,6 +14,7 @@
 	import { Cookie } from '$lib/utils/exportCookie';
 	import ResetJoblistModal from '$lib/components/UploadComponents/ResetJoblistModal.svelte';
 	import { TIMEZONES, type uploadPageState } from '$lib/constants';
+	import { generateIdFromEntropySize } from '$lib/utils/encoder';
 
 	export let data: PageData;
 

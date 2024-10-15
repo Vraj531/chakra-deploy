@@ -1,5 +1,6 @@
 import type { TMessage } from '$lib/constants';
-import { generateIdFromEntropySize } from 'lucia';
+import { generateIdFromEntropySize } from '$lib/utils/encoder';
+// import { generateIdFromEntropySize } from 'lucia';
 import { writable } from 'svelte/store';
 
 // Define the TMessage type based on the database schema

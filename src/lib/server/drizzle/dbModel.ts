@@ -10,9 +10,10 @@ import {
 	userTable,
 	userToBookmarkJobs
 } from '$lib/server/drizzle/turso-schema';
+import { generateIdFromEntropySize } from '$lib/utils/encoder';
 import { hash } from '@node-rs/argon2';
 import { and, count, desc, eq, sql } from 'drizzle-orm';
-import { generateIdFromEntropySize } from 'lucia';
+// import { generateIdFromEntropySize } from 'lucia';
 
 interface IAddToken {
 	userId: string;

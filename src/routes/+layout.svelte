@@ -15,9 +15,9 @@
 	import Header from '$lib/components/LayoutComponents/Header.svelte';
 	import Footer from '$lib/components/LayoutComponents/Footer.svelte';
 	import { storeContext } from '$lib/stores/generalStore';
-	import type { User } from 'lucia';
 	import { PUBLIC_RECAPTCHA_KEY } from '$env/static/public';
 	import Banner from '$lib/components/LayoutComponents/Banner.svelte';
+	import type { User } from '$lib/server/drizzle/turso-schema';
 
 	export let data: LayoutData;
 	// console.log('layout', data);

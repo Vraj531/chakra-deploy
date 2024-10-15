@@ -5,8 +5,8 @@
 	import Sidebar from '$lib/components/Chatbot/Sidebar.svelte';
 	import { TIMEZONES, type TMessage } from '$lib/constants.js';
 	import { getStoreContext } from '$lib/stores/generalStore.js';
+	import { generateIdFromEntropySize } from '$lib/utils/encoder.js';
 	import { Cookie } from '$lib/utils/exportCookie.js';
-	import { generateIdFromEntropySize } from 'lucia';
 	import { onMount, setContext } from 'svelte';
 	import { writable } from 'svelte/store';
 
